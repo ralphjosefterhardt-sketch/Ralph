@@ -2,9 +2,6 @@
 // Machine list view and machine detail view
 
 const Machines = {
-  /**
-   * Render the shared app shell (navbar + sidebar) and insert page content.
-   */
   _renderShell(contentHtml) {
     const user = Auth.getUser();
     const app = document.getElementById('app');
@@ -68,9 +65,6 @@ const Machines = {
     });
   },
 
-  /**
-   * Render the machine list page.
-   */
   renderList() {
     const cardsHtml = MACHINES.map(machine => {
       const typeStyle = TYPE_COLORS[machine.type] || { bg: '#f3f4f6', color: '#374151' };
@@ -120,7 +114,6 @@ const Machines = {
 
     this._renderShell(contentHtml);
 
-    // Bind detail buttons
     document.querySelectorAll('.detail-btn').forEach(function(btn) {
       btn.addEventListener('click', function() {
         const id = this.getAttribute('data-id');
@@ -128,7 +121,6 @@ const Machines = {
       });
     });
 
-    // Cards also clickable
     document.querySelectorAll('.machine-card').forEach(function(card) {
       card.addEventListener('click', function(e) {
         if (e.target.closest('.detail-btn')) return;
@@ -138,9 +130,6 @@ const Machines = {
     });
   },
 
-  /**
-   * Render the machine detail page.
-   */
   renderDetail(machineId) {
     const machine = getMachineById(machineId);
     if (!machine) {
@@ -154,7 +143,7 @@ const Machines = {
 
     const historyHtml = history.length === 0
       ? '<p class="empty-history">Keine Serviceeinträge vorhanden.</p>'
-      : history.map(function(entry, idx) {
+      : history.map(function(entry) {
           return `
             <div class="timeline-item">
               <div class="timeline-dot"></div>
@@ -170,7 +159,6 @@ const Machines = {
           `;
         }).join('');
 
-    // Check for saved reports for this machine
     const savedReports = getSavedReports().filter(r => r.machineId === parseInt(machineId, 10));
     const savedReportsHtml = savedReports.length > 0
       ? savedReports.map(function(r) {
@@ -199,7 +187,6 @@ const Machines = {
       </div>
 
       <div class="detail-layout">
-        <!-- Left column: Machine info -->
         <div class="detail-left">
           <div class="detail-card">
             <div class="detail-machine-header">
@@ -248,7 +235,6 @@ const Machines = {
           </div>
         </div>
 
-        <!-- Right column: Service history -->
         <div class="detail-right">
           <div class="detail-card">
             <h3 class="detail-section-title">Servicehistorie</h3>
@@ -273,7 +259,6 @@ const Machines = {
   },
 };
 
-// Helper: get saved reports from localStorage
 function getSavedReports() {
   try {
     return JSON.parse(localStorage.getItem('serviceportal_reports') || '[]');

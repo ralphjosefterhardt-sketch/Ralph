@@ -1,7 +1,5 @@
 // app.js — Router + App initialization for ServicePortal
 
-// ─── Utility helpers ────────────────────────────────────────────────────────
-
 function escapeHtml(str) {
   if (str === null || str === undefined) return '';
   return String(str)
@@ -30,8 +28,6 @@ function todayISO() {
   return yyyy + '-' + mm + '-' + dd;
 }
 
-// ─── Toast notifications ─────────────────────────────────────────────────────
-
 function showToast(message, type) {
   type = type || 'info';
   var container = document.getElementById('toastContainer');
@@ -48,7 +44,6 @@ function showToast(message, type) {
   toast.textContent = message;
   container.appendChild(toast);
 
-  // Trigger enter animation
   requestAnimationFrame(function() {
     toast.classList.add('toast-visible');
   });
@@ -61,8 +56,6 @@ function showToast(message, type) {
     }, 300);
   }, 3000);
 }
-
-// ─── Hash-based Router ───────────────────────────────────────────────────────
 
 var Router = {
   routes: [],
@@ -79,12 +72,10 @@ var Router = {
     var hash = window.location.hash || '#/login';
     var path = hash.replace(/^#/, '');
 
-    // Auth guard: if not authenticated, redirect to login (unless already going there)
     if (path !== '/login' && !Auth.isAuthenticated()) {
       this.navigate('/login');
       return;
     }
-    // If authenticated and on login, redirect to machines
     if (path === '/login' && Auth.isAuthenticated()) {
       this.navigate('/machines');
       return;
@@ -99,7 +90,6 @@ var Router = {
       }
     }
 
-    // Default: not found → redirect
     if (Auth.isAuthenticated()) {
       this.navigate('/machines');
     } else {
@@ -116,8 +106,6 @@ var Router = {
   }
 };
 
-// ─── Route definitions ───────────────────────────────────────────────────────
-
 Router.add(/^\/login$/, function() {
   Auth.renderLoginPage();
 });
@@ -133,8 +121,6 @@ Router.add(/^\/machines\/(\d+)$/, function(machineId) {
 Router.add(/^\/machines\/(\d+)\/report$/, function(machineId) {
   ServiceReport.render(machineId);
 });
-
-// ─── Bootstrap ───────────────────────────────────────────────────────────────
 
 document.addEventListener('DOMContentLoaded', function() {
   Router.init();

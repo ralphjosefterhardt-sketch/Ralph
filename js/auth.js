@@ -13,10 +13,6 @@ const MOCK_USERS = [
 ];
 
 const Auth = {
-  /**
-   * Attempt login with given credentials.
-   * Returns { success: true, user } or { success: false, error: '...' }
-   */
   login(username, password) {
     const user = MOCK_USERS.find(
       u => u.username === username && u.password === password
@@ -34,10 +30,6 @@ const Auth = {
     return { success: false, error: 'Ungültiger Benutzername oder Passwort.' };
   },
 
-  /**
-   * Get the current logged-in user from sessionStorage.
-   * Returns user object or null.
-   */
   getUser() {
     const raw = sessionStorage.getItem(SESSION_KEY);
     if (!raw) return null;
@@ -48,23 +40,14 @@ const Auth = {
     }
   },
 
-  /**
-   * Check if a user is currently authenticated.
-   */
   isAuthenticated() {
     return this.getUser() !== null;
   },
 
-  /**
-   * Log out the current user.
-   */
   logout() {
     sessionStorage.removeItem(SESSION_KEY);
   },
 
-  /**
-   * Render the login page into the #app div.
-   */
   renderLoginPage() {
     const app = document.getElementById('app');
     app.innerHTML = `
@@ -134,7 +117,6 @@ const Auth = {
       btn.disabled = true;
       btn.textContent = 'Anmelden...';
 
-      // Simulate slight delay for realism
       setTimeout(function() {
         const result = Auth.login(username, password);
         if (result.success) {

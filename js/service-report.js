@@ -2,7 +2,6 @@
 
 var ServiceReport = {
 
-  // Canvas drawing state
   _canvasState: {
     customer: { drawing: false, hasSignature: false },
     technician: { drawing: false, hasSignature: false }
@@ -34,7 +33,6 @@ var ServiceReport = {
 
       <form id="serviceReportForm" class="report-form" novalidate>
 
-        <!-- Section 1: Auftragsdaten -->
         <fieldset class="form-section">
           <legend class="form-section-title">Auftragsdaten</legend>
           <div class="form-row">
@@ -53,7 +51,6 @@ var ServiceReport = {
           </div>
         </fieldset>
 
-        <!-- Section 2: Durchgeführte Arbeiten -->
         <fieldset class="form-section">
           <legend class="form-section-title">Durchgeführte Arbeiten</legend>
           <div class="checkbox-group">
@@ -88,7 +85,6 @@ var ServiceReport = {
           </div>
         </fieldset>
 
-        <!-- Section 3: Feststellungen & Maßnahmen -->
         <fieldset class="form-section">
           <legend class="form-section-title">Feststellungen &amp; Maßnahmen</legend>
           <div class="form-group">
@@ -97,7 +93,6 @@ var ServiceReport = {
           </div>
         </fieldset>
 
-        <!-- Section 4: Ersatzteile -->
         <fieldset class="form-section">
           <legend class="form-section-title">Ersatzteile</legend>
           <div id="ersatzteileList" class="ersatzteile-list"></div>
@@ -107,7 +102,6 @@ var ServiceReport = {
           </button>
         </fieldset>
 
-        <!-- Section 5: Nächster Service -->
         <fieldset class="form-section">
           <legend class="form-section-title">Nächster Service</legend>
           <div class="form-row">
@@ -122,7 +116,6 @@ var ServiceReport = {
           </div>
         </fieldset>
 
-        <!-- Section 6: Unterschrift Kunde -->
         <fieldset class="form-section">
           <legend class="form-section-title">Unterschrift Kunde</legend>
           <p class="signature-declaration">Ich bestätige die ordnungsgemäße Durchführung der oben genannten Arbeiten.</p>
@@ -135,7 +128,6 @@ var ServiceReport = {
           </div>
         </fieldset>
 
-        <!-- Section 7: Unterschrift Techniker -->
         <fieldset class="form-section">
           <legend class="form-section-title">Unterschrift Techniker</legend>
           <p class="signature-declaration">Ich bestätige die fachgerechte Durchführung der aufgeführten Arbeiten.</p>
@@ -158,15 +150,12 @@ var ServiceReport = {
       </form>
     `;
 
-    // Use Machines shell
     Machines._renderShell(contentHtml);
 
-    // Wire up back button
     document.getElementById('backBtn').addEventListener('click', function() {
       Router.navigate('/machines/' + machineId);
     });
 
-    // Sonstiges checkbox toggle
     var cbSonstiges = document.getElementById('cbSonstiges');
     var sonstigesField = document.getElementById('sonstigesField');
     cbSonstiges.addEventListener('change', function() {
@@ -179,7 +168,6 @@ var ServiceReport = {
       }
     });
 
-    // Ersatzteile dynamic rows
     var ersatzteileList = document.getElementById('ersatzteileList');
     var ersatzteilCounter = 0;
 
@@ -214,11 +202,9 @@ var ServiceReport = {
       });
     });
 
-    // Signature canvases
     ServiceReport._initCanvas('canvasCustomer', 'customer', 'sigStatusCustomer', 'clearCustomerBtn');
     ServiceReport._initCanvas('canvasTechnician', 'technician', 'sigStatusTechnician', 'clearTechnicianBtn');
 
-    // Form submit
     document.getElementById('serviceReportForm').addEventListener('submit', function(e) {
       e.preventDefault();
       ServiceReport._handleSubmit(machineId, machine);
@@ -230,7 +216,6 @@ var ServiceReport = {
     var ctx = canvas.getContext('2d');
     var state = ServiceReport._canvasState[stateKey];
 
-    // Set canvas dimensions to match display size
     function resizeCanvas() {
       var rect = canvas.getBoundingClientRect();
       var dpr = window.devicePixelRatio || 1;
@@ -289,7 +274,6 @@ var ServiceReport = {
     canvas.addEventListener('pointerup', onPointerUp);
     canvas.addEventListener('pointercancel', onPointerUp);
 
-    // Clear button
     document.getElementById(clearBtnId).addEventListener('click', function() {
       var rect = canvas.getBoundingClientRect();
       ctx.clearRect(0, 0, rect.width, rect.height);
@@ -319,7 +303,6 @@ var ServiceReport = {
       return;
     }
 
-    // Collect form data
     var form = document.getElementById('serviceReportForm');
     var datum = form.datum.value;
     var techniker = form.techniker.value;
@@ -328,7 +311,6 @@ var ServiceReport = {
     var naechsterService = form.naechsterService.value;
     var naechsterServiceBemerkungen = form.naechsterServiceBemerkungen.value;
 
-    // Checkboxes
     var arbeiten = [];
     form.querySelectorAll('input[name="arbeiten"]:checked').forEach(function(cb) {
       if (cb.value === 'Sonstiges' && form.sonstigesText && form.sonstigesText.value.trim()) {
@@ -338,7 +320,6 @@ var ServiceReport = {
       }
     });
 
-    // Ersatzteile
     var ersatzteile = [];
     var rows = document.querySelectorAll('.ersatzteil-row');
     rows.forEach(function(row) {
@@ -354,7 +335,6 @@ var ServiceReport = {
       }
     });
 
-    // Capture signatures as data URLs
     var canvasCustomer = document.getElementById('canvasCustomer');
     var canvasTechnician = document.getElementById('canvasTechnician');
 
@@ -377,7 +357,6 @@ var ServiceReport = {
       erstelltAm: new Date().toISOString()
     };
 
-    // Save to localStorage
     try {
       var existing = JSON.parse(localStorage.getItem('serviceportal_reports') || '[]');
       existing.unshift(report);
@@ -388,7 +367,6 @@ var ServiceReport = {
 
     showToast('Bericht wurde gespeichert', 'success');
 
-    // Reset canvas state
     ServiceReport._canvasState = {
       customer: { drawing: false, hasSignature: false },
       technician: { drawing: false, hasSignature: false }
