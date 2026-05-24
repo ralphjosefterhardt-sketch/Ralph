@@ -363,4 +363,4 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 // Export for other modules
-window.LF = { Auth, Toast, Router, Utils };
+window.LF = Object.assign(window.LF || {}, { Auth, Toast, Router, Utils });
