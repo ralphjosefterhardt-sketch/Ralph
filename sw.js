@@ -1,7 +1,7 @@
 // Service Worker für ServicePortal
 // Cached alle App-Dateien für Offline-Betrieb
 
-const CACHE_NAME = 'serviceportal-v1';
+const CACHE_NAME = 'serviceportal-v2';
 
 const ASSETS = [
   './index.html',
@@ -11,6 +11,7 @@ const ASSETS = [
   './js/data.js',
   './js/machines.js',
   './js/service-report.js',
+  './js/archive.js',
 ];
 
 // Beim ersten Laden: alle Dateien cachen
