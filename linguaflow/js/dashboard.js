@@ -36,27 +36,38 @@ document.addEventListener('DOMContentLoaded', () => {
   if (storedUser) {
     mockStudent.name = storedUser.name || mockStudent.name;
     mockStudent.email = storedUser.email || mockStudent.email;
-    if (storedUser.languages) mockStudent.language = storedUser.languages.includes('french') ? 'Englisch & Französisch' : 'Englisch';
   }
 
   document.querySelectorAll('.user-name').forEach(el => { el.textContent = mockStudent.name; });
-  document.querySelectorAll('.user-initial').forEach(el => { el.textContent = mockStudent.name.split(' ').map(n => n[0]).join('').toUpperCase(); });
+  document.querySelectorAll('.user-initial').forEach(el => {
+    el.textContent = mockStudent.name.split(' ').map(n => n[0]).join('').toUpperCase();
+  });
 
   function renderStats() {
     const nextEl = document.getElementById('stat-next');
-    if (nextEl) { const diff = mockLessons[0].date - new Date(); nextEl.textContent = LF.Utils.formatCountdown(diff); }
+    if (nextEl) {
+      const diff = mockLessons[0].date - new Date();
+      nextEl.textContent = LF.Utils.formatCountdown(diff);
+    }
   }
   renderStats();
 
   function renderLessons() {
     const container = document.getElementById('lessons-container');
     if (!container) return;
-    const weekdays = ['So','Mo','Di','Mi','Do','Fr','Sa'];
-    const months = ['Jan','Feb','Mär','Apr','Mai','Jun','Jul','Aug','Sep','Okt','Nov','Dez'];
+    const weekdays = ['So', 'Mo', 'Di', 'Mi', 'Do', 'Fr', 'Sa'];
+    const months = ['Jan', 'Feb', 'Mär', 'Apr', 'Mai', 'Jun', 'Jul', 'Aug', 'Sep', 'Okt', 'Nov', 'Dez'];
     container.innerHTML = mockLessons.map(lesson => {
       const d = lesson.date;
       const dayStr = `${weekdays[d.getDay()]}, ${d.getDate()}. ${months[d.getMonth()]}`;
-      return `<div class="lesson-item"><div class="lesson-time-block"><strong>${lesson.time}</strong><span>${dayStr}</span></div><div class="lesson-info"><h4>${lesson.type}</h4><p>${lesson.trainer}</p></div><span class="lesson-lang">${lesson.language}</span><a href="session.html" class="btn btn-primary btn-sm"><i class="fas fa-video"></i> Beitreten</a></div>`;
+      return `
+        <div class="lesson-item">
+          <div class="lesson-time-block"><strong>${lesson.time}</strong><span>${dayStr}</span></div>
+          <div class="lesson-info"><h4>${lesson.type}</h4><p>${lesson.trainer}</p></div>
+          <span class="lesson-lang">${lesson.language}</span>
+          <a href="session.html" class="btn btn-primary btn-sm"><i class="fas fa-video"></i> Beitreten</a>
+        </div>
+      `;
     }).join('');
   }
   renderLessons();
@@ -67,8 +78,18 @@ document.addEventListener('DOMContentLoaded', () => {
       { id: 'prog-grammar', value: mockStudent.progress.grammar },
       { id: 'prog-pronunciation', value: mockStudent.progress.pronunciation }
     ];
-    entries.forEach(({ id, value }) => { const bar = document.getElementById(id); if (!bar) return; bar.setAttribute('data-width', `${value}%`); bar.style.width = '0%'; });
-    setTimeout(() => { entries.forEach(({ id, value }) => { const bar = document.getElementById(id); if (bar) bar.style.width = `${value}%`; }); }, 400);
+    entries.forEach(({ id, value }) => {
+      const bar = document.getElementById(id);
+      if (!bar) return;
+      bar.setAttribute('data-width', `${value}%`);
+      bar.style.width = '0%';
+    });
+    setTimeout(() => {
+      entries.forEach(({ id, value }) => {
+        const bar = document.getElementById(id);
+        if (bar) bar.style.width = `${value}%`;
+      });
+    }, 400);
   }
   renderProgress();
 
@@ -77,7 +98,16 @@ document.addEventListener('DOMContentLoaded', () => {
     if (!container) return;
     const storedDone = JSON.parse(localStorage.getItem('lf_homework_done') || '[]');
     mockHomework.forEach(hw => { if (storedDone.includes(hw.id)) hw.done = true; });
-    container.innerHTML = mockHomework.map(hw => `<div class="homework-item ${hw.done ? 'done' : ''}" id="hw-item-${hw.id}"><input type="checkbox" id="${hw.id}" ${hw.done ? 'checked' : ''}><div style="flex:1"><label for="${hw.id}">${hw.text}</label><span class="hw-meta">${hw.subject} · Fällig: ${hw.due}</span></div></div>`).join('');
+    container.innerHTML = mockHomework.map(hw => `
+      <div class="homework-item ${hw.done ? 'done' : ''}" id="hw-item-${hw.id}">
+        <input type="checkbox" id="${hw.id}" ${hw.done ? 'checked' : ''}>
+        <div style="flex:1">
+          <label for="${hw.id}">${hw.text}</label>
+          <span class="hw-meta">${hw.subject} · Fällig: ${hw.due}</span>
+        </div>
+      </div>
+    `).join('');
+
     container.querySelectorAll('input[type=checkbox]').forEach(cb => {
       cb.addEventListener('change', () => {
         const hwId = cb.id;
@@ -90,8 +120,8 @@ document.addEventListener('DOMContentLoaded', () => {
           LF.Toast.success('Aufgabe als erledigt markiert! 🎉', 2000);
         } else {
           item.classList.remove('done');
-          const done = JSON.parse(localStorage.getItem('lf_homework_done') || '[]');
-          localStorage.setItem('lf_homework_done', JSON.stringify(done.filter(id => id !== hwId)));
+          const done = JSON.parse(localStorage.getItem('lf_homework_done') || '[]').filter(id => id !== hwId);
+          localStorage.setItem('lf_homework_done', JSON.stringify(done));
         }
       });
     });
@@ -101,8 +131,13 @@ document.addEventListener('DOMContentLoaded', () => {
   function startCountdown() {
     const timerEl = document.getElementById('next-lesson-timer');
     if (!timerEl) return;
-    function update() { const diff = mockLessons[0].date - new Date(); if (diff <= 0) { timerEl.textContent = 'Jetzt!'; return; } timerEl.textContent = LF.Utils.formatCountdown(diff); }
-    update(); setInterval(update, 1000);
+    function update() {
+      const diff = mockLessons[0].date - new Date();
+      if (diff <= 0) { timerEl.textContent = 'Jetzt!'; return; }
+      timerEl.textContent = LF.Utils.formatCountdown(diff);
+    }
+    update();
+    setInterval(update, 1000);
   }
   startCountdown();
 
@@ -124,9 +159,11 @@ document.addEventListener('DOMContentLoaded', () => {
   }, 300);
 
   const notifBtn = document.querySelector('.notif-btn');
-  if (notifBtn) { notifBtn.addEventListener('click', () => { LF.Toast.info('Du hast 2 neue Benachrichtigungen.'); const dot = notifBtn.querySelector('.notif-dot'); if (dot) dot.style.display = 'none'; }); }
-
-  const quickBookBtn = document.querySelector('[data-action="quick-book"]');
-  if (quickBookBtn) { quickBookBtn.addEventListener('click', () => { window.location.href = 'booking.html'; }); }
-
+  if (notifBtn) {
+    notifBtn.addEventListener('click', () => {
+      LF.Toast.info('Du hast 2 neue Benachrichtigungen.');
+      const dot = notifBtn.querySelector('.notif-dot');
+      if (dot) dot.style.display = 'none';
+    });
+  }
 });

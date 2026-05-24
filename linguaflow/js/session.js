@@ -17,7 +17,10 @@ document.addEventListener('DOMContentLoaded', () => {
     return `${String(m).padStart(2,'0')}:${String(sec).padStart(2,'0')}`;
   }
 
-  const timerInterval = setInterval(() => { sessionSeconds++; if (timerEl) timerEl.textContent = formatTime(sessionSeconds); }, 1000);
+  const timerInterval = setInterval(() => {
+    sessionSeconds++;
+    if (timerEl) timerEl.textContent = formatTime(sessionSeconds);
+  }, 1000);
 
   const micBtn = document.getElementById('btn-mic');
   if (micBtn) {
@@ -103,6 +106,12 @@ document.addEventListener('DOMContentLoaded', () => {
   const chatSend = document.querySelector('.chat-send');
   const chatMessages = document.querySelector('.chat-messages');
 
+  function escapeHtml(str) {
+    const div = document.createElement('div');
+    div.appendChild(document.createTextNode(str));
+    return div.innerHTML;
+  }
+
   function sendChatMessage() {
     if (!chatInput || !chatMessages) return;
     const text = chatInput.value.trim();
@@ -115,8 +124,15 @@ document.addEventListener('DOMContentLoaded', () => {
     chatMessages.appendChild(msgEl);
     chatInput.value = '';
     chatMessages.scrollTop = chatMessages.scrollHeight;
+
     setTimeout(() => {
-      const responses = ['Sehr gut! Achte auf die Aussprache des "th"-Lauts.','Genau richtig! Kannst du den Satz wiederholen?','Prima! Jetzt versuchen wir das mit einem anderen Beispiel.','Gut gemacht! Ein kleiner Hinweis: "present perfect" vs. "simple past".','Wunderbar! Deine Aussprache wird immer besser.'];
+      const responses = [
+        'Sehr gut! Achte auf die Aussprache des "th"-Lauts.',
+        'Genau richtig! Kannst du den Satz wiederholen?',
+        'Prima! Jetzt versuchen wir das mit einem anderen Beispiel.',
+        'Gut gemacht! Ein kleiner Hinweis: "present perfect" vs. "simple past".',
+        'Wunderbar! Deine Aussprache wird immer besser.'
+      ];
       const reply = responses[Math.floor(Math.random() * responses.length)];
       const trainerMsg = document.createElement('div');
       trainerMsg.className = 'chat-msg';
@@ -127,15 +143,19 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   if (chatSend) chatSend.addEventListener('click', sendChatMessage);
-  if (chatInput) { chatInput.addEventListener('keydown', (e) => { if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); sendChatMessage(); } }); }
-
-  function escapeHtml(str) { const div = document.createElement('div'); div.appendChild(document.createTextNode(str)); return div.innerHTML; }
+  if (chatInput) {
+    chatInput.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); sendChatMessage(); }
+    });
+  }
 
   const notesTextarea = document.querySelector('.notes-textarea');
   if (notesTextarea) {
     const savedNotes = localStorage.getItem('lf_session_notes');
     if (savedNotes) notesTextarea.value = savedNotes;
-    const saveNotes = LF.Utils.debounce(() => { localStorage.setItem('lf_session_notes', notesTextarea.value); }, 500);
+    const saveNotes = LF.Utils.debounce(() => {
+      localStorage.setItem('lf_session_notes', notesTextarea.value);
+    }, 500);
     notesTextarea.addEventListener('input', saveNotes);
   }
 
@@ -144,7 +164,8 @@ document.addEventListener('DOMContentLoaded', () => {
   if (leftToggle && sessionLeft) {
     leftToggle.addEventListener('click', () => {
       sessionLeft.classList.toggle('collapsed');
-      leftToggle.querySelector('i').className = sessionLeft.classList.contains('collapsed') ? 'fas fa-chevron-right' : 'fas fa-chevron-left';
+      leftToggle.querySelector('i').className = sessionLeft.classList.contains('collapsed')
+        ? 'fas fa-chevron-right' : 'fas fa-chevron-left';
     });
   }
 
@@ -161,12 +182,29 @@ document.addEventListener('DOMContentLoaded', () => {
     if (scoreEl) {
       let current = 0;
       const target = 78;
-      const interval = setInterval(() => { current += 2; scoreEl.textContent = Math.min(current, target); if (current >= target) clearInterval(interval); }, 30);
+      const interval = setInterval(() => {
+        current += 2;
+        scoreEl.textContent = Math.min(current, target);
+        if (current >= target) clearInterval(interval);
+      }, 30);
     }
     LF.Toast.success('Aussprache-Analyse aktualisiert!', 3000);
     const wordFeedback = document.querySelector('.word-feedback');
     if (wordFeedback) {
-      wordFeedback.innerHTML = `"<span class="word-good">Hello</span>, <span class="word-good">my</span> <span class="word-ok">name</span> <span class="word-good">is</span> <span class="word-bad" title="Tipp: 'So-fee'">Sophie</span>. <span class="word-good">I</span> <span class="word-good">would</span> <span class="word-ok">like</span> <span class="word-good">to</span> <span class="word-bad" title="Tipp: 'Im-prove'">improve</span> <span class="word-good">my</span> <span class="word-ok">English</span>."}`;
+      wordFeedback.innerHTML = `
+        "<span class="word-good">Hello</span>,
+        <span class="word-good">my</span>
+        <span class="word-ok">name</span>
+        <span class="word-good">is</span>
+        <span class="word-bad" title="Tipp: 'So-fee'">Sophie</span>.
+        <span class="word-good">I</span>
+        <span class="word-ok">would</span>
+        <span class="word-good">like</span>
+        <span class="word-good">to</span>
+        <span class="word-bad" title="Tipp: 'Im-prove'">improve</span>
+        <span class="word-good">my</span>
+        <span class="word-ok">English</span>."
+      `;
     }
   }, 10000);
 

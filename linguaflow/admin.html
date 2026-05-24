@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin Dashboard – LinguaFlow</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <div class="app-layout">
+    <aside class="sidebar" id="sidebar">
+      <div class="sidebar-header">
+        <a href="index.html" class="logo"><div class="logo-icon"><i class="fas fa-language"></i></div>Lingua<span>Flow</span></a>
+      </div>
+      <div style="background:rgba(224,122,95,0.08);border-radius:var(--radius-sm);padding:0.6rem 0.75rem;margin:0.5rem 0.75rem;font-size:0.78rem;font-weight:700;color:var(--primary);text-align:center;letter-spacing:0.05em">TRAINER-BEREICH</div>
+      <nav class="sidebar-nav">
+        <div class="nav-section">
+          <div class="nav-section-label">Dashboard</div>
+          <a href="admin.html" class="sidebar-link active"><i class="fas fa-home"></i> Übersicht</a>
+          <a href="#" class="sidebar-link"><i class="fas fa-users"></i> Studenten</a>
+          <a href="#" class="sidebar-link"><i class="fas fa-calendar-alt"></i> Kalender</a>
+        </div>
+        <div class="nav-section">
+          <div class="nav-section-label">Finanzen & Material</div>
+          <a href="#" class="sidebar-link"><i class="fas fa-euro-sign"></i> Einnahmen</a>
+          <a href="#" class="sidebar-link"><i class="fas fa-folder-open"></i> Materialien</a>
+          <a href="#" class="sidebar-link"><i class="fas fa-chart-bar"></i> Berichte</a>
+        </div>
+        <div class="nav-section">
+          <div class="nav-section-label">Konto</div>
+          <a href="index.html" class="sidebar-link"><i class="fas fa-globe"></i> Zur Website</a>
+          <a href="#" class="sidebar-link"><i class="fas fa-cog"></i> Einstellungen</a>
+        </div>
+      </nav>
+      <div class="sidebar-footer">
+        <div class="sidebar-user">
+          <div class="sidebar-avatar">RT</div>
+          <div class="sidebar-user-info"><strong>Ralph Terhardt</strong><span>Trainer · Admin</span></div>
+          <button class="sidebar-logout" data-action="logout" title="Abmelden"><i class="fas fa-sign-out-alt"></i></button>
+        </div>
+      </div>
+    </aside>
+
+    <div class="main-content">
+      <header class="topbar">
+        <div class="topbar-left">
+          <div>
+            <h1>Trainer-Dashboard</h1>
+            <p>Hallo Ralph! Du hast heute <strong style="color:var(--primary)">4 Stunden</strong> geplant.</p>
+          </div>
+        </div>
+        <div class="topbar-right">
+          <button class="notif-btn" title="Benachrichtigungen" onclick="LF.Toast.info('3 neue Nachrichten von Schülern')">
+            <i class="fas fa-bell"></i><span class="notif-dot"></span>
+          </button>
+          <div class="topbar-avatar" title="Profil">RT</div>
+        </div>
+      </header>
+
+      <main class="page-content">
+        <div class="stats-row admin-stats">
+          <div class="stat-card">
+            <div class="stat-icon green"><i class="fas fa-users"></i></div>
+            <div class="stat-info"><strong>18</strong><span>Aktive Schüler</span></div>
+            <span class="stat-change">+2 neu</span>
+          </div>
+          <div class="stat-card">
+            <div class="stat-icon primary"><i class="fas fa-calendar-check"></i></div>
+            <div class="stat-info"><strong>12</strong><span>Stunden diese Woche</span></div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-icon gold"><i class="fas fa-euro-sign"></i></div>
+            <div class="stat-info"><strong>€ 1.480</strong><span>Einnahmen diesen Monat</span></div>
+            <span class="stat-change" style="background:rgba(129,178,154,0.12);color:var(--green)">+18%</span>
+          </div>
+          <div class="stat-card">
+            <div class="stat-icon blue"><i class="fas fa-star"></i></div>
+            <div class="stat-info"><strong>4.9 ★</strong><span>Durchschnittsbewertung</span></div>
+          </div>
+        </div>
+
+        <div class="dashboard-grid" style="grid-template-columns:1.4fr 1fr">
+          <div class="dashboard-col">
+            <div class="widget">
+              <div class="widget-header">
+                <h3><i class="fas fa-calendar-day" style="color:var(--primary);margin-right:0.5rem"></i>Heute – Stundenplan</h3>
+                <span style="font-size:0.82rem;color:var(--text-light)">24. Mai 2025</span>
+              </div>
+              <div class="widget-body">
+                <div class="schedule-item">
+                  <div class="schedule-time">09:00</div>
+                  <div class="schedule-student"><strong>Lena Müller</strong><span>Englisch · IELTS Vorbereitung · C1</span></div>
+                  <span class="lesson-lang">Englisch</span>
+                  <a href="session.html" class="btn btn-primary btn-sm"><i class="fas fa-video"></i> Beitreten</a>
+                </div>
+                <div class="schedule-item">
+                  <div class="schedule-time">11:00</div>
+                  <div class="schedule-student"><strong>Felix Krause</strong><span>Französisch · Konversation · B1</span></div>
+                  <span class="lesson-lang" style="background:rgba(224,122,95,0.1);color:var(--primary)">Französisch</span>
+                  <a href="session.html" class="btn btn-primary btn-sm"><i class="fas fa-video"></i> Beitreten</a>
+                </div>
+                <div class="schedule-item">
+                  <div class="schedule-time">14:00</div>
+                  <div class="schedule-student"><strong>Maria Hoffmann</strong><span>Englisch · Business-Englisch · B2</span></div>
+                  <span class="lesson-lang">Englisch</span>
+                  <a href="session.html" class="btn btn-primary btn-sm"><i class="fas fa-video"></i> Beitreten</a>
+                </div>
+                <div class="schedule-item">
+                  <div class="schedule-time">17:00</div>
+                  <div class="schedule-student"><strong>Sophie Braun</strong><span>Englisch · Konversation · B2</span></div>
+                  <span class="lesson-lang">Englisch</span>
+                  <a href="session.html" class="btn btn-primary btn-sm"><i class="fas fa-video"></i> Beitreten</a>
+                </div>
+              </div>
+            </div>
+
+            <div class="widget">
+              <div class="widget-header">
+                <h3><i class="fas fa-users" style="color:var(--green);margin-right:0.5rem"></i>Schüler-Übersicht</h3>
+                <button class="btn btn-ghost btn-sm" onclick="LF.Toast.info('Schülerverwaltung (Demo)')"><i class="fas fa-user-plus"></i> Neu</button>
+              </div>
+              <div style="overflow-x:auto">
+                <table class="student-table">
+                  <thead><tr><th>Schüler</th><th>Sprache</th><th>Level</th><th>Letzte Stunde</th><th>Stunden gesamt</th><th>Aktion</th></tr></thead>
+                  <tbody>
+                    <tr><td><div class="student-name-cell"><div class="student-avatar-sm">LM</div> Lena Müller</div></td><td>Englisch</td><td><span class="level-pill level-c1">C1</span></td><td>Gestern</td><td>42</td><td><button class="btn btn-ghost btn-sm" onclick="LF.Toast.info('Schülerprofil öffnen (Demo)')"><i class="fas fa-eye"></i></button></td></tr>
+                    <tr><td><div class="student-name-cell"><div class="student-avatar-sm" style="background:linear-gradient(135deg,#4A90D9,#7AB6E8)">FK</div> Felix Krause</div></td><td>Französisch</td><td><span class="level-pill level-b1">B1</span></td><td>21. Mai</td><td>18</td><td><button class="btn btn-ghost btn-sm" onclick="LF.Toast.info('Schülerprofil öffnen (Demo)')"><i class="fas fa-eye"></i></button></td></tr>
+                    <tr><td><div class="student-name-cell"><div class="student-avatar-sm" style="background:linear-gradient(135deg,var(--green),#A8D5B5)">MH</div> Maria Hoffmann</div></td><td>Englisch</td><td><span class="level-pill level-b2">B2</span></td><td>20. Mai</td><td>31</td><td><button class="btn btn-ghost btn-sm" onclick="LF.Toast.info('Schülerprofil öffnen (Demo)')"><i class="fas fa-eye"></i></button></td></tr>
+                    <tr><td><div class="student-name-cell"><div class="student-avatar-sm" style="background:linear-gradient(135deg,var(--secondary),#F5D99A)">SB</div> Sophie Braun</div></td><td>Englisch</td><td><span class="level-pill level-b2">B2</span></td><td>Heute</td><td>24</td><td><button class="btn btn-ghost btn-sm" onclick="LF.Toast.info('Schülerprofil öffnen (Demo)')"><i class="fas fa-eye"></i></button></td></tr>
+                    <tr><td><div class="student-name-cell"><div class="student-avatar-sm" style="background:linear-gradient(135deg,#9B59B6,#D2B4DE)">TW</div> Tobias Weber</div></td><td>Französisch</td><td><span class="level-pill level-a2">A2</span></td><td>18. Mai</td><td>8</td><td><button class="btn btn-ghost btn-sm" onclick="LF.Toast.info('Schülerprofil öffnen (Demo)')"><i class="fas fa-eye"></i></button></td></tr>
+                    <tr><td><div class="student-name-cell"><div class="student-avatar-sm" style="background:linear-gradient(135deg,#E74C3C,#F1948A)">KS</div> Katrin Schneider</div></td><td>Englisch</td><td><span class="level-pill level-c2">C2</span></td><td>22. Mai</td><td>67</td><td><button class="btn btn-ghost btn-sm" onclick="LF.Toast.info('Schülerprofil öffnen (Demo)')"><i class="fas fa-eye"></i></button></td></tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+
+          <div class="dashboard-col">
+            <div class="widget">
+              <div class="widget-header"><h3><i class="fas fa-chart-bar" style="color:var(--primary);margin-right:0.5rem"></i>Einnahmen (letzte 6 Monate)</h3></div>
+              <div class="widget-body">
+                <div class="revenue-chart" id="revenue-chart">
+                  <div class="revenue-bar-wrap"><div class="revenue-bar" data-amount="€ 840" style="height:57%"></div><div class="revenue-month">Dez</div></div>
+                  <div class="revenue-bar-wrap"><div class="revenue-bar" data-amount="€ 960" style="height:65%"></div><div class="revenue-month">Jan</div></div>
+                  <div class="revenue-bar-wrap"><div class="revenue-bar" data-amount="€ 1.120" style="height:76%"></div><div class="revenue-month">Feb</div></div>
+                  <div class="revenue-bar-wrap"><div class="revenue-bar" data-amount="€ 1.050" style="height:71%"></div><div class="revenue-month">Mär</div></div>
+                  <div class="revenue-bar-wrap"><div class="revenue-bar" data-amount="€ 1.255" style="height:85%"></div><div class="revenue-month">Apr</div></div>
+                  <div class="revenue-bar-wrap"><div class="revenue-bar" data-amount="€ 1.480" style="height:100%;background:linear-gradient(to top,var(--primary),var(--secondary))"></div><div class="revenue-month" style="font-weight:700;color:var(--primary)">Mai</div></div>
+                </div>
+                <div style="text-align:center;margin-top:1rem;font-size:0.82rem;color:var(--text-light)">Gesamteinnahmen Q1/2025: <strong style="color:var(--dark)">€ 3.425</strong></div>
+              </div>
+            </div>
+
+            <div class="widget">
+              <div class="widget-header"><h3><i class="fas fa-bolt" style="color:var(--secondary);margin-right:0.5rem"></i>Schnellaktionen</h3></div>
+              <div class="widget-body">
+                <div class="quick-actions-grid">
+                  <a class="quick-action-btn" href="#" onclick="LF.Toast.info('Neue Unterrichtseinheit erstellen (Demo)');return false"><i class="fas fa-plus-circle"></i><span>Neue Unterrichtseinheit</span></a>
+                  <a class="quick-action-btn" href="#" onclick="LF.Toast.info('Hausaufgabe zuweisen (Demo)');return false"><i class="fas fa-clipboard-list"></i><span>Hausaufgabe zuweisen</span></a>
+                  <a class="quick-action-btn" href="#" onclick="LF.Toast.info('Termin blockieren (Demo)');return false"><i class="fas fa-calendar-times"></i><span>Termin blockieren</span></a>
+                  <a class="quick-action-btn" href="#" onclick="LF.Toast.info('Material hochladen (Demo)');return false"><i class="fas fa-upload"></i><span>Material hochladen</span></a>
+                </div>
+              </div>
+            </div>
+
+            <div class="widget">
+              <div class="widget-header"><h3><i class="fas fa-clock" style="color:var(--green);margin-right:0.5rem"></i>Nächste Tage</h3></div>
+              <div class="widget-body" style="padding:0">
+                <div style="padding:0.75rem 1.5rem;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid var(--gray-100)">
+                  <div><strong style="font-size:0.88rem">Morgen 09:00</strong><br><span style="font-size:0.8rem;color:var(--text-light)">Tobias Weber · Französisch A2</span></div>
+                  <span class="lesson-lang" style="background:rgba(224,122,95,0.1);color:var(--primary)">Französ.</span>
+                </div>
+                <div style="padding:0.75rem 1.5rem;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid var(--gray-100)">
+                  <div><strong style="font-size:0.88rem">Morgen 11:30</strong><br><span style="font-size:0.8rem;color:var(--text-light)">Katrin Schneider · Englisch C2</span></div>
+                  <span class="lesson-lang">Englisch</span>
+                </div>
+                <div style="padding:0.75rem 1.5rem;display:flex;align-items:center;justify-content:space-between">
+                  <div><strong style="font-size:0.88rem">Di 15:00</strong><br><span style="font-size:0.8rem;color:var(--text-light)">Maria Hoffmann · Business-Eng. B2</span></div>
+                  <span class="lesson-lang">Englisch</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </main>
+    </div>
+  </div>
+
+  <script src="js/app.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const bars = document.querySelectorAll('.revenue-bar');
+      const targetHeights = [];
+      bars.forEach(bar => { targetHeights.push(bar.style.height); bar.style.height = '0'; });
+      setTimeout(() => {
+        bars.forEach((bar, i) => {
+          bar.style.transition = 'height 0.8s ease';
+          setTimeout(() => { bar.style.height = targetHeights[i]; }, i * 100);
+        });
+      }, 400);
+    });
+  </script>
+</body>
+</html>

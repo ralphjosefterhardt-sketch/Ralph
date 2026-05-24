@@ -93,7 +93,9 @@ document.addEventListener('DOMContentLoaded', () => {
           const reg = JSON.parse(registered);
           if (reg.email === email.value.trim()) user = reg;
         }
-        if (!user) user = { name: 'Max Mustermann', email: email.value.trim(), languages: ['english'], joinDate: new Date().toISOString() };
+        if (!user) {
+          user = { name: 'Max Mustermann', email: email.value.trim(), languages: ['english'], joinDate: new Date().toISOString() };
+        }
         LF.Auth.setUser(user);
         LF.Toast.success(`Willkommen zurück, ${user.name}!`);
         setTimeout(() => { window.location.href = 'dashboard.html'; }, 800);
