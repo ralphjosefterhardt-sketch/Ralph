@@ -1,0 +1,390 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Analyse – LinguaFlow</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body class="analysis-page">
+
+  <!-- Navbar -->
+  <nav class="navbar">
+    <div class="navbar-inner">
+      <a href="index.html" class="logo">
+        <div class="logo-icon"><i class="fas fa-language"></i></div>
+        Lingua<span>Flow</span>
+      </a>
+      <div class="nav-links">
+        <a href="dashboard.html">Dashboard</a>
+        <a href="booking.html">Neue Stunde buchen</a>
+      </div>
+      <div class="nav-cta">
+        <a href="dashboard.html" class="btn btn-ghost btn-sm">
+          <i class="fas fa-home"></i> Dashboard
+        </a>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Hero -->
+  <div class="analysis-hero" style="padding-top:6rem">
+    <div class="container">
+      <h1><i class="fas fa-chart-pie" style="margin-right:0.5rem;opacity:0.9"></i>Stunden-Analyse</h1>
+      <p>Konversationsstunde · Englisch · 24. Mai 2025 · 47 Minuten</p>
+
+      <!-- Overall Scores (circular) -->
+      <div class="circular-progress-wrap">
+
+        <!-- Overall Score -->
+        <div style="text-align:center">
+          <div class="circular-progress">
+            <svg width="140" height="140" viewBox="0 0 140 140">
+              <circle class="progress-bg" cx="70" cy="70" r="58"/>
+              <circle class="progress-ring" cx="70" cy="70" r="58"
+                stroke="var(--green)"
+                stroke-dasharray="364.42"
+                stroke-dashoffset="364.42"
+                id="ring-overall"/>
+            </svg>
+            <div class="circular-inner">
+              <strong id="score-overall">0</strong>
+              <span>Gesamt-<br>score</span>
+            </div>
+          </div>
+        </div>
+
+        <div style="text-align:center">
+          <div class="circular-progress">
+            <svg width="140" height="140" viewBox="0 0 140 140">
+              <circle class="progress-bg" cx="70" cy="70" r="58"/>
+              <circle class="progress-ring" cx="70" cy="70" r="58"
+                stroke="#4A90D9"
+                stroke-dasharray="364.42"
+                stroke-dashoffset="364.42"
+                id="ring-pronunciation"/>
+            </svg>
+            <div class="circular-inner">
+              <strong id="score-pronunciation">0</strong>
+              <span>Aus-<br>sprache</span>
+            </div>
+          </div>
+        </div>
+
+        <div style="text-align:center">
+          <div class="circular-progress">
+            <svg width="140" height="140" viewBox="0 0 140 140">
+              <circle class="progress-bg" cx="70" cy="70" r="58"/>
+              <circle class="progress-ring" cx="70" cy="70" r="58"
+                stroke="var(--secondary)"
+                stroke-dasharray="364.42"
+                stroke-dashoffset="364.42"
+                id="ring-grammar"/>
+            </svg>
+            <div class="circular-inner">
+              <strong id="score-grammar">0</strong>
+              <span>Gram-<br>matik</span>
+            </div>
+          </div>
+        </div>
+
+        <div style="text-align:center">
+          <div class="circular-progress">
+            <svg width="140" height="140" viewBox="0 0 140 140">
+              <circle class="progress-bg" cx="70" cy="70" r="58"/>
+              <circle class="progress-ring" cx="70" cy="70" r="58"
+                stroke="var(--primary)"
+                stroke-dasharray="364.42"
+                stroke-dashoffset="364.42"
+                id="ring-fluency"/>
+            </svg>
+            <div class="circular-inner">
+              <strong id="score-fluency">0</strong>
+              <span>Flüssig-<br>keit</span>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <!-- Analysis Body -->
+  <div class="analysis-body">
+    <div class="container">
+
+      <!-- Category Progress Bars -->
+      <div class="analysis-card" style="margin-bottom:2rem">
+        <div class="analysis-card-header">
+          <i class="fas fa-chart-bar"></i>
+          <h3>Kategorien im Detail</h3>
+        </div>
+        <div class="analysis-card-body">
+          <div class="progress-item">
+            <div class="progress-label">
+              <span><i class="fas fa-microphone" style="color:var(--primary);margin-right:0.4rem"></i>Aussprache</span>
+              <strong>78 / 100</strong>
+            </div>
+            <div class="progress-bar">
+              <div class="progress-fill" data-width="78%"></div>
+            </div>
+          </div>
+
+          <div class="progress-item">
+            <div class="progress-label">
+              <span><i class="fas fa-pen" style="color:var(--green);margin-right:0.4rem"></i>Grammatik</span>
+              <strong>82 / 100</strong>
+            </div>
+            <div class="progress-bar">
+              <div class="progress-fill green" data-width="82%"></div>
+            </div>
+          </div>
+
+          <div class="progress-item">
+            <div class="progress-label">
+              <span><i class="fas fa-book" style="color:var(--secondary);margin-right:0.4rem"></i>Vokabular</span>
+              <strong>85 / 100</strong>
+            </div>
+            <div class="progress-bar">
+              <div class="progress-fill gold" data-width="85%"></div>
+            </div>
+          </div>
+
+          <div class="progress-item">
+            <div class="progress-label">
+              <span><i class="fas fa-comments" style="color:#4A90D9;margin-right:0.4rem"></i>Flüssigkeit</span>
+              <strong>70 / 100</strong>
+            </div>
+            <div class="progress-bar">
+              <div class="progress-fill" style="background:linear-gradient(90deg,#4A90D9,#7AB6E8)" data-width="70%"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="analysis-grid">
+
+        <!-- Left Column -->
+        <div>
+          <!-- Transcript -->
+          <div class="analysis-card">
+            <div class="analysis-card-header">
+              <i class="fas fa-file-alt"></i>
+              <h3>Stunden-Transkript</h3>
+              <span style="margin-left:auto;font-size:0.78rem;color:var(--text-light)">Hover für Korrekturen</span>
+            </div>
+            <div class="analysis-card-body">
+              <div class="transcript-text">
+                <strong style="color:var(--text-light);font-size:0.8rem">Ralph:</strong>
+                So, let's start with a quick warm-up. Can you tell me about your day so far?
+                <br><br>
+                <strong style="color:var(--text-light);font-size:0.8rem">Du:</strong>
+                Yes, of course. I <span class="error-word" data-correction="Korrektur: 'have woken up' → 'woke up' (Simple Past)">have woken up</span>
+                early this morning and <span class="error-word" data-correction="Aussprache: 'breɪkfəst' – das 'ea' ist stumm!">breakfast</span>
+                was very nice. I had eggs and some
+                <span class="error-word" data-correction="Vokabular: 'toast' ist richtig, aber 'toasted bread' klingt natürlicher">toast</span>.
+                Then I went to the gym – I usually go three times a week.
+                <br><br>
+                <strong style="color:var(--text-light);font-size:0.8rem">Ralph:</strong>
+                That sounds great! How long have you been going to the gym?
+                <br><br>
+                <strong style="color:var(--text-light);font-size:0.8rem">Du:</strong>
+                About two years. At first it was
+                <span class="error-word" data-correction="Aussprache: 'dɪfɪkəlt' – achte auf den zweiten Vokal">difficult</span>
+                to motivate myself, but now I really enjoy it.
+                I <span class="error-word" data-correction="'feel' → 'have been feeling' (Present Perfect Continuous für anhaltenden Zustand)">feel</span>
+                much better since I started. My
+                <span class="error-word" data-correction="Aussprache: 'ˈɛnɜːdʒi' – Betonung auf erster Silbe">energy</span>
+                levels are much higher.
+                <br><br>
+                <strong style="color:var(--text-light);font-size:0.8rem">Ralph:</strong>
+                Excellent! Your fluency has improved a lot. Let's practice some specific pronunciation now.
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Right Column -->
+        <div>
+          <!-- Vocabulary Learned -->
+          <div class="analysis-card">
+            <div class="analysis-card-header">
+              <i class="fas fa-book-open"></i>
+              <h3>Neue Vokabeln</h3>
+            </div>
+            <div class="analysis-card-body">
+              <div class="vocab-list">
+                <div class="vocab-item">
+                  <div>
+                    <div class="vocab-word">to motivate</div>
+                    <div class="vocab-translation">motivieren</div>
+                  </div>
+                  <span class="vocab-tag">Verb</span>
+                </div>
+                <div class="vocab-item">
+                  <div>
+                    <div class="vocab-word">energy levels</div>
+                    <div class="vocab-translation">Energieniveau</div>
+                  </div>
+                  <span class="vocab-tag">Phrase</span>
+                </div>
+                <div class="vocab-item">
+                  <div>
+                    <div class="vocab-word">to be consistent</div>
+                    <div class="vocab-translation">konsequent sein</div>
+                  </div>
+                  <span class="vocab-tag">Ausdruck</span>
+                </div>
+                <div class="vocab-item">
+                  <div>
+                    <div class="vocab-word">commitment</div>
+                    <div class="vocab-translation">Engagement, Verpflichtung</div>
+                  </div>
+                  <span class="vocab-tag">Nomen</span>
+                </div>
+                <div class="vocab-item">
+                  <div>
+                    <div class="vocab-word">eventually</div>
+                    <div class="vocab-translation">schließlich, letztendlich</div>
+                  </div>
+                  <span class="vocab-tag">Adverb</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Grammar Points -->
+          <div class="analysis-card">
+            <div class="analysis-card-header">
+              <i class="fas fa-exclamation-circle"></i>
+              <h3>Grammatik – Wiederholung</h3>
+            </div>
+            <div class="analysis-card-body">
+              <div class="grammar-item">
+                <i class="fas fa-circle-exclamation"></i>
+                <div>
+                  <strong style="color:var(--dark);font-size:0.9rem">Present Perfect vs. Simple Past</strong>
+                  <p style="font-size:0.83rem;margin:0.2rem 0 0">Verwende Simple Past für abgeschlossene Aktionen: "I woke up" nicht "I have woken up".</p>
+                </div>
+              </div>
+              <div class="grammar-item">
+                <i class="fas fa-circle-exclamation"></i>
+                <div>
+                  <strong style="color:var(--dark);font-size:0.9rem">Present Perfect Continuous</strong>
+                  <p style="font-size:0.83rem;margin:0.2rem 0 0">Für anhaltende Zustände bis jetzt: "I have been feeling better since..."</p>
+                </div>
+              </div>
+              <div class="grammar-item">
+                <i class="fas fa-lightbulb" style="color:var(--secondary)"></i>
+                <div>
+                  <strong style="color:var(--dark);font-size:0.9rem">Stärke: Satzstruktur</strong>
+                  <p style="font-size:0.83rem;margin:0.2rem 0 0">Deine Satzstruktur war sehr gut und natürlich. Weiter so!</p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Recommended Exercises -->
+          <div class="analysis-card">
+            <div class="analysis-card-header">
+              <i class="fas fa-dumbbell"></i>
+              <h3>Empfohlene Übungen</h3>
+            </div>
+            <div class="analysis-card-body">
+              <div class="exercise-item">
+                <span>Present Perfect Übungen (Seite 44-46)</span>
+                <span class="exercise-difficulty difficulty-easy">Leicht</span>
+              </div>
+              <div class="exercise-item">
+                <span>Aussprache "th"-Laute Audio-Training</span>
+                <span class="exercise-difficulty difficulty-medium">Mittel</span>
+              </div>
+              <div class="exercise-item">
+                <span>Schreibe 5 Sätze über deine Woche</span>
+                <span class="exercise-difficulty difficulty-easy">Leicht</span>
+              </div>
+              <div class="exercise-item">
+                <span>Podcast "BBC 6 Minute English" anhören</span>
+                <span class="exercise-difficulty difficulty-medium">Mittel</span>
+              </div>
+              <div class="exercise-item">
+                <span>Vokabeln aus heutiger Stunde in Sätzen verwenden</span>
+                <span class="exercise-difficulty difficulty-hard">Herausfordernd</span>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- Actions -->
+      <div class="analysis-actions">
+        <button class="btn btn-ghost btn-lg" onclick="LF.Toast.info('Bericht wird heruntergeladen... (Demo)',2000)">
+          <i class="fas fa-download"></i> Analyse herunterladen
+        </button>
+        <a href="booking.html" class="btn btn-primary btn-lg">
+          <i class="fas fa-calendar-plus"></i> Nächste Stunde buchen
+        </a>
+        <a href="dashboard.html" class="btn btn-secondary btn-lg">
+          <i class="fas fa-home"></i> Zum Dashboard
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <script src="js/app.js"></script>
+  <script>
+    // Animate circular progress rings
+    document.addEventListener('DOMContentLoaded', () => {
+
+      const scores = {
+        overall: 79,
+        pronunciation: 78,
+        grammar: 82,
+        fluency: 70
+      };
+
+      const circumference = 364.42;
+
+      function animateRing(ringId, scoreId, targetScore) {
+        const ring = document.getElementById(ringId);
+        const scoreEl = document.getElementById(scoreId);
+        if (!ring || !scoreEl) return;
+
+        let currentScore = 0;
+        const duration = 1500;
+        const startTime = performance.now();
+
+        function step(currentTime) {
+          const elapsed = currentTime - startTime;
+          const progress = Math.min(elapsed / duration, 1);
+          // Ease out
+          const eased = 1 - Math.pow(1 - progress, 3);
+          currentScore = Math.round(targetScore * eased);
+          scoreEl.textContent = currentScore;
+
+          const offset = circumference - (currentScore / 100) * circumference;
+          ring.style.strokeDashoffset = offset;
+
+          if (progress < 1) requestAnimationFrame(step);
+        }
+
+        requestAnimationFrame(step);
+      }
+
+      // Start animations after short delay
+      setTimeout(() => {
+        animateRing('ring-overall', 'score-overall', scores.overall);
+        setTimeout(() => animateRing('ring-pronunciation', 'score-pronunciation', scores.pronunciation), 200);
+        setTimeout(() => animateRing('ring-grammar', 'score-grammar', scores.grammar), 400);
+        setTimeout(() => animateRing('ring-fluency', 'score-fluency', scores.fluency), 600);
+      }, 400);
+
+    });
+  </script>
+</body>
+</html>
