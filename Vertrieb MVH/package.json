@@ -1,0 +1,15 @@
+{
+  "name": "vertrieb-mvh",
+  "version": "1.0.0",
+  "description": "MVH Vertrieb Außendienst Tool",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node server.js"
+  },
+  "dependencies": {
+    "express": "^4.18.2",
+    "better-sqlite3": "^9.4.3",
+    "xlsx": "^0.18.5"
+  }
+}

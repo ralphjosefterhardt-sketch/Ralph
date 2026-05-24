@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>MVH Vertrieb – Außendienst Tool</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<header>
+  <div class="header-inner">
+    <div class="logo">
+      <span class="logo-icon">⬡</span>
+      <div>
+        <div class="logo-title">MVH Vertrieb</div>
+        <div class="logo-sub">Außendienst Tool</div>
+      </div>
+    </div>
+    <nav>
+      <button class="nav-btn active" data-tab="besuche">Besuchsberichte</button>
+      <button class="nav-btn" data-tab="anfragen">Anfragen</button>
+    </nav>
+    <div class="user-field">
+      <label>Benutzer</label>
+      <input type="text" id="globalBenutzer" placeholder="Ihr Name" autocomplete="off">
+    </div>
+  </div>
+</header>
+
+<main>
+
+  <!-- ════════════════════════════════════════════════════
+       TAB: BESUCHSBERICHTE
+  ═════════════════════════════════════════════════════ -->
+  <section id="tab-besuche" class="tab active">
+
+    <div class="section-header">
+      <h2>Besuchsbericht erfassen</h2>
+      <div class="header-actions">
+        <button class="btn btn-outline" onclick="exportAlleXML()">⬇ Alle als BMD XML</button>
+      </div>
+    </div>
+
+    <div class="card form-card">
+      <div class="form-grid">
+        <div class="form-group">
+          <label>Kundennummer</label>
+          <input type="text" id="b_kundennr" placeholder="z.B. 10042">
+        </div>
+        <div class="form-group required">
+          <label>Kundenname *</label>
+          <input type="text" id="b_kundenname" placeholder="Firmenname">
+        </div>
+        <div class="form-group">
+          <label>Ansprechpartner</label>
+          <input type="text" id="b_ansprechpartner" placeholder="Vor- und Nachname">
+        </div>
+        <div class="form-group required">
+          <label>Datum *</label>
+          <input type="date" id="b_datum">
+        </div>
+        <div class="form-group">
+          <label>Besuchsart</label>
+          <select id="b_art">
+            <option value="Besuch">Besuch</option>
+            <option value="Telefonat">Telefonat</option>
+            <option value="Teams/Video">Teams / Video</option>
+            <option value="Messe">Messe</option>
+            <option value="Sonstiges">Sonstiges</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>Betreff</label>
+          <input type="text" id="b_betreff" placeholder="Kurze Zusammenfassung">
+        </div>
+      </div>
+
+      <div class="speech-group">
+        <div class="speech-label-row">
+          <label>Besuchsbericht <span class="hint">(Sprache oder Texteingabe)</span></label>
+          <button class="mic-btn" id="mic_bericht" onclick="toggleSpeech('b_bericht', 'mic_bericht')">
+            <span class="mic-icon">🎤</span> Spracheingabe
+          </button>
+        </div>
+        <textarea id="b_bericht" rows="5" placeholder="Gesprächsverlauf, besprochene Themen, Kundenanforderungen …"></textarea>
+      </div>
+
+      <div class="form-grid">
+        <div class="form-group span2">
+          <div class="speech-label-row">
+            <label>Ergebnis / Vereinbarungen</label>
+            <button class="mic-btn mic-sm" id="mic_ergebnis" onclick="toggleSpeech('b_ergebnis', 'mic_ergebnis')">🎤</button>
+          </div>
+          <textarea id="b_ergebnis" rows="3" placeholder="Ergebnisse und Vereinbarungen aus dem Gespräch …"></textarea>
+        </div>
+        <div class="form-group span2">
+          <div class="speech-label-row">
+            <label>Nächste Schritte</label>
+            <button class="mic-btn mic-sm" id="mic_naechste" onclick="toggleSpeech('b_naechste_schritte', 'mic_naechste')">🎤</button>
+          </div>
+          <textarea id="b_naechste_schritte" rows="3" placeholder="Folgeaktionen, Wiedervorlage, Angebote …"></textarea>
+        </div>
+      </div>
+
+      <div class="form-actions">
+        <button class="btn btn-secondary" onclick="resetBesuch()">Leeren</button>
+        <button class="btn btn-primary" onclick="saveBesuch()">Besuchsbericht speichern</button>
+      </div>
+    </div>
+
+    <div class="section-header" style="margin-top:2rem">
+      <h3>Gespeicherte Berichte</h3>
+      <div class="search-wrap">
+        <input type="search" id="searchBesuche" placeholder="Suche Kunde, Betreff …" oninput="filterBesuche()">
+      </div>
+    </div>
+    <div id="besuche-list" class="list-container">
+      <div class="empty-state">Noch keine Berichte gespeichert.</div>
+    </div>
+
+  </section>
+
+  <!-- ════════════════════════════════════════════════════
+       TAB: ANFRAGEN
+  ═════════════════════════════════════════════════════ -->
+  <section id="tab-anfragen" class="tab">
+
+    <div class="section-header">
+      <h2>Anfrage erfassen</h2>
+      <div class="header-actions">
+        <button class="btn btn-outline" onclick="exportAnfragenExcel()">⬇ Excel</button>
+        <button class="btn btn-outline" onclick="exportAnfragenCSV()">⬇ CSV</button>
+      </div>
+    </div>
+
+    <div class="card form-card">
+      <div class="speech-group" style="margin-bottom:1.5rem">
+        <div class="speech-label-row">
+          <label>Anfrage per Sprache diktieren <span class="hint">(automatische Felderkennung)</span></label>
+          <button class="mic-btn" id="mic_anfrage_gesamt" onclick="toggleSpeechAnfrage()">
+            <span class="mic-icon">🎤</span> Diktat starten
+          </button>
+        </div>
+        <div id="diktat-preview" class="diktat-preview" style="display:none"></div>
+      </div>
+
+      <div class="form-grid">
+        <div class="form-group">
+          <label>Kundennummer</label>
+          <input type="text" id="a_kundennr" placeholder="z.B. 10042">
+        </div>
+        <div class="form-group required">
+          <label>Kundenname *</label>
+          <input type="text" id="a_kundenname" placeholder="Firmenname">
+        </div>
+        <div class="form-group">
+          <label>Ansprechpartner</label>
+          <input type="text" id="a_ansprechpartner" placeholder="Vor- und Nachname">
+        </div>
+        <div class="form-group">
+          <label>Zeitschiene</label>
+          <input type="text" id="a_zeitschiene" placeholder="z.B. Q3 2025, sofort, innerhalb 3 Monate">
+        </div>
+      </div>
+
+      <div class="form-grid form-grid-3">
+        <div class="form-group">
+          <label>Material</label>
+          <input type="text" id="a_material" placeholder="z.B. Stahl S355, PP, Aluminium">
+        </div>
+        <div class="form-group">
+          <label>Menge (Stk/kg)</label>
+          <input type="text" id="a_menge" placeholder="z.B. 500 Stk">
+        </div>
+        <div class="form-group">
+          <label>Jahresmenge</label>
+          <input type="text" id="a_jahresmenge" placeholder="z.B. 6.000 Stk/Jahr">
+        </div>
+        <div class="form-group">
+          <label>Qualität / Norm</label>
+          <input type="text" id="a_qualitaet" placeholder="z.B. EN 10025, ISO 9001">
+        </div>
+        <div class="form-group">
+          <label>Spezifikation</label>
+          <input type="text" id="a_spezifikation" placeholder="z.B. verzinkt, gleitend, gehärtet">
+        </div>
+        <div class="form-group">
+          <label>Maße</label>
+          <input type="text" id="a_masse" placeholder="z.B. 100×50×5 mm">
+        </div>
+      </div>
+
+      <div class="speech-group">
+        <div class="speech-label-row">
+          <label>Notizen / Zusatzinfos</label>
+          <button class="mic-btn mic-sm" id="mic_notizen" onclick="toggleSpeech('a_notizen', 'mic_notizen')">🎤</button>
+        </div>
+        <textarea id="a_notizen" rows="3" placeholder="Weitere Details, Zeichnungen vorhanden, Besonderheiten …"></textarea>
+      </div>
+
+      <div class="form-actions">
+        <button class="btn btn-secondary" onclick="resetAnfrage()">Leeren</button>
+        <button class="btn btn-primary" onclick="saveAnfrage()">Anfrage speichern</button>
+      </div>
+    </div>
+
+    <div class="section-header" style="margin-top:2rem">
+      <h3>Gespeicherte Anfragen</h3>
+      <div class="filter-row">
+        <input type="search" id="searchAnfragen" placeholder="Suche Kunde, Material …" oninput="filterAnfragen()">
+        <select id="filterStatus" onchange="filterAnfragen()">
+          <option value="">Alle Status</option>
+          <option value="Offen">Offen</option>
+          <option value="In Bearbeitung">In Bearbeitung</option>
+          <option value="Angebot erstellt">Angebot erstellt</option>
+          <option value="Erledigt">Erledigt</option>
+        </select>
+      </div>
+    </div>
+    <div id="anfragen-list" class="list-container">
+      <div class="empty-state">Noch keine Anfragen gespeichert.</div>
+    </div>
+
+  </section>
+
+</main>
+
+<!-- Toast Notification -->
+<div id="toast" class="toast"></div>
+
+<!-- Besuch Detail Modal -->
+<div id="modal" class="modal-overlay" onclick="closeModal(event)">
+  <div class="modal-box">
+    <button class="modal-close" onclick="document.getElementById('modal').classList.remove('open')">✕</button>
+    <div id="modal-content"></div>
+    <div id="modal-actions" class="form-actions" style="margin-top:1.5rem"></div>
+  </div>
+</div>
+
+<script src="app.js"></script>
+</body>
+</html>
