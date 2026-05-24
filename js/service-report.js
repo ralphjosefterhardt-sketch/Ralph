@@ -2,10 +2,14 @@
 
 var ServiceReport = {
 
+  // Canvas drawing state
   _canvasState: {
     customer: { drawing: false, hasSignature: false },
     technician: { drawing: false, hasSignature: false }
   },
+
+  // Feature 4: Photos array
+  _photos: [],
 
   render: function(machineId) {
     var machine = getMachineById(machineId);
@@ -33,6 +37,7 @@ var ServiceReport = {
 
       <form id="serviceReportForm" class="report-form" novalidate>
 
+        <!-- Section 1: Auftragsdaten -->
         <fieldset class="form-section">
           <legend class="form-section-title">Auftragsdaten</legend>
           <div class="form-row">
@@ -51,6 +56,7 @@ var ServiceReport = {
           </div>
         </fieldset>
 
+        <!-- Section 2: Durchgeführte Arbeiten -->
         <fieldset class="form-section">
           <legend class="form-section-title">Durchgeführte Arbeiten</legend>
           <div class="checkbox-group">
@@ -85,6 +91,7 @@ var ServiceReport = {
           </div>
         </fieldset>
 
+        <!-- Section 3: Feststellungen & Maßnahmen -->
         <fieldset class="form-section">
           <legend class="form-section-title">Feststellungen &amp; Maßnahmen</legend>
           <div class="form-group">
@@ -93,6 +100,7 @@ var ServiceReport = {
           </div>
         </fieldset>
 
+        <!-- Section 4: Ersatzteile -->
         <fieldset class="form-section">
           <legend class="form-section-title">Ersatzteile</legend>
           <div id="ersatzteileList" class="ersatzteile-list"></div>
@@ -102,6 +110,19 @@ var ServiceReport = {
           </button>
         </fieldset>
 
+        <!-- Section 4b: Fotodokumentation -->
+        <fieldset class="form-section">
+          <legend class="form-section-title">Fotodokumentation</legend>
+          <p class="signature-declaration">Optional: Fotos von Schäden, Reparaturen oder Einstellungen.</p>
+          <label class="photo-upload-btn" for="photoInput">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/></svg>
+            Foto aufnehmen / auswählen
+            <input type="file" accept="image/*" capture="environment" multiple id="photoInput" style="display:none" />
+          </label>
+          <div id="photoPreviewGrid" class="photo-preview-grid"></div>
+        </fieldset>
+
+        <!-- Section 5: Nächster Service -->
         <fieldset class="form-section">
           <legend class="form-section-title">Nächster Service</legend>
           <div class="form-row">
@@ -116,6 +137,7 @@ var ServiceReport = {
           </div>
         </fieldset>
 
+        <!-- Section 6: Unterschrift Kunde -->
         <fieldset class="form-section">
           <legend class="form-section-title">Unterschrift Kunde</legend>
           <p class="signature-declaration">Ich bestätige die ordnungsgemäße Durchführung der oben genannten Arbeiten.</p>
@@ -128,6 +150,7 @@ var ServiceReport = {
           </div>
         </fieldset>
 
+        <!-- Section 7: Unterschrift Techniker -->
         <fieldset class="form-section">
           <legend class="form-section-title">Unterschrift Techniker</legend>
           <p class="signature-declaration">Ich bestätige die fachgerechte Durchführung der aufgeführten Arbeiten.</p>
@@ -196,7 +219,6 @@ var ServiceReport = {
         </div>
       `;
       ersatzteileList.appendChild(row);
-
       row.querySelector('.remove-ersatzteil-btn').addEventListener('click', function() {
         ersatzteileList.removeChild(row);
       });
@@ -204,6 +226,22 @@ var ServiceReport = {
 
     ServiceReport._initCanvas('canvasCustomer', 'customer', 'sigStatusCustomer', 'clearCustomerBtn');
     ServiceReport._initCanvas('canvasTechnician', 'technician', 'sigStatusTechnician', 'clearTechnicianBtn');
+
+    // Feature 4: Photo upload
+    ServiceReport._photos = [];
+    var photoInput = document.getElementById('photoInput');
+    photoInput.addEventListener('change', function() {
+      var files = Array.prototype.slice.call(this.files);
+      files.forEach(function(file) {
+        var reader = new FileReader();
+        reader.onload = function(evt) {
+          ServiceReport._photos.push(evt.target.result);
+          ServiceReport._renderPhotoPreview();
+        };
+        reader.readAsDataURL(file);
+      });
+      photoInput.value = '';
+    });
 
     document.getElementById('serviceReportForm').addEventListener('submit', function(e) {
       e.preventDefault();
@@ -234,10 +272,7 @@ var ServiceReport = {
       var rect = canvas.getBoundingClientRect();
       var clientX = e.clientX !== undefined ? e.clientX : (e.touches ? e.touches[0].clientX : 0);
       var clientY = e.clientY !== undefined ? e.clientY : (e.touches ? e.touches[0].clientY : 0);
-      return {
-        x: clientX - rect.left,
-        y: clientY - rect.top
-      };
+      return { x: clientX - rect.left, y: clientY - rect.top };
     }
 
     function onPointerDown(e) {
@@ -284,6 +319,23 @@ var ServiceReport = {
         statusEl.textContent = '';
         statusEl.className = 'sig-status';
       }
+    });
+  },
+
+  _renderPhotoPreview: function() {
+    var grid = document.getElementById('photoPreviewGrid');
+    if (!grid) return;
+    grid.innerHTML = '';
+    ServiceReport._photos.forEach(function(dataUrl, idx) {
+      var item = document.createElement('div');
+      item.className = 'photo-preview-item';
+      item.innerHTML = '<img src="' + dataUrl + '" alt="Foto ' + (idx + 1) + '" />' +
+        '<button type="button" class="remove-photo-btn" aria-label="Foto entfernen" data-index="' + idx + '">&times;</button>';
+      grid.appendChild(item);
+      item.querySelector('.remove-photo-btn').addEventListener('click', function() {
+        ServiceReport._photos.splice(parseInt(this.getAttribute('data-index'), 10), 1);
+        ServiceReport._renderPhotoPreview();
+      });
     });
   },
 
@@ -354,6 +406,7 @@ var ServiceReport = {
       naechsterServiceBemerkungen: naechsterServiceBemerkungen,
       unterschriftKunde: canvasCustomer.toDataURL(),
       unterschriftTechniker: canvasTechnician.toDataURL(),
+      fotos: ServiceReport._photos.slice(),
       erstelltAm: new Date().toISOString()
     };
 
@@ -365,15 +418,167 @@ var ServiceReport = {
       console.error('Fehler beim Speichern:', e);
     }
 
-    showToast('Bericht wurde gespeichert', 'success');
-
     ServiceReport._canvasState = {
       customer: { drawing: false, hasSignature: false },
       technician: { drawing: false, hasSignature: false }
     };
 
-    setTimeout(function() {
+    ServiceReport._showSaveDialog(report, machineId);
+  },
+
+  _showSaveDialog: function(report, machineId) {
+    var overlay = document.createElement('div');
+    overlay.className = 'save-dialog-overlay';
+    overlay.innerHTML = `
+      <div class="save-dialog">
+        <div class="save-dialog-icon">&#10003;</div>
+        <div class="save-dialog-title">Bericht gespeichert</div>
+        <p class="save-dialog-text">Der Servicebericht wurde erfolgreich lokal gespeichert.</p>
+        <div class="save-dialog-actions">
+          <button class="btn btn-success btn-full" id="dialogPrintBtn">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><polyline points="6,9 6,2 18,2 18,9"/><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/><rect x="6" y="14" width="12" height="8"/></svg>
+            Als PDF speichern
+          </button>
+          <button class="btn btn-outline btn-full" id="dialogBackBtn">
+            Zur&uuml;ck zur Maschine
+          </button>
+        </div>
+      </div>
+    `;
+    document.body.appendChild(overlay);
+
+    document.getElementById('dialogPrintBtn').addEventListener('click', function() {
+      document.body.removeChild(overlay);
+      ServiceReport.showPrintView(report);
+    });
+
+    document.getElementById('dialogBackBtn').addEventListener('click', function() {
+      document.body.removeChild(overlay);
       Router.navigate('/machines/' + machineId);
-    }, 800);
+    });
+  },
+
+  showPrintView: function(report) {
+    var machine = getMachineById(report.machineId);
+    var typeStyle = machine ? (TYPE_COLORS[machine.type] || { bg: '#f3f4f6', color: '#374151' }) : { bg: '#f3f4f6', color: '#374151' };
+
+    var arbeitenHtml = (report.arbeiten && report.arbeiten.length > 0)
+      ? '<ul class="print-arbeiten-list">' + report.arbeiten.map(function(a) {
+          return '<li class="print-arbeiten-tag">' + escapeHtml(a) + '</li>';
+        }).join('') + '</ul>'
+      : '<span style="color:#9ca3af;font-style:italic;">Keine Arbeiten ausgewählt</span>';
+
+    var ersatzteileHtml = (report.ersatzteile && report.ersatzteile.length > 0)
+      ? '<table style="width:100%;border-collapse:collapse;font-size:0.83rem;"><thead><tr style="border-bottom:1px solid #e5e7eb;"><th style="text-align:left;padding:4px 8px;color:#6b7280;font-weight:600;">Bezeichnung</th><th style="text-align:left;padding:4px 8px;color:#6b7280;font-weight:600;">Menge</th><th style="text-align:left;padding:4px 8px;color:#6b7280;font-weight:600;">Art.-Nr.</th></tr></thead><tbody>' +
+        report.ersatzteile.map(function(e) {
+          return '<tr style="border-bottom:1px solid #f3f4f6;"><td style="padding:4px 8px;">' + escapeHtml(e.bezeichnung) + '</td><td style="padding:4px 8px;">' + escapeHtml(String(e.menge)) + '</td><td style="padding:4px 8px;">' + escapeHtml(e.artikelnummer || '–') + '</td></tr>';
+        }).join('') + '</tbody></table>'
+      : '<span style="color:#9ca3af;font-style:italic;">Keine Ersatzteile</span>';
+
+    var fotosHtml = (report.fotos && report.fotos.length > 0)
+      ? '<div class="print-photo-grid">' + report.fotos.map(function(f, i) {
+          return '<img src="' + f + '" alt="Foto ' + (i + 1) + '">';
+        }).join('') + '</div>'
+      : '<span style="color:#9ca3af;font-style:italic;">Keine Fotos</span>';
+
+    var contentHtml = `
+      <div class="print-actions">
+        <button class="btn btn-success" id="doPrintBtn">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><polyline points="6,9 6,2 18,2 18,9"/><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/><rect x="6" y="14" width="12" height="8"/></svg>
+          Drucken / Als PDF speichern
+        </button>
+        <button class="btn btn-outline" id="printBackBtn">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><polyline points="15,18 9,12 15,6"/></svg>
+          Zur&uuml;ck
+        </button>
+      </div>
+
+      <div class="print-report">
+        <div class="print-report-header">
+          <div>
+            <div class="print-report-title">Servicebericht</div>
+            <div class="print-report-meta">${escapeHtml(report.machineName || '')} &bull; ${escapeHtml(report.serialNumber || '')}</div>
+            <div class="print-report-meta">${escapeHtml(report.customerName || '')}</div>
+          </div>
+          <div style="text-align:right;">
+            <div style="font-size:0.82rem;color:#6b7280;">Datum</div>
+            <div style="font-weight:700;">${formatDate(report.datum)}</div>
+            ${report.auftragsnummer ? '<div style="font-size:0.8rem;color:#6b7280;margin-top:4px;">Auftr.-Nr.: ' + escapeHtml(report.auftragsnummer) + '</div>' : ''}
+          </div>
+        </div>
+
+        <div class="print-section">
+          <div class="print-section-title">Auftragsdaten</div>
+          <dl class="print-grid">
+            <dt>Techniker</dt><dd>${escapeHtml(report.techniker)}</dd>
+            <dt>Datum</dt><dd>${formatDate(report.datum)}</dd>
+            ${report.auftragsnummer ? '<dt>Auftragsnummer</dt><dd>' + escapeHtml(report.auftragsnummer) + '</dd>' : ''}
+          </dl>
+        </div>
+
+        <div class="print-section">
+          <div class="print-section-title">Maschinendaten</div>
+          <dl class="print-grid">
+            <dt>Maschine</dt><dd>${escapeHtml(report.machineName || '')}</dd>
+            <dt>Seriennummer</dt><dd>${escapeHtml(report.serialNumber || '')}</dd>
+            <dt>Kunde</dt><dd>${escapeHtml(report.customerName || '')}</dd>
+            ${machine ? '<dt>Adresse</dt><dd>' + escapeHtml(machine.customer.address) + '</dd>' : ''}
+          </dl>
+        </div>
+
+        <div class="print-section">
+          <div class="print-section-title">Durchgef&uuml;hrte Arbeiten</div>
+          ${arbeitenHtml}
+        </div>
+
+        <div class="print-section">
+          <div class="print-section-title">Feststellungen &amp; Ma&szlig;nahmen</div>
+          <p style="font-size:0.88rem;color:#1f2937;line-height:1.6;white-space:pre-wrap;">${escapeHtml(report.beschreibung || '')}</p>
+        </div>
+
+        <div class="print-section">
+          <div class="print-section-title">Ersatzteile</div>
+          ${ersatzteileHtml}
+        </div>
+
+        ${(report.naechsterService || report.naechsterServiceBemerkungen) ? `
+        <div class="print-section">
+          <div class="print-section-title">N&auml;chster Service</div>
+          <dl class="print-grid">
+            ${report.naechsterService ? '<dt>Datum</dt><dd>' + formatDate(report.naechsterService) + '</dd>' : ''}
+            ${report.naechsterServiceBemerkungen ? '<dt>Bemerkungen</dt><dd>' + escapeHtml(report.naechsterServiceBemerkungen) + '</dd>' : ''}
+          </dl>
+        </div>` : ''}
+
+        <div class="print-section">
+          <div class="print-section-title">Fotodokumentation</div>
+          ${fotosHtml}
+        </div>
+
+        <div class="print-section">
+          <div class="print-section-title">Unterschriften</div>
+          <div class="print-sig-row">
+            <div class="print-sig-box">
+              <div class="print-sig-label">Unterschrift Kunde</div>
+              <img src="${report.unterschriftKunde || ''}" alt="Unterschrift Kunde" />
+            </div>
+            <div class="print-sig-box">
+              <div class="print-sig-label">Unterschrift Techniker</div>
+              <img src="${report.unterschriftTechniker || ''}" alt="Unterschrift Techniker" />
+            </div>
+          </div>
+        </div>
+      </div>
+    `;
+
+    Machines._renderShell(contentHtml);
+
+    document.getElementById('doPrintBtn').addEventListener('click', function() {
+      window.print();
+    });
+
+    document.getElementById('printBackBtn').addEventListener('click', function() {
+      history.back();
+    });
   }
 };
