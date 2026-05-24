@@ -203,27 +203,72 @@ var ServiceReport = {
       var row = document.createElement('div');
       row.className = 'ersatzteil-row';
       row.setAttribute('data-row', ersatzteilCounter);
-      row.innerHTML = `
-        <div class="ersatzteil-fields">
-          <div class="form-group">
-            <label>Bezeichnung</label>
-            <input type="text" name="ersatzteil_bezeichnung[]" placeholder="Teilebezeichnung" />
-          </div>
-          <div class="form-group form-group-narrow">
-            <label>Menge</label>
-            <input type="number" name="ersatzteil_menge[]" min="1" value="1" placeholder="1" />
-          </div>
-          <div class="form-group">
-            <label>Artikelnummer</label>
-            <input type="text" name="ersatzteil_artikelnummer[]" placeholder="Art.-Nr." />
-          </div>
-          <button type="button" class="btn btn-danger btn-sm remove-ersatzteil-btn" aria-label="Ersatzteil entfernen">
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
-          </button>
-        </div>
-      `;
-      ersatzteileList.appendChild(row);
 
+      if (ARTICLES.length > 0) {
+        // Dropdown-Modus: Artikel aus BMD-Stammdaten wählen
+        var optionsHtml = ARTICLES.map(function(a) {
+          return '<option value="' + escapeHtml(a.artikelnummer) + '::' + escapeHtml(a.bezeichnung) + '">' +
+            escapeHtml(a.artikelnummer) + ' – ' + escapeHtml(a.bezeichnung) + '</option>';
+        }).join('');
+        row.innerHTML = `
+          <div class="ersatzteil-fields" style="grid-template-columns:1fr auto auto">
+            <div class="form-group">
+              <label>Artikel</label>
+              <select name="ersatzteil_artikel[]" class="ersatzteil-artikel-select">
+                <option value="">– Artikel wählen –</option>
+                ${optionsHtml}
+                <option value="::sonstiges">Sonstiges (manuell)</option>
+              </select>
+            </div>
+            <div class="form-group form-group-narrow">
+              <label>Menge</label>
+              <input type="number" name="ersatzteil_menge[]" min="1" value="1" />
+            </div>
+            <button type="button" class="btn btn-danger btn-sm remove-ersatzteil-btn" aria-label="Ersatzteil entfernen" style="align-self:flex-end">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+            </button>
+          </div>
+          <div class="ersatzteil-manual" style="display:none;margin-top:8px;">
+            <div class="ersatzteil-fields">
+              <div class="form-group">
+                <label>Bezeichnung</label>
+                <input type="text" name="ersatzteil_bezeichnung[]" placeholder="Teilebezeichnung" />
+              </div>
+              <div class="form-group">
+                <label>Artikelnummer</label>
+                <input type="text" name="ersatzteil_artikelnummer[]" placeholder="Art.-Nr." />
+              </div>
+            </div>
+          </div>
+        `;
+        row.querySelector('.ersatzteil-artikel-select').addEventListener('change', function() {
+          row.querySelector('.ersatzteil-manual').style.display =
+            (this.value === '::sonstiges') ? 'block' : 'none';
+        });
+      } else {
+        // Freitext-Modus: kein BMD-Artikelstamm vorhanden
+        row.innerHTML = `
+          <div class="ersatzteil-fields">
+            <div class="form-group">
+              <label>Bezeichnung</label>
+              <input type="text" name="ersatzteil_bezeichnung[]" placeholder="Teilebezeichnung" />
+            </div>
+            <div class="form-group form-group-narrow">
+              <label>Menge</label>
+              <input type="number" name="ersatzteil_menge[]" min="1" value="1" placeholder="1" />
+            </div>
+            <div class="form-group">
+              <label>Artikelnummer</label>
+              <input type="text" name="ersatzteil_artikelnummer[]" placeholder="Art.-Nr." />
+            </div>
+            <button type="button" class="btn btn-danger btn-sm remove-ersatzteil-btn" aria-label="Ersatzteil entfernen">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+            </button>
+          </div>
+        `;
+      }
+
+      ersatzteileList.appendChild(row);
       row.querySelector('.remove-ersatzteil-btn').addEventListener('click', function() {
         ersatzteileList.removeChild(row);
       });
@@ -391,15 +436,42 @@ var ServiceReport = {
     var ersatzteile = [];
     var rows = document.querySelectorAll('.ersatzteil-row');
     rows.forEach(function(row) {
-      var bez = row.querySelector('input[name="ersatzteil_bezeichnung[]"]');
       var menge = row.querySelector('input[name="ersatzteil_menge[]"]');
-      var artNr = row.querySelector('input[name="ersatzteil_artikelnummer[]"]');
-      if (bez && bez.value.trim()) {
-        ersatzteile.push({
-          bezeichnung: bez.value.trim(),
-          menge: menge ? parseInt(menge.value, 10) || 1 : 1,
-          artikelnummer: artNr ? artNr.value.trim() : ''
-        });
+      var artikelSelect = row.querySelector('select[name="ersatzteil_artikel[]"]');
+
+      if (artikelSelect) {
+        // Dropdown-Modus (BMD-Artikel)
+        var val = artikelSelect.value;
+        if (!val) return;
+        var bezeichnung, artikelnummer;
+        if (val === '::sonstiges') {
+          var bez = row.querySelector('input[name="ersatzteil_bezeichnung[]"]');
+          var artNr = row.querySelector('input[name="ersatzteil_artikelnummer[]"]');
+          bezeichnung = bez ? bez.value.trim() : '';
+          artikelnummer = artNr ? artNr.value.trim() : '';
+        } else {
+          var parts = val.split('::');
+          artikelnummer = parts[0] || '';
+          bezeichnung = parts[1] || '';
+        }
+        if (bezeichnung || artikelnummer) {
+          ersatzteile.push({
+            bezeichnung: bezeichnung,
+            menge: menge ? parseInt(menge.value, 10) || 1 : 1,
+            artikelnummer: artikelnummer
+          });
+        }
+      } else {
+        // Freitext-Modus
+        var bez = row.querySelector('input[name="ersatzteil_bezeichnung[]"]');
+        var artNr = row.querySelector('input[name="ersatzteil_artikelnummer[]"]');
+        if (bez && bez.value.trim()) {
+          ersatzteile.push({
+            bezeichnung: bez.value.trim(),
+            menge: menge ? parseInt(menge.value, 10) || 1 : 1,
+            artikelnummer: artNr ? artNr.value.trim() : ''
+          });
+        }
       }
     });
 

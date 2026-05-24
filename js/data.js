@@ -1,7 +1,7 @@
 // Mock data für ServicePortal
 // Maschinen von Matco und Minipack
 
-const MACHINES = [
+const MACHINES_DEMO = [
   {
     id: 1,
     name: 'Matco Schrumpftunnel ST-600',
@@ -267,6 +267,39 @@ function getServiceHistory(machineId) {
 }
 
 // Feature 5: Status-Overrides in localStorage
+// Aktive Daten (starten mit Demo, werden ggf. durch externe JSON überschrieben)
+var MACHINES = MACHINES_DEMO;
+var ARTICLES = []; // Ersatzteile/Artikel aus BMD
+
+// Versucht externe JSON-Dateien zu laden; bei Fehler bleiben Demo-Daten aktiv
+function initData() {
+  var machinesPromise = fetch('./data/machines.json')
+    .then(function(res) {
+      if (!res.ok) throw new Error('not found');
+      return res.json();
+    })
+    .then(function(data) {
+      if (Array.isArray(data) && data.length > 0) {
+        MACHINES = data;
+      }
+    })
+    .catch(function() { /* Demo-Daten bleiben */ });
+
+  var articlesPromise = fetch('./data/articles.json')
+    .then(function(res) {
+      if (!res.ok) throw new Error('not found');
+      return res.json();
+    })
+    .then(function(data) {
+      if (Array.isArray(data)) {
+        ARTICLES = data;
+      }
+    })
+    .catch(function() { /* keine Artikel, Freitext bleibt */ });
+
+  return Promise.all([machinesPromise, articlesPromise]);
+}
+
 function getMachineStatus(machineId) {
   try {
     var overrides = JSON.parse(localStorage.getItem('serviceportal_status') || '{}');

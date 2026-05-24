@@ -141,5 +141,7 @@ Router.add(/^\/archive$/, function() {
 // ─── Bootstrap ───────────────────────────────────────────────────────────────
 
 document.addEventListener('DOMContentLoaded', function() {
-  Router.init();
+  initData().then(function() {
+    Router.init();
+  });
 });
