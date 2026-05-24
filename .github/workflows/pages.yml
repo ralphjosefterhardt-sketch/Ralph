@@ -29,8 +29,11 @@ jobs:
       - name: Build combined deployment
         run: |
           mkdir -p dist
-          # LinguaFlow → Root
-          cp -r trainer/. dist/
+          # Übersichtsseite → Root
+          cp portal-index.html dist/index.html
+          # LinguaFlow → /linguaflow/
+          mkdir -p dist/linguaflow
+          cp -r trainer/. dist/linguaflow/
           # ServicePortal → /techniker/
           mkdir -p dist/techniker
           cp index.html dist/techniker/

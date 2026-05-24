@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Ralph Terhardt – Apps</title>
+  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;700;800&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: 'Nunito', sans-serif;
+      background: #FFF8F0;
+      color: #3D405B;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 2rem;
+    }
+
+    .logo {
+      font-size: 1.1rem;
+      font-weight: 700;
+      color: #A89F94;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      margin-bottom: 2.5rem;
+    }
+
+    h1 {
+      font-size: 2rem;
+      font-weight: 800;
+      margin-bottom: 0.5rem;
+      text-align: center;
+    }
+
+    .sub {
+      color: #6B6E88;
+      font-size: 1rem;
+      margin-bottom: 3rem;
+      text-align: center;
+    }
+
+    .cards {
+      display: flex;
+      gap: 1.5rem;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+
+    .card {
+      background: white;
+      border-radius: 20px;
+      padding: 2.5rem 2rem;
+      width: 280px;
+      text-decoration: none;
+      color: inherit;
+      box-shadow: 0 4px 20px rgba(61,64,91,0.10);
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      gap: 1rem;
+    }
+
+    .card:hover {
+      transform: translateY(-6px);
+      box-shadow: 0 12px 32px rgba(61,64,91,0.16);
+    }
+
+    .card-icon {
+      width: 64px;
+      height: 64px;
+      border-radius: 16px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.8rem;
+    }
+
+    .card.lingua .card-icon { background: linear-gradient(135deg, #E07A5F, #F2CC8F); }
+    .card.technik .card-icon { background: linear-gradient(135deg, #1a56db, #3b82f6); }
+
+    .card h2 { font-size: 1.3rem; font-weight: 800; }
+    .card p { font-size: 0.9rem; color: #6B6E88; line-height: 1.5; }
+
+    .card-arrow {
+      margin-top: 0.5rem;
+      font-size: 1.2rem;
+      opacity: 0.4;
+      transition: opacity 0.2s, transform 0.2s;
+    }
+
+    .card:hover .card-arrow { opacity: 1; transform: translateX(4px); }
+
+    footer {
+      margin-top: 3rem;
+      font-size: 0.8rem;
+      color: #A89F94;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="logo">Ralph Terhardt</div>
+
+  <h1>Meine Plattformen</h1>
+  <p class="sub">Wähle eine App um fortzufahren</p>
+
+  <div class="cards">
+    <a href="linguaflow/" class="card lingua">
+      <div class="card-icon">🌐</div>
+      <h2>LinguaFlow</h2>
+      <p>Online-Sprachtraining für Englisch &amp; Französisch – mit KI-Ausspracheanalyse und Live-Video</p>
+      <div class="card-arrow">→</div>
+    </a>
+
+    <a href="techniker/" class="card technik">
+      <div class="card-icon">🔧</div>
+      <h2>ServicePortal</h2>
+      <p>Techniker-App für Maschinenwartung, Serviceberichte und Einsatzverwaltung</p>
+      <div class="card-arrow">→</div>
+    </a>
+  </div>
+
+  <footer>© 2025 Ralph Terhardt</footer>
+
+</body>
+</html>
