@@ -8,9 +8,110 @@
 
   <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 48 48'%3E%3Crect width='48' height='48' rx='10' fill='%230ea5e9'/%3E%3Cpath d='M12 36V20l12-9 12 9v16h-8v-8h-8v8H12z' fill='white'/%3E%3Ccircle cx='24' cy='14' r='3' fill='%23bae6fd'/%3E%3C/svg%3E">
 
-  <link rel="stylesheet" href="style.css">
-
-  <!-- SheetJS für Excel-Export -->
+  <style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+:root {
+  --blue: #0ea5e9; --blue-dk: #0284c7; --navy: #1e293b;
+  --green: #16a34a; --red: #dc2626; --yellow: #ca8a04; --orange: #ea580c;
+  --bg: #f0f9ff; --surface: #ffffff; --muted: #64748b; --text: #0f172a;
+  --r: 10px; --shadow: 0 1px 3px rgba(0,0,0,.07), 0 4px 14px rgba(0,0,0,.05);
+}
+html { font-size: 16px; }
+body { font-family: system-ui,-apple-system,"Segoe UI",Roboto,sans-serif; background: var(--bg); color: var(--text); min-height: 100vh; }
+header { background: var(--navy); position: sticky; top: 0; z-index: 200; box-shadow: 0 2px 12px rgba(0,0,0,.25); }
+.header-inner { max-width: 1100px; margin: 0 auto; padding: .7rem 1.25rem; display: flex; align-items: center; gap: 1rem; flex-wrap: wrap; }
+.logo { display: flex; align-items: center; gap: .6rem; text-decoration: none; color: #fff; flex-shrink: 0; }
+.logo-title { font-size: 1.05rem; font-weight: 700; }
+.logo-sub { font-size: .7rem; opacity: .65; }
+nav { display: flex; gap: .4rem; flex: 1; }
+.nav-btn { background: rgba(255,255,255,.1); border: 1px solid rgba(255,255,255,.2); color: #fff; border-radius: 7px; padding: .4rem 1rem; font-size: .88rem; font-weight: 500; cursor: pointer; transition: background .15s; }
+.nav-btn:hover { background: rgba(255,255,255,.2); }
+.nav-btn.active { background: var(--blue); border-color: var(--blue); }
+.user-wrap input { background: rgba(255,255,255,.12); border: 1px solid rgba(255,255,255,.25); color: #fff; border-radius: 7px; padding: .38rem .75rem; font-size: .88rem; width: 140px; }
+.user-wrap input::placeholder { color: rgba(255,255,255,.5); }
+.user-wrap input:focus { outline: none; border-color: var(--blue); }
+main { max-width: 1100px; margin: 0 auto; padding: 1.25rem; }
+.tab { display: none; }
+.tab.active { display: block; }
+.section-bar { display: flex; align-items: center; justify-content: space-between; gap: .75rem; flex-wrap: wrap; margin-bottom: .9rem; }
+.section-bar h2 { font-size: 1.2rem; font-weight: 700; }
+.section-bar h3 { font-size: 1rem; font-weight: 600; }
+.bar-actions { display: flex; gap: .4rem; flex-wrap: wrap; align-items: center; }
+.card { background: var(--surface); border-radius: var(--r); box-shadow: var(--shadow); padding: 1.25rem; margin-bottom: .75rem; }
+.grid-2 { display: grid; grid-template-columns: repeat(auto-fill,minmax(210px,1fr)); gap: .85rem; margin-bottom: .85rem; }
+.grid-3 { display: grid; grid-template-columns: repeat(auto-fill,minmax(170px,1fr)); gap: .85rem; margin-bottom: .85rem; }
+.field { display: flex; flex-direction: column; gap: .3rem; }
+.field label, .field-row label { font-size: .76rem; font-weight: 700; color: var(--muted); text-transform: uppercase; letter-spacing: .05em; }
+.field.req label::after { content: " *"; color: var(--red); }
+.hint { font-size: .78rem; font-weight: 400; color: var(--muted); text-transform: none; letter-spacing: 0; }
+.field input, .field select, .field textarea, .speech-field textarea { border: 1.5px solid #cbd5e1; border-radius: 7px; padding: .5rem .75rem; font-size: .93rem; font-family: inherit; color: var(--text); background: #fff; transition: border-color .15s,box-shadow .15s; resize: vertical; }
+.field input:focus, .field select:focus, .field textarea:focus, .speech-field textarea:focus { outline: none; border-color: var(--blue); box-shadow: 0 0 0 3px rgba(14,165,233,.13); }
+.speech-field { margin-bottom: .85rem; }
+.field-row { display: flex; align-items: center; justify-content: space-between; gap: .5rem; margin-bottom: .3rem; }
+.speech-field textarea { width: 100%; border: 1.5px solid #cbd5e1; border-radius: 7px; padding: .55rem .75rem; font-size: .93rem; font-family: inherit; color: var(--text); }
+.mic-btn { display: inline-flex; align-items: center; gap: .3rem; padding: .35rem .85rem; border-radius: 20px; border: 1.5px solid var(--blue); background: transparent; color: var(--blue); font-size: .83rem; font-weight: 600; cursor: pointer; white-space: nowrap; transition: all .15s; flex-shrink: 0; }
+.mic-btn:hover { background: var(--blue); color: #fff; }
+.mic-btn.recording { background: var(--red); border-color: var(--red); color: #fff; animation: pulse 1s infinite; }
+.mic-btn.mic-sm { padding: .27rem .55rem; font-size: .78rem; }
+@keyframes pulse { 0%,100% { box-shadow: 0 0 0 0 rgba(220,38,38,.35); } 50% { box-shadow: 0 0 0 7px rgba(220,38,38,0); } }
+.diktat-box { background: #f0f9ff; border: 1.5px dashed #7dd3fc; border-radius: var(--r); padding: .9rem 1rem; margin-bottom: 1rem; }
+.diktat-preview { margin-top: .5rem; font-size: .88rem; color: var(--muted); font-style: italic; min-height: 1.2rem; }
+.btn { display: inline-flex; align-items: center; gap: .35rem; padding: .5rem 1.1rem; border-radius: 7px; border: 1.5px solid transparent; font-size: .88rem; font-weight: 600; cursor: pointer; font-family: inherit; transition: all .15s; }
+.btn-primary { background: var(--blue); color: #fff; border-color: var(--blue); }
+.btn-primary:hover { background: var(--blue-dk); border-color: var(--blue-dk); }
+.btn-ghost { background: transparent; border-color: #cbd5e1; color: var(--text); }
+.btn-ghost:hover { background: #f1f5f9; }
+.btn-sm { padding: .27rem .65rem; font-size: .78rem; }
+.btn-danger { background: #fef2f2; color: var(--red); border-color: #fecaca; }
+.btn-danger:hover { background: #fee2e2; }
+.form-actions { display: flex; gap: .6rem; justify-content: flex-end; margin-top: .85rem; flex-wrap: wrap; }
+.search-input, .filter-select { border: 1.5px solid #cbd5e1; border-radius: 7px; padding: .38rem .75rem; font-size: .88rem; font-family: inherit; background: #fff; color: var(--text); }
+.search-input:focus { outline: none; border-color: var(--blue); }
+.search-input { min-width: 160px; }
+.list-wrap { display: flex; flex-direction: column; gap: .6rem; }
+.empty { text-align: center; padding: 2.5rem 1rem; color: var(--muted); background: var(--surface); border-radius: var(--r); border: 2px dashed #cbd5e1; font-size: .9rem; }
+.item { background: var(--surface); border-radius: var(--r); box-shadow: var(--shadow); padding: .9rem 1.1rem; display: flex; align-items: flex-start; justify-content: space-between; gap: .75rem; cursor: pointer; border-left: 4px solid transparent; transition: box-shadow .15s,transform .1s; }
+.item:hover { box-shadow: 0 4px 18px rgba(0,0,0,.1); transform: translateY(-1px); }
+.item.is-besuch { border-left-color: var(--blue); }
+.item.is-anfrage { border-left-color: #a855f7; }
+.item.done { border-left-color: var(--green); opacity: .8; }
+.item-body { flex: 1; min-width: 0; }
+.item-title { font-weight: 700; font-size: .97rem; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; margin-bottom: .2rem; }
+.item-meta { display: flex; flex-wrap: wrap; gap: .3rem .65rem; font-size: .79rem; color: var(--muted); }
+.item-actions { display: flex; align-items: center; gap: .4rem; flex-shrink: 0; }
+.badge { display: inline-block; padding: .15rem .55rem; border-radius: 12px; font-size: .72rem; font-weight: 700; text-transform: uppercase; letter-spacing: .04em; }
+.b-blue { background: #dbeafe; color: #1d4ed8; }
+.b-purple { background: #ede9fe; color: #7c3aed; }
+.b-green { background: #dcfce7; color: #15803d; }
+.b-yellow { background: #fef9c3; color: #a16207; }
+.b-orange { background: #ffedd5; color: #c2410c; }
+.b-gray { background: #f1f5f9; color: #475569; }
+.count-badge { display: inline-block; background: var(--blue); color: #fff; border-radius: 12px; padding: .1rem .55rem; font-size: .73rem; font-weight: 700; }
+.status-sel { border: 1.5px solid #cbd5e1; border-radius: 6px; padding: .22rem .5rem; font-size: .78rem; font-family: inherit; cursor: pointer; background: #fff; }
+.status-sel:focus { outline: none; border-color: var(--blue); }
+.toast { position: fixed; bottom: 1.5rem; left: 50%; transform: translateX(-50%) translateY(80px); background: var(--navy); color: #fff; padding: .65rem 1.4rem; border-radius: 8px; font-size: .88rem; font-weight: 500; z-index: 9999; transition: transform .3s ease; box-shadow: 0 4px 20px rgba(0,0,0,.25); white-space: nowrap; }
+.toast.show { transform: translateX(-50%) translateY(0); }
+.toast.ok { background: var(--green); }
+.toast.err { background: var(--red); }
+.modal-bg { display: none; position: fixed; inset: 0; background: rgba(0,0,0,.45); z-index: 500; align-items: center; justify-content: center; padding: 1rem; }
+.modal-bg.open { display: flex; }
+.modal-box { background: #fff; border-radius: 12px; padding: 1.75rem; max-width: 660px; width: 100%; max-height: 90vh; overflow-y: auto; position: relative; box-shadow: 0 20px 60px rgba(0,0,0,.3); }
+.modal-close { position: absolute; top: .9rem; right: .9rem; background: #f1f5f9; border: none; border-radius: 50%; width: 30px; height: 30px; cursor: pointer; font-size: .95rem; display: flex; align-items: center; justify-content: center; }
+.modal-close:hover { background: #e2e8f0; }
+.dg { display: grid; grid-template-columns: 1fr 1fr; gap: .6rem 1.25rem; margin: .9rem 0; }
+.df label { font-size: .72rem; font-weight: 700; color: var(--muted); text-transform: uppercase; letter-spacing: .05em; display: block; margin-bottom: .15rem; }
+.df .val { font-size: .92rem; background: #f8fafc; border-radius: 6px; padding: .35rem .65rem; min-height: 1.8rem; word-break: break-word; }
+.df.full { grid-column: 1 / -1; }
+.df .val.pre { white-space: pre-wrap; line-height: 1.55; }
+@media (max-width: 600px) {
+  .header-inner { padding: .6rem .9rem; }
+  .nav-btn { padding: .35rem .7rem; font-size: .82rem; }
+  main { padding: .9rem; }
+  .grid-2, .grid-3 { grid-template-columns: 1fr; }
+  .dg { grid-template-columns: 1fr; }
+  .df.full { grid-column: 1; }
+}
+  </style>
   <script src="https://cdn.jsdelivr.net/npm/xlsx/dist/xlsx.full.min.js"></script>
 </head>
 <body>
@@ -19,10 +120,7 @@
   <div class="header-inner">
     <a class="logo" href="../index.html">
       <svg width="32" height="32" viewBox="0 0 48 48" fill="none"><rect width="48" height="48" rx="10" fill="#0ea5e9"/><path d="M12 36V20l12-9 12 9v16h-8v-8h-8v8H12z" fill="white"/><circle cx="24" cy="14" r="3" fill="#bae6fd"/></svg>
-      <div>
-        <div class="logo-title">MVH Vertrieb</div>
-        <div class="logo-sub">Außendienst Tool</div>
-      </div>
+      <div><div class="logo-title">MVH Vertrieb</div><div class="logo-sub">Außendienst Tool</div></div>
     </a>
     <nav>
       <button class="nav-btn active" data-tab="besuche">📋 Besuchsberichte</button>
@@ -35,91 +133,47 @@
 </header>
 
 <main>
-
   <section id="tab-besuche" class="tab active">
-
     <div class="section-bar">
       <h2>Besuchsbericht erfassen</h2>
-      <div class="bar-actions">
-        <button class="btn btn-ghost" onclick="exportAlleXML()">⬇ Alle als BMD XML</button>
-      </div>
+      <div class="bar-actions"><button class="btn btn-ghost" onclick="exportAlleXML()">⬇ Alle als BMD XML</button></div>
     </div>
-
     <div class="card">
       <div class="grid-2">
-        <div class="field">
-          <label>Kundennummer</label>
-          <input id="b_kundennr" type="text" placeholder="z.B. 10042">
-        </div>
-        <div class="field req">
-          <label>Kundenname</label>
-          <input id="b_kundenname" type="text" placeholder="Firmenname">
-        </div>
-        <div class="field">
-          <label>Ansprechpartner</label>
-          <input id="b_ansprechpartner" type="text" placeholder="Vor- und Nachname">
-        </div>
-        <div class="field req">
-          <label>Datum</label>
-          <input id="b_datum" type="date">
-        </div>
-        <div class="field">
-          <label>Besuchsart</label>
-          <select id="b_art">
-            <option>Besuch</option>
-            <option>Telefonat</option>
-            <option>Teams / Video</option>
-            <option>Messe</option>
-            <option>Sonstiges</option>
-          </select>
-        </div>
-        <div class="field">
-          <label>Betreff</label>
-          <input id="b_betreff" type="text" placeholder="Kurze Zusammenfassung">
-        </div>
+        <div class="field"><label>Kundennummer</label><input id="b_kundennr" type="text" placeholder="z.B. 10042"></div>
+        <div class="field req"><label>Kundenname</label><input id="b_kundenname" type="text" placeholder="Firmenname"></div>
+        <div class="field"><label>Ansprechpartner</label><input id="b_ansprechpartner" type="text" placeholder="Vor- und Nachname"></div>
+        <div class="field req"><label>Datum</label><input id="b_datum" type="date"></div>
+        <div class="field"><label>Besuchsart</label><select id="b_art"><option>Besuch</option><option>Telefonat</option><option>Teams / Video</option><option>Messe</option><option>Sonstiges</option></select></div>
+        <div class="field"><label>Betreff</label><input id="b_betreff" type="text" placeholder="Kurze Zusammenfassung"></div>
       </div>
-
       <div class="field speech-field">
-        <div class="field-row">
-          <label>Besuchsbericht <span class="hint">– Sprache oder Text</span></label>
-          <button class="mic-btn" id="mic_bericht" onclick="toggleSpeech('b_bericht','mic_bericht')">🎤 Sprache</button>
-        </div>
+        <div class="field-row"><label>Besuchsbericht <span class="hint">– Sprache oder Text</span></label><button class="mic-btn" id="mic_bericht" onclick="toggleSpeech('b_bericht','mic_bericht')">🎤 Sprache</button></div>
         <textarea id="b_bericht" rows="5" placeholder="Gesprächsverlauf, besprochene Themen, Kundenanforderungen …"></textarea>
       </div>
-
       <div class="grid-2">
         <div class="field speech-field">
-          <div class="field-row">
-            <label>Ergebnis / Vereinbarungen</label>
-            <button class="mic-btn mic-sm" id="mic_ergebnis" onclick="toggleSpeech('b_ergebnis','mic_ergebnis')">🎤</button>
-          </div>
+          <div class="field-row"><label>Ergebnis / Vereinbarungen</label><button class="mic-btn mic-sm" id="mic_ergebnis" onclick="toggleSpeech('b_ergebnis','mic_ergebnis')">🎤</button></div>
           <textarea id="b_ergebnis" rows="3" placeholder="Ergebnisse, Vereinbarungen …"></textarea>
         </div>
         <div class="field speech-field">
-          <div class="field-row">
-            <label>Nächste Schritte</label>
-            <button class="mic-btn mic-sm" id="mic_naechste" onclick="toggleSpeech('b_naechste','mic_naechste')">🎤</button>
-          </div>
+          <div class="field-row"><label>Nächste Schritte</label><button class="mic-btn mic-sm" id="mic_naechste" onclick="toggleSpeech('b_naechste','mic_naechste')">🎤</button></div>
           <textarea id="b_naechste" rows="3" placeholder="Folgeaktionen, Wiedervorlage …"></textarea>
         </div>
       </div>
-
       <div class="form-actions">
         <button class="btn btn-ghost" onclick="resetBesuch()">Leeren</button>
         <button class="btn btn-primary" onclick="saveBesuch()">Besuchsbericht speichern</button>
       </div>
     </div>
-
     <div class="section-bar" style="margin-top:1.5rem">
       <h3>Gespeicherte Berichte <span id="besuche-count" class="count-badge"></span></h3>
       <input class="search-input" type="search" id="searchBesuche" placeholder="Suche …" oninput="renderBesuche()">
     </div>
     <div id="besuche-list"></div>
-
   </section>
 
   <section id="tab-anfragen" class="tab">
-
     <div class="section-bar">
       <h2>Anfrage erfassen</h2>
       <div class="bar-actions">
@@ -127,79 +181,37 @@
         <button class="btn btn-ghost" onclick="exportCSV()">⬇ CSV</button>
       </div>
     </div>
-
     <div class="card">
       <div class="diktat-box">
         <div class="field-row">
-          <div>
-            <strong>Anfrage per Sprache diktieren</strong>
-            <span class="hint"> – automatische Felderkennung</span>
-          </div>
+          <div><strong>Anfrage per Sprache diktieren</strong><span class="hint"> – automatische Felderkennung</span></div>
           <button class="mic-btn" id="mic_diktat" onclick="toggleDiktat()">🎤 Diktat starten</button>
         </div>
         <div id="diktat-preview" class="diktat-preview"></div>
       </div>
-
       <div class="grid-2">
-        <div class="field">
-          <label>Kundennummer</label>
-          <input id="a_kundennr" type="text" placeholder="z.B. 10042">
-        </div>
-        <div class="field req">
-          <label>Kundenname</label>
-          <input id="a_kundenname" type="text" placeholder="Firmenname">
-        </div>
-        <div class="field">
-          <label>Ansprechpartner</label>
-          <input id="a_ansprechpartner" type="text" placeholder="Vor- und Nachname">
-        </div>
-        <div class="field">
-          <label>Zeitschiene</label>
-          <input id="a_zeitschiene" type="text" placeholder="z.B. Q3 2025, sofort …">
-        </div>
+        <div class="field"><label>Kundennummer</label><input id="a_kundennr" type="text" placeholder="z.B. 10042"></div>
+        <div class="field req"><label>Kundenname</label><input id="a_kundenname" type="text" placeholder="Firmenname"></div>
+        <div class="field"><label>Ansprechpartner</label><input id="a_ansprechpartner" type="text" placeholder="Vor- und Nachname"></div>
+        <div class="field"><label>Zeitschiene</label><input id="a_zeitschiene" type="text" placeholder="z.B. Q3 2025, sofort …"></div>
       </div>
-
       <div class="grid-3">
-        <div class="field">
-          <label>Material</label>
-          <input id="a_material" type="text" placeholder="z.B. Stahl S355">
-        </div>
-        <div class="field">
-          <label>Menge</label>
-          <input id="a_menge" type="text" placeholder="z.B. 500 Stk">
-        </div>
-        <div class="field">
-          <label>Jahresmenge</label>
-          <input id="a_jahresmenge" type="text" placeholder="z.B. 6.000 Stk/Jahr">
-        </div>
-        <div class="field">
-          <label>Qualität / Norm</label>
-          <input id="a_qualitaet" type="text" placeholder="z.B. EN 10025">
-        </div>
-        <div class="field">
-          <label>Spezifikation</label>
-          <input id="a_spezifikation" type="text" placeholder="z.B. feuerverzinkt">
-        </div>
-        <div class="field">
-          <label>Maße</label>
-          <input id="a_masse" type="text" placeholder="z.B. 100×50×5 mm">
-        </div>
+        <div class="field"><label>Material</label><input id="a_material" type="text" placeholder="z.B. Stahl S355"></div>
+        <div class="field"><label>Menge</label><input id="a_menge" type="text" placeholder="z.B. 500 Stk"></div>
+        <div class="field"><label>Jahresmenge</label><input id="a_jahresmenge" type="text" placeholder="z.B. 6.000 Stk/Jahr"></div>
+        <div class="field"><label>Qualität / Norm</label><input id="a_qualitaet" type="text" placeholder="z.B. EN 10025"></div>
+        <div class="field"><label>Spezifikation</label><input id="a_spezifikation" type="text" placeholder="z.B. feuerverzinkt"></div>
+        <div class="field"><label>Maße</label><input id="a_masse" type="text" placeholder="z.B. 100×50×5 mm"></div>
       </div>
-
       <div class="field speech-field">
-        <div class="field-row">
-          <label>Notizen / Zusatzinfos</label>
-          <button class="mic-btn mic-sm" id="mic_notizen" onclick="toggleSpeech('a_notizen','mic_notizen')">🎤</button>
-        </div>
+        <div class="field-row"><label>Notizen / Zusatzinfos</label><button class="mic-btn mic-sm" id="mic_notizen" onclick="toggleSpeech('a_notizen','mic_notizen')">🎤</button></div>
         <textarea id="a_notizen" rows="3" placeholder="Weitere Details, Zeichnungen vorhanden, Besonderheiten …"></textarea>
       </div>
-
       <div class="form-actions">
         <button class="btn btn-ghost" onclick="resetAnfrage()">Leeren</button>
         <button class="btn btn-primary" onclick="saveAnfrage()">Anfrage speichern</button>
       </div>
     </div>
-
     <div class="section-bar" style="margin-top:1.5rem">
       <h3>Gespeicherte Anfragen <span id="anfragen-count" class="count-badge"></span></h3>
       <div class="bar-actions">
@@ -214,13 +226,10 @@
       </div>
     </div>
     <div id="anfragen-list"></div>
-
   </section>
-
 </main>
 
 <div id="toast" class="toast"></div>
-
 <div id="modal" class="modal-bg" onclick="closeModal(event)">
   <div class="modal-box">
     <button class="modal-close" onclick="closeModalDirect()">✕</button>
@@ -229,11 +238,180 @@
   </div>
 </div>
 
-<script src="app.js"></script>
 <script>
-  if ('serviceWorker' in navigator) {
-    navigator.serviceWorker.register('./sw.js');
-  }
+'use strict';
+const KEY_BESUCHE='mvh_besuche_v1', KEY_ANFRAGEN='mvh_anfragen_v1';
+function load(k){try{return JSON.parse(localStorage.getItem(k))||[];}catch{return[];}}
+function save(k,d){localStorage.setItem(k,JSON.stringify(d));}
+function nextId(a){return a.length?Math.max(...a.map(x=>x.id))+1:1;}
+let besuche=load(KEY_BESUCHE), anfragen=load(KEY_ANFRAGEN);
+const SR=window.SpeechRecognition||window.webkitSpeechRecognition;
+let activeRec=null,activeBtn=null;
+
+function toggleSpeech(fieldId,btnId){
+  if(!SR){toast('Spracheingabe nur in Chrome/Edge verfügbar','err');return;}
+  const btn=document.getElementById(btnId);
+  if(activeBtn===btn&&activeRec){activeRec.stop();return;}
+  if(activeRec)activeRec.stop();
+  const rec=new SR(); rec.lang='de-DE'; rec.continuous=true; rec.interimResults=false;
+  const field=document.getElementById(fieldId); let acc=field.value;
+  rec.onstart=()=>{activeRec=rec;activeBtn=btn;btn.classList.add('recording');btn.dataset.origText=btn.textContent;btn.textContent=btn.classList.contains('mic-sm')?'⏹':'⏹ Stoppen';};
+  rec.onresult=e=>{for(let i=e.resultIndex;i<e.results.length;i++)if(e.results[i].isFinal)acc+=(acc?' ':'')+e.results[i][0].transcript.trim();field.value=acc;};
+  rec.onerror=()=>stopSpeech(btn); rec.onend=()=>stopSpeech(btn); rec.start();
+}
+function stopSpeech(btn){if(btn){btn.classList.remove('recording');if(btn.dataset.origText)btn.textContent=btn.dataset.origText;}activeRec=null;activeBtn=null;}
+
+let diktatText='';
+function toggleDiktat(){
+  if(!SR){toast('Spracheingabe nur in Chrome/Edge verfügbar','err');return;}
+  const btn=document.getElementById('mic_diktat');
+  if(activeBtn===btn&&activeRec){activeRec.stop();if(diktatText)parseDiktat(diktatText);return;}
+  if(activeRec)activeRec.stop(); diktatText='';
+  const rec=new SR(); rec.lang='de-DE'; rec.continuous=true; rec.interimResults=true;
+  rec.onstart=()=>{activeRec=rec;activeBtn=btn;btn.classList.add('recording');btn.textContent='⏹ Diktat stoppen & ausfüllen';document.getElementById('diktat-preview').textContent='Aufnahme läuft …';};
+  rec.onresult=e=>{let interim='';for(let i=e.resultIndex;i<e.results.length;i++){if(e.results[i].isFinal)diktatText+=e.results[i][0].transcript+' ';else interim+=e.results[i][0].transcript;}document.getElementById('diktat-preview').textContent=(diktatText+interim).trim();};
+  rec.onerror=()=>stopSpeech(btn);
+  rec.onend=()=>{stopSpeech(btn);btn.textContent='🎤 Diktat starten';if(diktatText.trim())parseDiktat(diktatText.trim());};
+  rec.start();
+}
+function parseDiktat(text){
+  const get=(...kw)=>{for(const k of kw){const m=text.match(new RegExp(k+'[:\\s]+([^,.]+)','i'));if(m)return m[1].trim();}return '';};
+  const fields={a_kundenname:get('Kunde','Kundenname','Firma','Unternehmen'),a_ansprechpartner:get('Ansprechpartner','Kontakt'),a_zeitschiene:get('Zeitschiene','Liefertermin','bis','Termin'),a_material:get('Material','Werkstoff'),a_menge:get('Menge','Stückzahl','Anzahl'),a_jahresmenge:get('Jahresmenge','jährlich','pro Jahr','Jahresbedarf'),a_qualitaet:get('Qualität','Norm','Güte'),a_spezifikation:get('Spezifikation','Ausführung','Oberfläche'),a_masse:get('Maße','Abmessungen','Dimension','Größe')};
+  let hits=0;
+  for(const[id,val]of Object.entries(fields))if(val){const el=document.getElementById(id);if(el&&!el.value){el.value=val;hits++;}}
+  if(!hits){document.getElementById('a_notizen').value=text;toast('Text in Notizen übernommen – Felder bitte manuell ausfüllen');}else toast(`${hits} Felder aus Diktat befüllt`,'ok');
+}
+
+function toast(msg,type=''){const el=document.getElementById('toast');el.textContent=msg;el.className='toast show'+(type?' '+type:'');clearTimeout(el._t);el._t=setTimeout(()=>el.classList.remove('show'),3200);}
+
+document.querySelectorAll('.nav-btn').forEach(btn=>btn.addEventListener('click',()=>{document.querySelectorAll('.nav-btn').forEach(b=>b.classList.remove('active'));document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));btn.classList.add('active');document.getElementById('tab-'+btn.dataset.tab).classList.add('active');}));
+
+const userEl=document.getElementById('globalBenutzer');
+userEl.value=localStorage.getItem('mvh_user')||'';
+userEl.addEventListener('input',()=>localStorage.setItem('mvh_user',userEl.value.trim()));
+const getUser=()=>userEl.value.trim();
+
+document.getElementById('b_datum').value=todayISO();
+
+function saveBesuch(){
+  const k=v('b_kundenname'),d=v('b_datum');
+  if(!k){toast('Bitte Kundenname eingeben','err');return;}
+  if(!d){toast('Bitte Datum eingeben','err');return;}
+  const rec={id:nextId(besuche),kundennr:v('b_kundennr'),kundenname:k,ansprechpartner:v('b_ansprechpartner'),datum:d,art:v('b_art')||'Besuch',betreff:v('b_betreff'),bericht:v('b_bericht'),ergebnis:v('b_ergebnis'),naechste:v('b_naechste'),benutzer:getUser(),erstellt:new Date().toISOString()};
+  besuche.unshift(rec);save(KEY_BESUCHE,besuche);toast('Besuchsbericht gespeichert','ok');resetBesuch();renderBesuche();
+}
+function resetBesuch(){['b_kundennr','b_kundenname','b_ansprechpartner','b_betreff','b_bericht','b_ergebnis','b_naechste'].forEach(clear);document.getElementById('b_datum').value=todayISO();document.getElementById('b_art').value='Besuch';}
+
+function renderBesuche(){
+  const q=v('searchBesuche').toLowerCase();
+  const list=q?besuche.filter(b=>[b.kundenname,b.betreff,b.ansprechpartner,b.kundennr].some(x=>(x||'').toLowerCase().includes(q))):besuche;
+  document.getElementById('besuche-count').textContent=besuche.length||'';
+  const cont=document.getElementById('besuche-list');
+  if(!list.length){cont.innerHTML=`<div class="empty">${q?'Keine Berichte gefunden.':'Noch keine Berichte gespeichert.'}</div>`;return;}
+  cont.innerHTML='<div class="list-wrap">'+list.map(b=>`
+    <div class="item is-besuch" onclick="detailBesuch(${b.id})">
+      <div class="item-body">
+        <div class="item-title">${x(b.kundenname)}${b.kundennr?` <span style="color:var(--muted);font-weight:400">(${x(b.kundennr)})</span>`:''}</div>
+        <div class="item-meta">
+          <span>📅 ${b.datum}</span>
+          <span class="badge b-blue">${x(b.art)}</span>
+          ${b.betreff?`<span>📌 ${x(b.betreff)}</span>`:''}
+          ${b.ansprechpartner?`<span>👤 ${x(b.ansprechpartner)}</span>`:''}
+          ${b.benutzer?`<span>🧑 ${x(b.benutzer)}</span>`:''}
+        </div>
+      </div>
+      <div class="item-actions" onclick="event.stopPropagation()">
+        <button class="btn btn-ghost btn-sm" onclick="dlXML(${b.id})">⬇ XML</button>
+        <button class="btn btn-danger btn-sm" onclick="delBesuch(${b.id})">✕</button>
+      </div>
+    </div>`).join('')+'</div>';
+}
+function delBesuch(id){if(!confirm('Bericht löschen?'))return;besuche=besuche.filter(b=>b.id!==id);save(KEY_BESUCHE,besuche);toast('Bericht gelöscht');renderBesuche();}
+function detailBesuch(id){
+  const b=besuche.find(b=>b.id===id); if(!b)return;
+  document.getElementById('modal-body').innerHTML=`<h2 style="margin-bottom:.5rem">${x(b.kundenname)}</h2><div class="dg"><div class="df"><label>Kundennr.</label><div class="val">${x(b.kundennr)||'–'}</div></div><div class="df"><label>Datum</label><div class="val">${b.datum}</div></div><div class="df"><label>Ansprechpartner</label><div class="val">${x(b.ansprechpartner)||'–'}</div></div><div class="df"><label>Besuchsart</label><div class="val">${x(b.art)}</div></div><div class="df full"><label>Betreff</label><div class="val">${x(b.betreff)||'–'}</div></div><div class="df full"><label>Besuchsbericht</label><div class="val pre">${x(b.bericht)||'–'}</div></div><div class="df full"><label>Ergebnis / Vereinbarungen</label><div class="val pre">${x(b.ergebnis)||'–'}</div></div><div class="df full"><label>Nächste Schritte</label><div class="val pre">${x(b.naechste)||'–'}</div></div><div class="df"><label>Benutzer</label><div class="val">${x(b.benutzer)||'–'}</div></div><div class="df"><label>Erstellt</label><div class="val">${b.erstellt?.substring(0,16).replace('T',' ')||'–'}</div></div></div>`;
+  document.getElementById('modal-foot').innerHTML=`<button class="btn btn-ghost" onclick="closeModalDirect()">Schließen</button><button class="btn btn-ghost" onclick="dlXML(${b.id})">⬇ BMD XML herunterladen</button>`;
+  document.getElementById('modal').classList.add('open');
+}
+
+function dlXML(id){const b=besuche.find(b=>b.id===id);if(!b)return;dlBlob(buildXML([b]),`BMD_Aktivitaet_${id}.xml`,'application/xml');}
+function exportAlleXML(){if(!besuche.length){toast('Keine Berichte vorhanden','err');return;}dlBlob(buildXML(besuche),'BMD_Aktivitaeten_Alle.xml','application/xml');}
+function buildXML(list){
+  const e=s=>(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+  return `<?xml version="1.0" encoding="UTF-8"?>\n<BMDXML Version="1.0" Erstellt="${new Date().toISOString()}">\n  <Tabelle Name="KAKTIVITAET">${list.map(b=>`\n    <Datensatz>\n      <Feld Name="KAKT_KDNR">${e(b.kundennr)}</Feld>\n      <Feld Name="KAKT_KDNAME">${e(b.kundenname)}</Feld>\n      <Feld Name="KAKT_DATUM">${e(b.datum)}</Feld>\n      <Feld Name="KAKT_ART">${e(b.art)}</Feld>\n      <Feld Name="KAKT_BETREFF">${e(b.betreff)}</Feld>\n      <Feld Name="KAKT_TEXT">${e(b.bericht)}</Feld>\n      <Feld Name="KAKT_ERGEBNIS">${e(b.ergebnis)}</Feld>\n      <Feld Name="KAKT_NAECHSTE_SCHRITTE">${e(b.naechste)}</Feld>\n      <Feld Name="KAKT_ANSPRECHPARTNER">${e(b.ansprechpartner)}</Feld>\n      <Feld Name="KAKT_BENUTZER">${e(b.benutzer)}</Feld>\n      <Feld Name="KAKT_ERSTELLTAM">${e(b.erstellt)}</Feld>\n    </Datensatz>`).join('')}\n  </Tabelle>\n</BMDXML>`;
+}
+
+function saveAnfrage(){
+  const k=v('a_kundenname'); if(!k){toast('Bitte Kundenname eingeben','err');return;}
+  const rec={id:nextId(anfragen),kundennr:v('a_kundennr'),kundenname:k,ansprechpartner:v('a_ansprechpartner'),zeitschiene:v('a_zeitschiene'),material:v('a_material'),menge:v('a_menge'),jahresmenge:v('a_jahresmenge'),qualitaet:v('a_qualitaet'),spezifikation:v('a_spezifikation'),masse:v('a_masse'),notizen:v('a_notizen'),benutzer:getUser(),status:'Offen',erstellt:new Date().toISOString()};
+  anfragen.unshift(rec);save(KEY_ANFRAGEN,anfragen);toast('Anfrage gespeichert','ok');resetAnfrage();renderAnfragen();
+}
+function resetAnfrage(){['a_kundennr','a_kundenname','a_ansprechpartner','a_zeitschiene','a_material','a_menge','a_jahresmenge','a_qualitaet','a_spezifikation','a_masse','a_notizen'].forEach(clear);document.getElementById('diktat-preview').textContent='';}
+
+function renderAnfragen(){
+  const q=v('searchAnfragen').toLowerCase(), st=document.getElementById('filterStatus').value;
+  let list=anfragen;
+  if(q)list=list.filter(a=>[a.kundenname,a.material,a.ansprechpartner,a.kundennr].some(f=>(f||'').toLowerCase().includes(q)));
+  if(st)list=list.filter(a=>a.status===st);
+  document.getElementById('anfragen-count').textContent=anfragen.length||'';
+  const cont=document.getElementById('anfragen-list');
+  if(!list.length){cont.innerHTML=`<div class="empty">${q||st?'Keine Anfragen gefunden.':'Noch keine Anfragen gespeichert.'}</div>`;return;}
+  const sb=s=>({'Offen':'b-blue','In Bearbeitung':'b-yellow','Angebot erstellt':'b-orange','Erledigt':'b-green'}[s]||'b-gray');
+  cont.innerHTML='<div class="list-wrap">'+list.map(a=>`
+    <div class="item is-anfrage${a.status==='Erledigt'?' done':''}" onclick="detailAnfrage(${a.id})">
+      <div class="item-body">
+        <div class="item-title">${x(a.kundenname)}${a.kundennr?` <span style="color:var(--muted);font-weight:400">(${x(a.kundennr)})</span>`:''}</div>
+        <div class="item-meta">
+          <span>📅 ${a.erstellt?.substring(0,10)||''}</span>
+          ${a.material?`<span>🧱 ${x(a.material)}</span>`:''}
+          ${a.menge?`<span>📦 ${x(a.menge)}</span>`:''}
+          ${a.zeitschiene?`<span>⏱ ${x(a.zeitschiene)}</span>`:''}
+          ${a.ansprechpartner?`<span>👤 ${x(a.ansprechpartner)}</span>`:''}
+          <span class="badge ${sb(a.status)}">${a.status}</span>
+        </div>
+      </div>
+      <div class="item-actions" onclick="event.stopPropagation()">
+        <select class="status-sel" onchange="setStatus(${a.id},this.value)">
+          ${['Offen','In Bearbeitung','Angebot erstellt','Erledigt'].map(s=>`<option${a.status===s?' selected':''}>${s}</option>`).join('')}
+        </select>
+        <button class="btn btn-danger btn-sm" onclick="delAnfrage(${a.id})">✕</button>
+      </div>
+    </div>`).join('')+'</div>';
+}
+function setStatus(id,status){const a=anfragen.find(a=>a.id===id);if(a){a.status=status;save(KEY_ANFRAGEN,anfragen);renderAnfragen();toast('Status aktualisiert');}}
+function delAnfrage(id){if(!confirm('Anfrage löschen?'))return;anfragen=anfragen.filter(a=>a.id!==id);save(KEY_ANFRAGEN,anfragen);toast('Anfrage gelöscht');renderAnfragen();}
+function detailAnfrage(id){
+  const a=anfragen.find(a=>a.id===id); if(!a)return;
+  document.getElementById('modal-body').innerHTML=`<h2 style="margin-bottom:.5rem">Anfrage: ${x(a.kundenname)}</h2><div class="dg"><div class="df"><label>Kundennr.</label><div class="val">${x(a.kundennr)||'–'}</div></div><div class="df"><label>Datum</label><div class="val">${a.erstellt?.substring(0,10)||'–'}</div></div><div class="df"><label>Ansprechpartner</label><div class="val">${x(a.ansprechpartner)||'–'}</div></div><div class="df"><label>Zeitschiene</label><div class="val">${x(a.zeitschiene)||'–'}</div></div><div class="df"><label>Material</label><div class="val">${x(a.material)||'–'}</div></div><div class="df"><label>Menge</label><div class="val">${x(a.menge)||'–'}</div></div><div class="df"><label>Jahresmenge</label><div class="val">${x(a.jahresmenge)||'–'}</div></div><div class="df"><label>Qualität / Norm</label><div class="val">${x(a.qualitaet)||'–'}</div></div><div class="df"><label>Spezifikation</label><div class="val">${x(a.spezifikation)||'–'}</div></div><div class="df"><label>Maße</label><div class="val">${x(a.masse)||'–'}</div></div><div class="df full"><label>Notizen</label><div class="val pre">${x(a.notizen)||'–'}</div></div><div class="df"><label>Benutzer</label><div class="val">${x(a.benutzer)||'–'}</div></div><div class="df"><label>Status</label><div class="val">${x(a.status)}</div></div></div>`;
+  document.getElementById('modal-foot').innerHTML=`<button class="btn btn-ghost" onclick="closeModalDirect()">Schließen</button><button class="btn btn-ghost" onclick="exportExcel()">⬇ Excel exportieren</button>`;
+  document.getElementById('modal').classList.add('open');
+}
+
+function exportExcel(){
+  if(!anfragen.length){toast('Keine Anfragen vorhanden','err');return;}
+  const rows=anfragen.map(a=>({'ID':a.id,'Datum':a.erstellt?.substring(0,10)||'','Kundennr.':a.kundennr,'Kunde':a.kundenname,'Ansprechpartner':a.ansprechpartner,'Zeitschiene':a.zeitschiene,'Material':a.material,'Menge':a.menge,'Jahresmenge':a.jahresmenge,'Qualität':a.qualitaet,'Spezifikation':a.spezifikation,'Maße':a.masse,'Notizen':a.notizen,'Benutzer':a.benutzer,'Status':a.status}));
+  const ws=XLSX.utils.json_to_sheet(rows);
+  ws['!cols']=[5,12,10,25,20,15,20,10,14,15,20,14,30,15,12].map(w=>({wch:w}));
+  const wb=XLSX.utils.book_new(); XLSX.utils.book_append_sheet(wb,ws,'Anfragen');
+  XLSX.writeFile(wb,`MVH_Anfragen_${todayISO()}.xlsx`);
+}
+function exportCSV(){
+  if(!anfragen.length){toast('Keine Anfragen vorhanden','err');return;}
+  const header='ID;Datum;Kundennr;Kunde;Ansprechpartner;Zeitschiene;Material;Menge;Jahresmenge;Qualität;Spezifikation;Maße;Notizen;Benutzer;Status';
+  const rows=anfragen.map(a=>[a.id,a.erstellt?.substring(0,10)||'',a.kundennr,a.kundenname,a.ansprechpartner,a.zeitschiene,a.material,a.menge,a.jahresmenge,a.qualitaet,a.spezifikation,a.masse,a.notizen,a.benutzer,a.status].map(f=>`"${(f||'').toString().replace(/"/g,'""')}"`).join(';'));
+  dlBlob('﻿'+header+'\n'+rows.join('\n'),`MVH_Anfragen_${todayISO()}.csv`,'text/csv;charset=utf-8');
+}
+
+function closeModal(e){if(e.target.id==='modal')closeModalDirect();}
+function closeModalDirect(){document.getElementById('modal').classList.remove('open');}
+function v(id){return(document.getElementById(id)?.value||'').trim();}
+function clear(id){const el=document.getElementById(id);if(el)el.value='';}
+function x(s){return(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');}
+function todayISO(){return new Date().toISOString().split('T')[0];}
+function dlBlob(content,filename,type){const a=document.createElement('a');a.href=URL.createObjectURL(new Blob([content],{type}));a.download=filename;a.click();URL.revokeObjectURL(a.href);}
+
+renderBesuche();
+renderAnfragen();
 </script>
 </body>
 </html>
