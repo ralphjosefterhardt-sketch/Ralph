@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="ServicePortal – Techniker-App für Maschinenwartung und Serviceberichte" />
+  <title>ServicePortal</title>
+
+  <!-- Favicon: inline SVG as data URI -->
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 48 48'%3E%3Crect width='48' height='48' rx='10' fill='%231a56db'/%3E%3Cpath d='M14 34V22l10-8 10 8v12H28v-7h-8v7H14z' fill='white'/%3E%3C/svg%3E" />
+
+  <link rel="stylesheet" href="css/app.css" />
+</head>
+<body>
+
+  <!-- Single-page app mount point -->
+  <div id="app">
+    <!-- Loading state shown until JS initializes -->
+    <div style="
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+      flex-direction: column;
+      gap: 16px;
+      color: #6b7280;
+      font-family: system-ui, sans-serif;
+    ">
+      <svg width="48" height="48" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+        <rect width="48" height="48" rx="10" fill="#1a56db"/>
+        <path d="M14 34V22l10-8 10 8v12H28v-7h-8v7H14z" fill="white"/>
+        <circle cx="24" cy="17" r="3" fill="#93c5fd"/>
+      </svg>
+      <p style="font-size: 0.9rem;">Wird geladen…</p>
+    </div>
+  </div>
+
+  <!-- Toast container (also created by JS if needed) -->
+  <div id="toastContainer" class="toast-container" aria-live="polite"></div>
+
+  <!-- Load scripts in dependency order -->
+  <script src="js/data.js"></script>
+  <script src="js/auth.js"></script>
+  <script src="js/machines.js"></script>
+  <script src="js/service-report.js"></script>
+  <script src="js/archive.js"></script>
+  <script src="js/app.js"></script>
+
+  <script>
+    if ('serviceWorker' in navigator) {
+      navigator.serviceWorker.register('./sw.js');
+    }
+  </script>
+
+</body>
+</html>
