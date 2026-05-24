@@ -381,6 +381,13 @@ const I18n = {
       : (this.supported.includes(browser) ? browser : 'de');
     this.apply();
     this.renderSwitcher();
+    this.bindAllButtons();
+  },
+
+  bindAllButtons() {
+    document.querySelectorAll('.lang-btn').forEach(btn => {
+      btn.addEventListener('click', () => this.setLang(btn.dataset.lang));
+    });
   },
 
   t(key) {
@@ -403,7 +410,7 @@ const I18n = {
       el.innerHTML = this.t(key);
     });
 
-    // Update active state on switcher buttons
+    // Update active state on ALL lang buttons (navbar, mobile inline, mobile menu)
     document.querySelectorAll('.lang-btn').forEach(btn => {
       btn.classList.toggle('active', btn.dataset.lang === this.lang);
     });
@@ -421,16 +428,20 @@ const I18n = {
     const labels = { de: 'Deutsch', en: 'English', fr: 'Français' };
 
     document.querySelectorAll('.lang-switcher').forEach(switcher => {
-      switcher.innerHTML = this.supported.map(lang => `
-        <button class="lang-btn${lang === this.lang ? ' active' : ''}"
-                data-lang="${lang}"
-                title="${labels[lang]}"
-                aria-label="${labels[lang]}">
-          ${flags[lang]}
-        </button>
-      `).join('');
+      // If switcher is empty, build buttons; otherwise reuse existing ones
+      if (!switcher.querySelector('.lang-btn')) {
+        switcher.innerHTML = this.supported.map(lang => `
+          <button class="lang-btn${lang === this.lang ? ' active' : ''}"
+                  data-lang="${lang}"
+                  title="${labels[lang]}"
+                  aria-label="${labels[lang]}">
+            ${flags[lang]}
+          </button>
+        `).join('');
+      }
 
       switcher.querySelectorAll('.lang-btn').forEach(btn => {
+        btn.classList.toggle('active', btn.dataset.lang === this.lang);
         btn.addEventListener('click', () => this.setLang(btn.dataset.lang));
       });
     });

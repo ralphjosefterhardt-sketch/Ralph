@@ -359,6 +359,33 @@ ul { list-style: none; }
   padding: 0.3rem 0.5rem;
 }
 
+/* Flaggen direkt neben Hamburger auf Mobile */
+.mobile-lang-inline {
+  display: none;
+  align-items: center;
+  gap: 0.1rem;
+}
+
+.mobile-lang-inline .lang-btn {
+  font-size: 1.3rem;
+  padding: 0.15rem 0.2rem;
+  border-radius: 8px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  opacity: 0.45;
+  transition: all var(--transition);
+}
+
+.mobile-lang-inline .lang-btn.active {
+  opacity: 1;
+  background: var(--gray-100);
+}
+
+@media (max-width: 768px) {
+  .mobile-lang-inline { display: flex; }
+}
+
 .hamburger {
   display: none;
   background: none;
