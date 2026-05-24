@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>LinguaFlow – Englisch &amp; Französisch online lernen</title>
+  <meta name="description" content="Lerne Englisch und Französisch mit Ralph Terhardt – live, flexibel und mit KI-Ausspracheanalyse.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+  <!-- ===================== NAVBAR ===================== -->
+  <nav class="navbar" id="navbar">
+    <div class="navbar-inner">
+      <a href="index.html" class="logo">
+        <div class="logo-icon"><i class="fas fa-language"></i></div>
+        Lingua<span>Flow</span>
+      </a>
+
+      <div class="nav-links">
+        <a href="#about" data-i18n="nav.about">Über mich</a>
+        <a href="#courses" data-i18n="nav.courses">Kurse</a>
+        <a href="#pricing" data-i18n="nav.pricing">Preise</a>
+        <a href="login.html" data-i18n="nav.login">Anmelden</a>
+      </div>
+
+      <div class="nav-right">
+        <div class="lang-switcher">
+          <button class="lang-btn active" data-lang="de" title="Deutsch">🇩🇪</button>
+          <button class="lang-btn" data-lang="en" title="English">🇬🇧</button>
+          <button class="lang-btn" data-lang="fr" title="Français">🇫🇷</button>
+        </div>
+        <div class="nav-cta">
+          <a href="booking.html" class="btn btn-primary btn-sm">
+            <i class="fas fa-calendar-plus"></i> <span data-i18n="nav.book">Jetzt buchen</span>
+          </a>
+        </div>
+      </div>
+
+      <div class="mobile-lang-inline">
+        <button class="lang-btn active" data-lang="de" title="Deutsch">🇩🇪</button>
+        <button class="lang-btn" data-lang="en" title="English">🇬🇧</button>
+        <button class="lang-btn" data-lang="fr" title="Français">🇫🇷</button>
+      </div>
+
+      <button class="hamburger" id="hamburger" aria-label="Menü öffnen">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+
+    <div class="mobile-menu" id="mobile-menu">
+      <a href="#about" data-i18n="nav.about">Über mich</a>
+      <a href="#courses" data-i18n="nav.courses">Kurse</a>
+      <a href="#pricing" data-i18n="nav.pricing">Preise</a>
+      <a href="login.html" data-i18n="nav.login">Anmelden</a>
+      <div class="lang-switcher mobile-lang-switcher">
+        <button class="lang-btn active" data-lang="de" title="Deutsch">🇩🇪</button>
+        <button class="lang-btn" data-lang="en" title="English">🇬🇧</button>
+        <button class="lang-btn" data-lang="fr" title="Français">🇫🇷</button>
+      </div>
+      <a href="booking.html" class="btn btn-primary btn-sm" style="margin-top:0.5rem;text-align:center;" data-i18n="nav.book">Jetzt buchen</a>
+    </div>
+  </nav>
+
+  <!-- ===================== HERO ===================== -->
+  <section class="hero" id="home">
+    <div class="container">
+      <div class="hero-inner">
+        <div class="hero-content">
+          <div class="hero-tag">
+            <i class="fas fa-star"></i>
+            <span data-i18n="hero.tag">#1 Online-Sprachtrainer</span>
+          </div>
+          <h1 data-i18n-html="hero.h1">Sprich <span>Englisch &amp; Französisch</span> – flüssig und selbstsicher</h1>
+          <p data-i18n="hero.p">Persönliche 1:1-Stunden mit Ralph Terhardt, KI-gestützte Ausspracheanalyse und ein flexibles Buchungssystem, das sich deinem Alltag anpasst.</p>
+
+          <div class="hero-btns">
+            <a href="booking.html" class="btn btn-primary btn-lg" data-i18n-html="hero.cta1">
+              <i class="fas fa-play-circle"></i> Kostenlos testen
+            </a>
+            <a href="#about" class="btn btn-ghost btn-lg" data-i18n-html="hero.cta2">
+              Mehr erfahren <i class="fas fa-arrow-down"></i>
+            </a>
+          </div>
+
+          <div class="hero-stats">
+            <div class="hero-stat"><strong>200+</strong><span data-i18n="hero.stat.students">Schüler</span></div>
+            <div class="hero-stat"><strong>4.9★</strong><span data-i18n="hero.stat.rating">Bewertung</span></div>
+            <div class="hero-stat"><strong>8 J.</strong><span data-i18n="hero.stat.exp">Erfahrung</span></div>
+            <div class="hero-stat"><strong>95%</strong><span data-i18n="hero.stat.success">Erfolgsquote</span></div>
+          </div>
+        </div>
+
+        <div class="hero-visual">
+          <div class="hero-card">
+            <div class="hero-card-inner">
+              <i class="fas fa-video"></i>
+              <h3 data-i18n="hero.card.title">Deine nächste Stunde</h3>
+              <p data-i18n="hero.card.sub">Live-Video mit deinem Trainer</p>
+              <div class="lang-badges">
+                <span class="lang-badge">🇬🇧 Englisch</span>
+                <span class="lang-badge">🇫🇷 Français</span>
+                <span class="lang-badge">🎤 KI-Analyse</span>
+              </div>
+            </div>
+          </div>
+          <div class="floating-badge floating-badge-1">
+            <i class="fas fa-check-circle"></i>
+            <span data-i18n="hero.badge1">Stunde bestätigt – Morgen 17:00</span>
+          </div>
+          <div class="floating-badge floating-badge-2">
+            <i class="fas fa-chart-line"></i>
+            <span data-i18n="hero.badge2">Aussprache: +12% diese Woche</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== FEATURES ===================== -->
+  <section class="features section-padding" id="features">
+    <div class="container">
+      <div class="section-header animate-on-scroll">
+        <span class="tag" data-i18n="feat.tag">Warum LinguaFlow?</span>
+        <h2 data-i18n="feat.h2">Alles was du brauchst, um eine Sprache wirklich zu lernen</h2>
+        <p data-i18n="feat.p">Modernes Lernen kombiniert mit persönlicher Betreuung – für echte Ergebnisse.</p>
+      </div>
+      <div class="features-grid">
+        <div class="feature-card animate-on-scroll"><div class="feature-icon"><i class="fas fa-video"></i></div><h3 data-i18n="feat.1.title">Live Video-Unterricht</h3><p data-i18n="feat.1.p">Persönliche 1:1-Stunden direkt im Browser.</p></div>
+        <div class="feature-card animate-on-scroll"><div class="feature-icon"><i class="fas fa-waveform-lines"></i></div><h3 data-i18n="feat.2.title">KI-Ausspracheanalyse</h3><p data-i18n="feat.2.p">Unsere KI analysiert deine Aussprache in Echtzeit.</p></div>
+        <div class="feature-card animate-on-scroll"><div class="feature-icon"><i class="fas fa-calendar-check"></i></div><h3 data-i18n="feat.3.title">Flexible Terminbuchung</h3><p data-i18n="feat.3.p">Buche Stunden wann immer es dir passt.</p></div>
+        <div class="feature-card animate-on-scroll"><div class="feature-icon"><i class="fas fa-chart-bar"></i></div><h3 data-i18n="feat.4.title">Lernfortschritt tracken</h3><p data-i18n="feat.4.p">Detaillierte Berichte nach jeder Stunde.</p></div>
+        <div class="feature-card animate-on-scroll"><div class="feature-icon"><i class="fas fa-tasks"></i></div><h3 data-i18n="feat.5.title">Hausaufgaben &amp; Übungen</h3><p data-i18n="feat.5.p">Maßgeschneiderte Aufgaben zwischen den Stunden.</p></div>
+        <div class="feature-card animate-on-scroll"><div class="feature-icon"><i class="fas fa-shield-check"></i></div><h3 data-i18n="feat.6.title">Kostenlose Probestunde</h3><p data-i18n="feat.6.p">Buche deine erste Stunde kostenlos.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== ABOUT ===================== -->
+  <section class="about section-padding" id="about">
+    <div class="container">
+      <div class="about-inner">
+        <div class="about-photo animate-on-scroll">
+          <div class="about-photo-frame">
+            <i class="fas fa-user-tie"></i>
+            <div class="about-photo-name"><strong>Ralph Terhardt</strong><span data-i18n="about.trainer">Zertifizierter Sprachtrainer</span></div>
+          </div>
+          <div class="about-exp-badge"><strong>8+</strong><span data-i18n="about.exp">Jahre Erfahrung</span></div>
+        </div>
+        <div class="about-content animate-on-scroll">
+          <span class="tag" data-i18n="about.tag">Über mich</span>
+          <h2 data-i18n-html="about.h2">Dein Trainer für Englisch &amp; Französisch</h2>
+          <p data-i18n="about.p1">Hallo! Ich bin Ralph Terhardt – zertifizierter Sprachtrainer mit über 8 Jahren Erfahrung.</p>
+          <p data-i18n="about.p2">Mein Unterrichtsansatz verbindet klassische Methodik mit modernen Technologien.</p>
+          <p data-i18n="about.p3">Ob du für eine Reise, den Job, ein Examen oder einfach aus Leidenschaft lernst – ich passe den Unterricht an deine Ziele an.</p>
+          <div class="about-certs">
+            <div class="cert-badge"><i class="fas fa-certificate"></i> CELTA zertifiziert</div>
+            <div class="cert-badge"><i class="fas fa-certificate"></i> DALF C2 Français</div>
+            <div class="cert-badge"><i class="fas fa-globe"></i> Native Speaker Level</div>
+            <div class="cert-badge"><i class="fas fa-users"></i> 200+ <span data-i18n="hero.stat.students">Schüler</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== COURSES ===================== -->
+  <section class="courses section-padding" id="courses">
+    <div class="container">
+      <div class="section-header animate-on-scroll">
+        <span class="tag" data-i18n="courses.tag">Kursangebot</span>
+        <h2 data-i18n="courses.h2">Welche Sprache möchtest du lernen?</h2>
+        <p data-i18n="courses.p">Von Anfänger bis Fortgeschrittene – alle Levels, alle Ziele.</p>
+      </div>
+      <div class="courses-grid">
+        <div class="course-card animate-on-scroll">
+          <div class="course-header english"><span class="course-flag">🇬🇧</span><h3>Englisch</h3><p data-i18n="courses.en.sub">Britisches &amp; Amerikanisches Englisch</p></div>
+          <div class="course-body">
+            <div class="course-levels"><span class="level-tag">A1</span><span class="level-tag">A2</span><span class="level-tag">B1</span><span class="level-tag">B2</span><span class="level-tag">C1</span><span class="level-tag">C2</span></div>
+            <ul class="course-features">
+              <li><i class="fas fa-check"></i> <span data-i18n="courses.en.f1">Allgemein-Englisch &amp; Konversation</span></li>
+              <li><i class="fas fa-check"></i> <span data-i18n="courses.en.f2">Business-Englisch &amp; Präsentationen</span></li>
+              <li><i class="fas fa-check"></i> <span data-i18n="courses.en.f3">Prüfungsvorbereitung (IELTS, TOEFL, CAE)</span></li>
+              <li><i class="fas fa-check"></i> <span data-i18n="courses.en.f4">Aussprache &amp; Akzentreduzierung</span></li>
+              <li><i class="fas fa-check"></i> <span data-i18n="courses.en.f5">Schreiben &amp; E-Mail-Korrespondenz</span></li>
+            </ul>
+            <div class="course-footer"><div class="course-price" data-i18n-html="courses.price">ab €39 <span>/ Stunde</span></div><a href="booking.html" class="btn btn-primary btn-sm" data-i18n="courses.book">Buchen</a></div>
+          </div>
+        </div>
+        <div class="course-card animate-on-scroll">
+          <div class="course-header french"><span class="course-flag">🇫🇷</span><h3>Français</h3><p data-i18n="courses.fr.sub">Pariser &amp; Allgemeines Français</p></div>
+          <div class="course-body">
+            <div class="course-levels"><span class="level-tag">A1</span><span class="level-tag">A2</span><span class="level-tag">B1</span><span class="level-tag">B2</span><span class="level-tag">C1</span></div>
+            <ul class="course-features">
+              <li><i class="fas fa-check"></i> <span data-i18n="courses.fr.f1">Allgemein-Französisch &amp; Konversation</span></li>
+              <li><i class="fas fa-check"></i> <span data-i18n="courses.fr.f2">Reise-Französisch &amp; Kultur</span></li>
+              <li><i class="fas fa-check"></i> <span data-i18n="courses.fr.f3">DELF/DALF Prüfungsvorbereitung</span></li>
+              <li><i class="fas fa-check"></i> <span data-i18n="courses.fr.f4">Französische Phonetik &amp; Nasallaute</span></li>
+              <li><i class="fas fa-check"></i> <span data-i18n="courses.fr.f5">Lesen &amp; Hörverständnis</span></li>
+            </ul>
+            <div class="course-footer"><div class="course-price" data-i18n-html="courses.price">ab €39 <span>/ Stunde</span></div><a href="booking.html" class="btn btn-primary btn-sm" data-i18n="courses.book">Buchen</a></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== PRICING ===================== -->
+  <section class="pricing section-padding" id="pricing">
+    <div class="container">
+      <div class="section-header animate-on-scroll">
+        <span class="tag" data-i18n="price.tag">Preise</span>
+        <h2 data-i18n="price.h2">Transparente Preise, kein Kleingedrucktes</h2>
+        <p data-i18n="price.p">Wähle das Paket, das zu dir passt. Jederzeit kündbar.</p>
+      </div>
+      <div class="pricing-grid">
+        <div class="pricing-card animate-on-scroll">
+          <div class="pricing-header"><div class="pricing-name" data-i18n="price.starter">Starter</div><div class="pricing-price"><sup>€</sup>29</div><div class="pricing-period" data-i18n="price.starter.period">pro Stunde</div></div>
+          <div class="pricing-body"><ul class="pricing-features"><li><i class="fas fa-check"></i> <span data-i18n="price.f.video">Live Video-Unterricht</span></li><li><i class="fas fa-check"></i> <span data-i18n="price.f.materials">Digitale Lernmaterialien</span></li><li class="disabled"><i class="fas fa-times"></i> <span data-i18n="price.f.ai">KI-Ausspracheanalyse</span></li></ul><a href="booking.html" class="btn btn-outline btn-full" data-i18n="price.cta.starter">Starten</a></div>
+        </div>
+        <div class="pricing-card popular animate-on-scroll">
+          <div class="pricing-badge" data-i18n="price.popular">Beliebteste Wahl</div>
+          <div class="pricing-header"><div class="pricing-name" data-i18n="price.pro">Pro</div><div class="pricing-price"><sup>€</sup>79</div><div class="pricing-period" data-i18n="price.pro.period">pro Monat · 4 Stunden</div></div>
+          <div class="pricing-body"><ul class="pricing-features"><li><i class="fas fa-check"></i> <span data-i18n="price.f.video">Live Video-Unterricht</span></li><li><i class="fas fa-check"></i> <span data-i18n="price.f.ai">KI-Ausspracheanalyse</span></li><li><i class="fas fa-check"></i> <span data-i18n="price.f.hw2">Wöchentliches Hausaufgaben-Feedback</span></li></ul><a href="booking.html" class="btn btn-primary btn-full" data-i18n="price.cta.pro">Jetzt buchen</a></div>
+        </div>
+        <div class="pricing-card animate-on-scroll">
+          <div class="pricing-header"><div class="pricing-name" data-i18n="price.premium">Premium</div><div class="pricing-price"><sup>€</sup>149</div><div class="pricing-period" data-i18n="price.premium.period">pro Monat · 8 Stunden</div></div>
+          <div class="pricing-body"><ul class="pricing-features"><li><i class="fas fa-check"></i> <span data-i18n="price.f.lang3">Beide Sprachen inklusive</span></li><li><i class="fas fa-check"></i> <span data-i18n="price.f.ai">KI-Ausspracheanalyse</span></li><li><i class="fas fa-check"></i> <span data-i18n="price.f.hw3">Tägliches Feedback &amp; Support</span></li></ul><a href="booking.html" class="btn btn-secondary btn-full" data-i18n="price.cta.premium">Premium wählen</a></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== FOOTER ===================== -->
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <a href="index.html" class="logo" style="margin-bottom:1rem"><div class="logo-icon"><i class="fas fa-language"></i></div>Lingua<span style="color:var(--secondary)">Flow</span></a>
+          <p data-i18n="footer.desc">Deine Plattform für Online-Sprachunterricht in Englisch und Französisch.</p>
+        </div>
+        <div class="footer-col"><h5 data-i18n="footer.courses">Kurse</h5><ul><li><a href="booking.html">Englisch A1–C2</a></li><li><a href="booking.html">Français A1–C1</a></li></ul></div>
+        <div class="footer-col"><h5 data-i18n="footer.platform">Plattform</h5><ul><li><a href="dashboard.html">Dashboard</a></li><li><a href="booking.html" data-i18n="nav.book">Jetzt buchen</a></li><li><a href="login.html" data-i18n="nav.login">Anmelden</a></li></ul></div>
+        <div class="footer-col"><h5 data-i18n="footer.contact">Kontakt</h5><ul><li><a href="mailto:ralph@linguaflow.de">ralph@linguaflow.de</a></li><li><span data-i18n="footer.hours">Mo–Sa 8–21 Uhr</span></li></ul></div>
+      </div>
+      <div class="footer-bottom">
+        <p data-i18n="footer.copy">© 2025 LinguaFlow – Ralph Terhardt. Alle Rechte vorbehalten.</p>
+        <div class="footer-bottom-links"><a href="#" data-i18n="footer.privacy">Datenschutz</a><a href="#" data-i18n="footer.imprint">Impressum</a><a href="#" data-i18n="footer.terms">AGB</a></div>
+      </div>
+    </div>
+  </footer>
+
+  <script src="js/sw-cleanup.js"></script>
+  <script src="js/i18n.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>

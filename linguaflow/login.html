@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Anmelden – LinguaFlow</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <div class="auth-page">
+    <div class="auth-wrapper">
+      <div class="auth-logo">
+        <a href="index.html">
+          <div class="logo-icon" style="display:inline-flex;width:42px;height:42px;background:linear-gradient(135deg,var(--primary),var(--secondary));border-radius:12px;align-items:center;justify-content:center;color:white;font-size:1.3rem;margin-right:0.5rem;vertical-align:middle;"><i class="fas fa-language"></i></div>
+          Lingua<span>Flow</span>
+        </a>
+      </div>
+      <div class="auth-card">
+        <div class="auth-tabs">
+          <button class="auth-tab active" data-tab="login">Anmelden</button>
+          <button class="auth-tab" data-tab="register">Registrieren</button>
+        </div>
+        <div class="auth-panel active" id="panel-login">
+          <h2>Willkommen zurück!</h2>
+          <p>Melde dich an, um fortzufahren.</p>
+          <form id="login-form" novalidate>
+            <div class="form-group"><label for="login-email">E-Mail-Adresse</label><div class="input-icon-wrap"><i class="fas fa-envelope input-icon"></i><input type="email" id="login-email" class="form-input" placeholder="deine@email.de" autocomplete="email" required></div><span class="form-error"></span></div>
+            <div class="form-group"><label for="login-password">Passwort</label><div class="input-icon-wrap"><i class="fas fa-lock input-icon"></i><input type="password" id="login-password" class="form-input" placeholder="Dein Passwort" autocomplete="current-password" required><button type="button" class="input-toggle" aria-label="Passwort anzeigen"><i class="fas fa-eye"></i></button></div><span class="form-error"></span></div>
+            <div class="form-footer"><label class="form-checkbox"><input type="checkbox" id="remember-me"> Angemeldet bleiben</label><a href="#" class="forgot-link">Passwort vergessen?</a></div>
+            <button type="submit" class="btn btn-primary btn-full btn-lg"><i class="fas fa-sign-in-alt"></i> Anmelden</button>
+          </form>
+          <div class="auth-divider">oder weiter mit</div>
+          <div class="social-buttons"><button class="social-login-btn" data-provider="Google"><i class="fab fa-google" style="color:#EA4335"></i> Google</button><button class="social-login-btn" data-provider="Apple"><i class="fab fa-apple" style="color:#000"></i> Apple</button></div>
+        </div>
+        <div class="auth-panel" id="panel-register">
+          <h2>Konto erstellen</h2>
+          <p>Starte deine Sprachreise noch heute – kostenlos!</p>
+          <form id="register-form" novalidate>
+            <div class="form-group"><label for="reg-name">Vollständiger Name</label><div class="input-icon-wrap"><i class="fas fa-user input-icon"></i><input type="text" id="reg-name" class="form-input" placeholder="Vor- und Nachname" autocomplete="name" required></div><span class="form-error"></span></div>
+            <div class="form-group"><label for="reg-email">E-Mail-Adresse</label><div class="input-icon-wrap"><i class="fas fa-envelope input-icon"></i><input type="email" id="reg-email" class="form-input" placeholder="deine@email.de" autocomplete="email" required></div><span class="form-error"></span></div>
+            <div class="form-row">
+              <div class="form-group"><label for="reg-password">Passwort</label><div class="input-icon-wrap"><i class="fas fa-lock input-icon"></i><input type="password" id="reg-password" class="form-input" placeholder="Min. 8 Zeichen" autocomplete="new-password" required><button type="button" class="input-toggle" aria-label="Passwort anzeigen"><i class="fas fa-eye"></i></button></div><span class="form-error"></span></div>
+              <div class="form-group"><label for="reg-confirm">Bestätigen</label><div class="input-icon-wrap"><i class="fas fa-lock input-icon"></i><input type="password" id="reg-confirm" class="form-input" placeholder="Wiederholen" autocomplete="new-password" required><button type="button" class="input-toggle" aria-label="Passwort anzeigen"><i class="fas fa-eye"></i></button></div><span class="form-error"></span></div>
+            </div>
+            <div class="form-group"><label>Ich möchte lernen</label><div class="language-options"><label class="lang-option" data-lang="english"><input type="checkbox" name="lang" value="english"> 🇬🇧 Englisch</label><label class="lang-option" data-lang="french"><input type="checkbox" name="lang" value="french"> 🇫🇷 Französisch</label><label class="lang-option" data-lang="both"><input type="checkbox" name="lang" value="both"> 🌍 Beide</label></div></div>
+            <button type="submit" class="btn btn-primary btn-full btn-lg" style="margin-top:1rem"><i class="fas fa-user-plus"></i> Konto erstellen</button>
+          </form>
+          <div class="auth-divider">oder weiter mit</div>
+          <div class="social-buttons"><button class="social-login-btn" data-provider="Google"><i class="fab fa-google" style="color:#EA4335"></i> Google</button><button class="social-login-btn" data-provider="Apple"><i class="fab fa-apple" style="color:#000"></i> Apple</button></div>
+        </div>
+      </div>
+      <div class="auth-back"><a href="index.html"><i class="fas fa-arrow-left"></i> Zurück zur Startseite</a></div>
+    </div>
+  </div>
+  <script src="js/app.js"></script>
+  <script src="js/auth.js"></script>
+</body>
+</html>

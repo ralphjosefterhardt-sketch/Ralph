@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dashboard – LinguaFlow</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <div class="app-layout">
+    <aside class="sidebar" id="sidebar">
+      <div class="sidebar-header"><a href="index.html" class="logo"><div class="logo-icon"><i class="fas fa-language"></i></div>Lingua<span>Flow</span></a></div>
+      <nav class="sidebar-nav">
+        <div class="nav-section">
+          <div class="nav-section-label">Hauptmenü</div>
+          <a href="dashboard.html" class="sidebar-link active"><i class="fas fa-home"></i> Dashboard</a>
+          <a href="booking.html" class="sidebar-link"><i class="fas fa-calendar-alt"></i> Meine Stunden</a>
+          <a href="analysis.html" class="sidebar-link"><i class="fas fa-chart-line"></i> Fortschritt</a>
+          <a href="#" class="sidebar-link"><i class="fas fa-tasks"></i> Hausaufgaben</a>
+        </div>
+        <div class="nav-section">
+          <div class="nav-section-label">Konto</div>
+          <a href="#" class="sidebar-link"><i class="fas fa-cog"></i> Einstellungen</a>
+        </div>
+      </nav>
+      <div class="sidebar-footer">
+        <div class="sidebar-user">
+          <div class="sidebar-avatar user-initial">SB</div>
+          <div class="sidebar-user-info"><strong class="user-name">Sophie Braun</strong><span>Schülerin · B2</span></div>
+          <button class="sidebar-logout" data-action="logout" title="Abmelden"><i class="fas fa-sign-out-alt"></i></button>
+        </div>
+      </div>
+    </aside>
+    <div class="main-content">
+      <header class="topbar">
+        <div class="topbar-left">
+          <button class="btn btn-ghost btn-sm sidebar-toggle" style="margin-right:0.75rem;display:none" id="mobile-sidebar-toggle"><i class="fas fa-bars"></i></button>
+          <div><h1 data-greeting>Guten Tag, Sophie!</h1><p>Heute, <span id="current-date"></span> · Nächste Stunde in <span id="next-lesson-timer" style="color:var(--primary);font-weight:600">–</span></p></div>
+        </div>
+        <div class="topbar-right">
+          <button class="notif-btn" title="Benachrichtigungen"><i class="fas fa-bell"></i><span class="notif-dot"></span></button>
+          <div class="topbar-avatar user-initial" title="Profil">SB</div>
+        </div>
+      </header>
+      <main class="page-content">
+        <div class="stats-row">
+          <div class="stat-card"><div class="stat-icon primary"><i class="fas fa-calendar-check"></i></div><div class="stat-info"><strong id="stat-next">–</strong><span>Nächste Stunde</span></div></div>
+          <div class="stat-card"><div class="stat-icon green"><i class="fas fa-clock"></i></div><div class="stat-info"><strong><span id="stat-hours-num">24</span> Std.</strong><span>Gesamte Lernzeit</span></div><span class="stat-change">+3 Std.</span></div>
+          <div class="stat-card"><div class="stat-icon gold"><i class="fas fa-fire"></i></div><div class="stat-info"><strong><span id="stat-streak-num">14</span> Tage</strong><span>Aktuelle Streak</span></div><span class="stat-change">🔥</span></div>
+          <div class="stat-card"><div class="stat-icon navy"><i class="fas fa-book-open"></i></div><div class="stat-info"><strong><span id="stat-vocab-num">342</span></strong><span>Vokabeln gelernt</span></div><span class="stat-change">+28</span></div>
+        </div>
+        <div class="dashboard-grid">
+          <div class="dashboard-col">
+            <div class="widget">
+              <div class="widget-header"><h3><i class="fas fa-calendar" style="color:var(--primary);margin-right:0.5rem"></i>Nächste Stunden</h3><a href="booking.html" class="btn btn-ghost btn-sm">+ Neue Stunde</a></div>
+              <div class="widget-body"><div id="lessons-container"><p style="color:var(--text-light);text-align:center;padding:2rem 0">Lade Stunden...</p></div></div>
+            </div>
+            <div class="widget">
+              <div class="widget-header"><h3><i class="fas fa-chart-bar" style="color:var(--green);margin-right:0.5rem"></i>Lernfortschritt</h3><a href="analysis.html" class="btn btn-ghost btn-sm">Details</a></div>
+              <div class="widget-body">
+                <div class="progress-item"><div class="progress-label"><span><i class="fas fa-book" style="margin-right:0.4rem;color:var(--primary)"></i>Vokabular</span><strong>72%</strong></div><div class="progress-bar"><div class="progress-fill" id="prog-vocab" data-width="72%" style="width:0"></div></div></div>
+                <div class="progress-item"><div class="progress-label"><span><i class="fas fa-pen" style="margin-right:0.4rem;color:var(--green)"></i>Grammatik</span><strong>65%</strong></div><div class="progress-bar"><div class="progress-fill green" id="prog-grammar" data-width="65%" style="width:0"></div></div></div>
+                <div class="progress-item"><div class="progress-label"><span><i class="fas fa-microphone" style="margin-right:0.4rem;color:var(--secondary)"></i>Aussprache</span><strong>58%</strong></div><div class="progress-bar"><div class="progress-fill gold" id="prog-pronunciation" data-width="58%" style="width:0"></div></div></div>
+              </div>
+            </div>
+          </div>
+          <div class="dashboard-col">
+            <div class="quick-book"><h3><i class="fas fa-calendar-plus" style="margin-right:0.5rem"></i>Stunde buchen</h3><p>Sicher dir deinen nächsten Termin!</p><a href="booking.html" class="btn btn-white btn-lg" data-action="quick-book"><i class="fas fa-plus"></i> Neue Stunde buchen</a></div>
+            <div class="widget">
+              <div class="widget-header"><h3><i class="fas fa-tasks" style="color:var(--primary);margin-right:0.5rem"></i>Hausaufgaben</h3><span id="hw-count" style="font-size:0.8rem;color:var(--text-light)">0 von 4 erledigt</span></div>
+              <div class="widget-body"><div id="homework-container"><p style="color:var(--text-light);text-align:center;padding:1rem 0">Lade Aufgaben...</p></div></div>
+            </div>
+            <div class="widget">
+              <div class="widget-header"><h3><i class="fas fa-video" style="color:var(--green);margin-right:0.5rem"></i>Video-Session</h3></div>
+              <div class="widget-body"><p style="color:var(--text-light);font-size:0.9rem;margin-bottom:1rem">Starte eine Demo-Session:</p><a href="session.html" class="btn btn-green btn-full btn-lg"><i class="fas fa-video"></i> Session starten</a><div style="margin-top:0.75rem;text-align:center"><a href="analysis.html" style="font-size:0.85rem;color:var(--text-light)"><i class="fas fa-chart-pie"></i> Letzte Analyse ansehen</a></div></div>
+            </div>
+          </div>
+        </div>
+      </main>
+    </div>
+  </div>
+  <script>
+    document.getElementById('current-date').textContent = new Intl.DateTimeFormat('de-DE', { weekday:'long', day:'numeric', month:'long' }).format(new Date());
+    const mobileToggle = document.getElementById('mobile-sidebar-toggle');
+    if (window.innerWidth <= 768 && mobileToggle) mobileToggle.style.display = 'flex';
+    window.addEventListener('resize', () => { if (mobileToggle) mobileToggle.style.display = window.innerWidth <= 768 ? 'flex' : 'none'; });
+    if (mobileToggle) { mobileToggle.addEventListener('click', () => { document.getElementById('sidebar').classList.toggle('open'); document.querySelector('.sidebar-overlay')?.classList.toggle('visible'); }); }
+  </script>
+  <script src="js/app.js"></script>
+  <script src="js/dashboard.js"></script>
+</body>
+</html>
