@@ -64,7 +64,7 @@ const Machines = {
 
     document.getElementById('navArchive').addEventListener('click', function(e) {
       e.preventDefault();
-      showToast('In Entwicklung', 'info');
+      Router.navigate('/archive');
     });
   },
 
@@ -72,13 +72,15 @@ const Machines = {
    * Render the machine list page.
    */
   renderList() {
-    const cardsHtml = MACHINES.map(machine => {
-      const typeStyle = TYPE_COLORS[machine.type] || { bg: '#f3f4f6', color: '#374151' };
-      const statusCfg = STATUS_CONFIG[machine.status] || STATUS_CONFIG.ok;
-      const lastServiceFormatted = formatDate(machine.lastService);
+    var cardsHtml = MACHINES.map(function(machine) {
+      var currentStatus = getMachineStatus(machine.id);
+      var typeStyle = TYPE_COLORS[machine.type] || { bg: '#f3f4f6', color: '#374151' };
+      var statusCfg = STATUS_CONFIG[currentStatus] || STATUS_CONFIG.ok;
+      var lastServiceFormatted = formatDate(machine.lastService);
+      var searchData = [machine.name, machine.customer.name, machine.serialNumber, machine.type].join(' ').toLowerCase();
 
       return `
-        <div class="machine-card" data-machine-id="${machine.id}">
+        <div class="machine-card" data-machine-id="${machine.id}" data-search="${escapeHtml(searchData)}">
           <div class="machine-card-header">
             <div class="machine-name">${escapeHtml(machine.name)}</div>
             <div class="status-indicator" title="${escapeHtml(statusCfg.label)}" style="background:${statusCfg.color}"></div>
@@ -108,22 +110,43 @@ const Machines = {
       `;
     }).join('');
 
-    const contentHtml = `
+    var contentHtml = `
       <div class="page-header">
         <h2 class="page-title">Maschinenübersicht</h2>
         <span class="machine-count">${MACHINES.length} Maschinen</span>
       </div>
-      <div class="machine-grid">
+      <div class="search-wrapper">
+        <input type="search" id="machineSearch" class="search-input" placeholder="Maschine, Kunde oder Seriennummer suchen..." aria-label="Maschinen suchen" />
+      </div>
+      <div class="machine-grid" id="machineGrid">
         ${cardsHtml}
       </div>
+      <p class="no-results-msg" id="noResultsMsg" style="display:none;">Keine Maschinen gefunden.</p>
     `;
 
     this._renderShell(contentHtml);
 
+    // Feature 3: Suchfeld
+    document.getElementById('machineSearch').addEventListener('input', function() {
+      var term = this.value.trim().toLowerCase();
+      var cards = document.querySelectorAll('.machine-card');
+      var visibleCount = 0;
+      cards.forEach(function(card) {
+        var searchData = card.getAttribute('data-search') || '';
+        var visible = !term || searchData.indexOf(term) !== -1;
+        card.style.display = visible ? '' : 'none';
+        if (visible) visibleCount++;
+      });
+      var noResultsMsg = document.getElementById('noResultsMsg');
+      if (noResultsMsg) {
+        noResultsMsg.style.display = visibleCount === 0 ? 'block' : 'none';
+      }
+    });
+
     // Bind detail buttons
     document.querySelectorAll('.detail-btn').forEach(function(btn) {
       btn.addEventListener('click', function() {
-        const id = this.getAttribute('data-id');
+        var id = this.getAttribute('data-id');
         Router.navigate('/machines/' + id);
       });
     });
@@ -132,7 +155,7 @@ const Machines = {
     document.querySelectorAll('.machine-card').forEach(function(card) {
       card.addEventListener('click', function(e) {
         if (e.target.closest('.detail-btn')) return;
-        const id = this.getAttribute('data-machine-id');
+        var id = this.getAttribute('data-machine-id');
         Router.navigate('/machines/' + id);
       });
     });
@@ -141,20 +164,22 @@ const Machines = {
   /**
    * Render the machine detail page.
    */
-  renderDetail(machineId) {
-    const machine = getMachineById(machineId);
+  renderDetail: function(machineId) {
+    var machine = getMachineById(machineId);
     if (!machine) {
       Router.navigate('/machines');
       return;
     }
 
-    const history = getServiceHistory(machineId);
-    const typeStyle = TYPE_COLORS[machine.type] || { bg: '#f3f4f6', color: '#374151' };
-    const statusCfg = STATUS_CONFIG[machine.status] || STATUS_CONFIG.ok;
+    var history = getServiceHistory(machineId);
+    var typeStyle = TYPE_COLORS[machine.type] || { bg: '#f3f4f6', color: '#374151' };
+    // Feature 5: use overrideable status
+    var currentStatus = getMachineStatus(machineId);
+    var statusCfg = STATUS_CONFIG[currentStatus] || STATUS_CONFIG.ok;
 
-    const historyHtml = history.length === 0
+    var historyHtml = history.length === 0
       ? '<p class="empty-history">Keine Serviceeinträge vorhanden.</p>'
-      : history.map(function(entry, idx) {
+      : history.map(function(entry) {
           return `
             <div class="timeline-item">
               <div class="timeline-dot"></div>
@@ -171,8 +196,8 @@ const Machines = {
         }).join('');
 
     // Check for saved reports for this machine
-    const savedReports = getSavedReports().filter(r => r.machineId === parseInt(machineId, 10));
-    const savedReportsHtml = savedReports.length > 0
+    var savedReports = getSavedReports().filter(function(r) { return r.machineId === parseInt(machineId, 10); });
+    var savedReportsHtml = savedReports.length > 0
       ? savedReports.map(function(r) {
           return `
             <div class="timeline-item saved-report">
@@ -181,6 +206,7 @@ const Machines = {
                 <div class="timeline-header">
                   <span class="timeline-date">${formatDate(r.datum)}</span>
                   <span class="timeline-type">Bericht (lokal)</span>
+                  <button class="btn btn-sm btn-outline print-report-btn" data-report-id="${r.id}" style="margin-left:8px;font-size:0.75rem;padding:2px 8px;">Drucken</button>
                 </div>
                 <div class="timeline-tech">Techniker: ${escapeHtml(r.techniker)}</div>
                 <div class="timeline-desc">${escapeHtml(r.beschreibung ? r.beschreibung.substring(0, 100) + (r.beschreibung.length > 100 ? '…' : '') : '')}</div>
@@ -190,7 +216,20 @@ const Machines = {
         }).join('')
       : '';
 
-    const contentHtml = `
+    // Feature 2: Maps navigation link
+    var mapsUrl = 'https://maps.google.com/?q=' + encodeURIComponent(machine.customer.address);
+
+    // Feature 5: status change buttons
+    var statusChangeHtml = `
+      <div class="status-change-row">
+        <span class="status-change-label">Status ändern:</span>
+        <button class="status-btn status-btn-ok${currentStatus === 'ok' ? ' active' : ''}" data-status="ok">✓ OK</button>
+        <button class="status-btn status-btn-wartung${currentStatus === 'wartung' ? ' active' : ''}" data-status="wartung">⚠ Wartung fällig</button>
+        <button class="status-btn status-btn-stoerung${currentStatus === 'stoerung' ? ' active' : ''}" data-status="stoerung">✕ Störung</button>
+      </div>
+    `;
+
+    var contentHtml = `
       <div class="detail-header">
         <button class="btn-back" id="backBtn">
           <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><polyline points="15,18 9,12 15,6"/></svg>
@@ -212,6 +251,8 @@ const Machines = {
                 <span class="status-label">${escapeHtml(statusCfg.label)}</span>
               </div>
             </div>
+
+            ${statusChangeHtml}
 
             <div class="detail-info-section">
               <h3 class="detail-section-title">Maschinendaten</h3>
@@ -235,7 +276,13 @@ const Machines = {
                 <dt>Kunde</dt>
                 <dd>${escapeHtml(machine.customer.name)}</dd>
                 <dt>Adresse</dt>
-                <dd>${escapeHtml(machine.customer.address)}</dd>
+                <dd>
+                  ${escapeHtml(machine.customer.address)}
+                  <a href="${mapsUrl}" target="_blank" rel="noopener" class="nav-link" title="Navigation starten">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><polygon points="3,11 22,2 13,21 11,13 3,11"/></svg>
+                    Navigation
+                  </a>
+                </dd>
               </dl>
             </div>
 
@@ -269,6 +316,31 @@ const Machines = {
 
     document.getElementById('newReportBtn').addEventListener('click', function() {
       Router.navigate('/machines/' + machineId + '/report');
+    });
+
+    // Feature 5: Status-Buttons
+    document.querySelectorAll('.status-btn').forEach(function(btn) {
+      btn.addEventListener('click', function() {
+        var newStatus = this.getAttribute('data-status');
+        setMachineStatus(machineId, newStatus);
+        Machines.renderDetail(machineId);
+      });
+    });
+
+    // Feature 1: Print buttons in timeline
+    document.querySelectorAll('.print-report-btn').forEach(function(btn) {
+      btn.addEventListener('click', function(e) {
+        e.stopPropagation();
+        var reportId = parseInt(this.getAttribute('data-report-id'), 10);
+        var reports = getSavedReports();
+        var report = null;
+        for (var i = 0; i < reports.length; i++) {
+          if (reports[i].id === reportId) { report = reports[i]; break; }
+        }
+        if (report) {
+          ServiceReport.showPrintView(report);
+        }
+      });
     });
   },
 };

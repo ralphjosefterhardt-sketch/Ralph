@@ -265,3 +265,23 @@ function getMachineById(id) {
 function getServiceHistory(machineId) {
   return SERVICE_HISTORY[parseInt(machineId, 10)] || [];
 }
+
+// Feature 5: Status-Overrides in localStorage
+function getMachineStatus(machineId) {
+  try {
+    var overrides = JSON.parse(localStorage.getItem('serviceportal_status') || '{}');
+    var machine = getMachineById(machineId);
+    return overrides[machineId] || (machine ? machine.status : 'ok');
+  } catch(e) {
+    var m = getMachineById(machineId);
+    return m ? m.status : 'ok';
+  }
+}
+
+function setMachineStatus(machineId, status) {
+  try {
+    var overrides = JSON.parse(localStorage.getItem('serviceportal_status') || '{}');
+    overrides[machineId] = status;
+    localStorage.setItem('serviceportal_status', JSON.stringify(overrides));
+  } catch(e) {}
+}

@@ -8,6 +8,9 @@ var ServiceReport = {
     technician: { drawing: false, hasSignature: false }
   },
 
+  // Feature 4: Photos array
+  _photos: [],
+
   render: function(machineId) {
     var machine = getMachineById(machineId);
     if (!machine) {
@@ -105,6 +108,18 @@ var ServiceReport = {
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
             Ersatzteil hinzufügen
           </button>
+        </fieldset>
+
+        <!-- Section 4b: Fotodokumentation -->
+        <fieldset class="form-section">
+          <legend class="form-section-title">Fotodokumentation</legend>
+          <p class="signature-declaration">Optional: Fotos von Schäden, Reparaturen oder Einstellungen.</p>
+          <label class="photo-upload-btn" for="photoInput">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/></svg>
+            Foto aufnehmen / auswählen
+            <input type="file" accept="image/*" capture="environment" multiple id="photoInput" style="display:none" />
+          </label>
+          <div id="photoPreviewGrid" class="photo-preview-grid"></div>
         </fieldset>
 
         <!-- Section 5: Nächster Service -->
@@ -218,6 +233,23 @@ var ServiceReport = {
     ServiceReport._initCanvas('canvasCustomer', 'customer', 'sigStatusCustomer', 'clearCustomerBtn');
     ServiceReport._initCanvas('canvasTechnician', 'technician', 'sigStatusTechnician', 'clearTechnicianBtn');
 
+    // Feature 4: Photo upload
+    ServiceReport._photos = [];
+    var photoInput = document.getElementById('photoInput');
+    photoInput.addEventListener('change', function() {
+      var files = Array.prototype.slice.call(this.files);
+      files.forEach(function(file) {
+        var reader = new FileReader();
+        reader.onload = function(evt) {
+          ServiceReport._photos.push(evt.target.result);
+          ServiceReport._renderPhotoPreview();
+        };
+        reader.readAsDataURL(file);
+      });
+      // Reset input so same file can be re-added
+      photoInput.value = '';
+    });
+
     // Form submit
     document.getElementById('serviceReportForm').addEventListener('submit', function(e) {
       e.preventDefault();
@@ -300,6 +332,23 @@ var ServiceReport = {
         statusEl.textContent = '';
         statusEl.className = 'sig-status';
       }
+    });
+  },
+
+  _renderPhotoPreview: function() {
+    var grid = document.getElementById('photoPreviewGrid');
+    if (!grid) return;
+    grid.innerHTML = '';
+    ServiceReport._photos.forEach(function(dataUrl, idx) {
+      var item = document.createElement('div');
+      item.className = 'photo-preview-item';
+      item.innerHTML = '<img src="' + dataUrl + '" alt="Foto ' + (idx + 1) + '" />' +
+        '<button type="button" class="remove-photo-btn" aria-label="Foto entfernen" data-index="' + idx + '">&times;</button>';
+      grid.appendChild(item);
+      item.querySelector('.remove-photo-btn').addEventListener('click', function() {
+        ServiceReport._photos.splice(parseInt(this.getAttribute('data-index'), 10), 1);
+        ServiceReport._renderPhotoPreview();
+      });
     });
   },
 
