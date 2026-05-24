@@ -22,16 +22,19 @@
       </a>
 
       <div class="nav-links">
-        <a href="#about" class="active">Über mich</a>
-        <a href="#courses">Kurse</a>
-        <a href="#pricing">Preise</a>
-        <a href="login.html">Anmelden</a>
+        <a href="#about" data-i18n="nav.about">Über mich</a>
+        <a href="#courses" data-i18n="nav.courses">Kurse</a>
+        <a href="#pricing" data-i18n="nav.pricing">Preise</a>
+        <a href="login.html" data-i18n="nav.login">Anmelden</a>
       </div>
 
-      <div class="nav-cta">
-        <a href="booking.html" class="btn btn-primary btn-sm">
-          <i class="fas fa-calendar-plus"></i> Jetzt buchen
-        </a>
+      <div class="nav-right">
+        <div class="lang-switcher"></div>
+        <div class="nav-cta">
+          <a href="booking.html" class="btn btn-primary btn-sm">
+            <i class="fas fa-calendar-plus"></i> <span data-i18n="nav.book">Jetzt buchen</span>
+          </a>
+        </div>
       </div>
 
       <button class="hamburger" id="hamburger" aria-label="Menü öffnen">
@@ -40,11 +43,12 @@
     </div>
 
     <div class="mobile-menu" id="mobile-menu">
-      <a href="#about">Über mich</a>
-      <a href="#courses">Kurse</a>
-      <a href="#pricing">Preise</a>
-      <a href="login.html">Anmelden</a>
-      <a href="booking.html" class="btn btn-primary btn-sm" style="margin-top:0.5rem;text-align:center;">Jetzt buchen</a>
+      <a href="#about" data-i18n="nav.about">Über mich</a>
+      <a href="#courses" data-i18n="nav.courses">Kurse</a>
+      <a href="#pricing" data-i18n="nav.pricing">Preise</a>
+      <a href="login.html" data-i18n="nav.login">Anmelden</a>
+      <div class="lang-switcher mobile-lang-switcher"></div>
+      <a href="booking.html" class="btn btn-primary btn-sm" style="margin-top:0.5rem;text-align:center;" data-i18n="nav.book">Jetzt buchen</a>
     </div>
   </nav>
 
@@ -55,16 +59,16 @@
         <div class="hero-content">
           <div class="hero-tag">
             <i class="fas fa-star"></i>
-            #1 Online-Sprachtrainer
+            <span data-i18n="hero.tag">#1 Online-Sprachtrainer</span>
           </div>
-          <h1>Sprich <span>Englisch &amp; Französisch</span> – flüssig und selbstsicher</h1>
-          <p>Persönliche 1:1-Stunden mit Ralph Terhardt, KI-gestützte Ausspracheanalyse und ein flexibles Buchungssystem, das sich deinem Alltag anpasst.</p>
+          <h1 data-i18n-html="hero.h1">Sprich <span>Englisch &amp; Französisch</span> – flüssig und selbstsicher</h1>
+          <p data-i18n="hero.p">Persönliche 1:1-Stunden mit Ralph Terhardt, KI-gestützte Ausspracheanalyse und ein flexibles Buchungssystem, das sich deinem Alltag anpasst.</p>
 
           <div class="hero-btns">
-            <a href="booking.html" class="btn btn-primary btn-lg">
+            <a href="booking.html" class="btn btn-primary btn-lg" data-i18n-html="hero.cta1">
               <i class="fas fa-play-circle"></i> Kostenlos testen
             </a>
-            <a href="#about" class="btn btn-ghost btn-lg">
+            <a href="#about" class="btn btn-ghost btn-lg" data-i18n-html="hero.cta2">
               Mehr erfahren <i class="fas fa-arrow-down"></i>
             </a>
           </div>
@@ -72,19 +76,19 @@
           <div class="hero-stats">
             <div class="hero-stat">
               <strong>200+</strong>
-              <span>Schüler</span>
+              <span data-i18n="hero.stat.students">Schüler</span>
             </div>
             <div class="hero-stat">
               <strong>4.9★</strong>
-              <span>Bewertung</span>
+              <span data-i18n="hero.stat.rating">Bewertung</span>
             </div>
             <div class="hero-stat">
               <strong>8 J.</strong>
-              <span>Erfahrung</span>
+              <span data-i18n="hero.stat.exp">Erfahrung</span>
             </div>
             <div class="hero-stat">
               <strong>95%</strong>
-              <span>Erfolgsquote</span>
+              <span data-i18n="hero.stat.success">Erfolgsquote</span>
             </div>
           </div>
         </div>
@@ -93,11 +97,11 @@
           <div class="hero-card">
             <div class="hero-card-inner">
               <i class="fas fa-video"></i>
-              <h3>Deine nächste Stunde</h3>
-              <p>Live-Video mit deinem Trainer</p>
+              <h3 data-i18n="hero.card.title">Deine nächste Stunde</h3>
+              <p data-i18n="hero.card.sub">Live-Video mit deinem Trainer</p>
               <div class="lang-badges">
                 <span class="lang-badge">🇬🇧 Englisch</span>
-                <span class="lang-badge">🇫🇷 Französisch</span>
+                <span class="lang-badge">🇫🇷 Français</span>
                 <span class="lang-badge">🎤 KI-Analyse</span>
               </div>
             </div>
@@ -105,12 +109,12 @@
 
           <div class="floating-badge floating-badge-1">
             <i class="fas fa-check-circle"></i>
-            Stunde bestätigt – Morgen 17:00
+            <span data-i18n="hero.badge1">Stunde bestätigt – Morgen 17:00</span>
           </div>
 
           <div class="floating-badge floating-badge-2">
             <i class="fas fa-chart-line"></i>
-            Aussprache: +12% diese Woche
+            <span data-i18n="hero.badge2">Aussprache: +12% diese Woche</span>
           </div>
         </div>
       </div>
@@ -121,58 +125,41 @@
   <section class="features section-padding" id="features">
     <div class="container">
       <div class="section-header animate-on-scroll">
-        <span class="tag">Warum LinguaFlow?</span>
-        <h2>Alles was du brauchst, um eine Sprache wirklich zu lernen</h2>
-        <p>Modernes Lernen kombiniert mit persönlicher Betreuung – für echte Ergebnisse.</p>
+        <span class="tag" data-i18n="feat.tag">Warum LinguaFlow?</span>
+        <h2 data-i18n="feat.h2">Alles was du brauchst, um eine Sprache wirklich zu lernen</h2>
+        <p data-i18n="feat.p">Modernes Lernen kombiniert mit persönlicher Betreuung – für echte Ergebnisse.</p>
       </div>
 
       <div class="features-grid">
         <div class="feature-card animate-on-scroll">
-          <div class="feature-icon">
-            <i class="fas fa-video"></i>
-          </div>
-          <h3>Live Video-Unterricht</h3>
-          <p>Persönliche 1:1-Stunden direkt im Browser – ohne App-Download. HD-Video, klares Audio und interaktive Materialien.</p>
+          <div class="feature-icon"><i class="fas fa-video"></i></div>
+          <h3 data-i18n="feat.1.title">Live Video-Unterricht</h3>
+          <p data-i18n="feat.1.p">Persönliche 1:1-Stunden direkt im Browser – ohne App-Download. HD-Video, klares Audio und interaktive Materialien.</p>
         </div>
-
         <div class="feature-card animate-on-scroll">
-          <div class="feature-icon">
-            <i class="fas fa-waveform-lines"></i>
-          </div>
-          <h3>KI-Ausspracheanalyse</h3>
-          <p>Unsere KI hört dir zu, analysiert deine Aussprache in Echtzeit und zeigt dir genau, welche Laute du verbessern kannst.</p>
+          <div class="feature-icon"><i class="fas fa-waveform-lines"></i></div>
+          <h3 data-i18n="feat.2.title">KI-Ausspracheanalyse</h3>
+          <p data-i18n="feat.2.p">Unsere KI hört dir zu, analysiert deine Aussprache in Echtzeit und zeigt dir genau, welche Laute du verbessern kannst.</p>
         </div>
-
         <div class="feature-card animate-on-scroll">
-          <div class="feature-icon">
-            <i class="fas fa-calendar-check"></i>
-          </div>
-          <h3>Flexible Terminbuchung</h3>
-          <p>Buche Stunden wann immer es dir passt – morgens, abends oder am Wochenende. Einfache Online-Buchung in Minuten.</p>
+          <div class="feature-icon"><i class="fas fa-calendar-check"></i></div>
+          <h3 data-i18n="feat.3.title">Flexible Terminbuchung</h3>
+          <p data-i18n="feat.3.p">Buche Stunden wann immer es dir passt – morgens, abends oder am Wochenende. Einfache Online-Buchung in Minuten.</p>
         </div>
-
         <div class="feature-card animate-on-scroll">
-          <div class="feature-icon">
-            <i class="fas fa-chart-bar"></i>
-          </div>
-          <h3>Lernfortschritt tracken</h3>
-          <p>Detaillierte Berichte nach jeder Stunde. Sieh genau, wie dein Vokabular, deine Grammatik und Aussprache wachsen.</p>
+          <div class="feature-icon"><i class="fas fa-chart-bar"></i></div>
+          <h3 data-i18n="feat.4.title">Lernfortschritt tracken</h3>
+          <p data-i18n="feat.4.p">Detaillierte Berichte nach jeder Stunde. Sieh genau, wie dein Vokabular, deine Grammatik und Aussprache wachsen.</p>
         </div>
-
         <div class="feature-card animate-on-scroll">
-          <div class="feature-icon">
-            <i class="fas fa-tasks"></i>
-          </div>
-          <h3>Hausaufgaben & Übungen</h3>
-          <p>Maßgeschneiderte Aufgaben zwischen den Stunden, abgestimmt auf dein Level und deine Lernziele.</p>
+          <div class="feature-icon"><i class="fas fa-tasks"></i></div>
+          <h3 data-i18n="feat.5.title">Hausaufgaben & Übungen</h3>
+          <p data-i18n="feat.5.p">Maßgeschneiderte Aufgaben zwischen den Stunden, abgestimmt auf dein Level und deine Lernziele.</p>
         </div>
-
         <div class="feature-card animate-on-scroll">
-          <div class="feature-icon">
-            <i class="fas fa-shield-check"></i>
-          </div>
-          <h3>Kostenlose Probestunde</h3>
-          <p>Überzeug dich selbst! Buche deine erste Stunde kostenlos und erlebe, wie effektiv das LinguaFlow-System ist.</p>
+          <div class="feature-icon"><i class="fas fa-shield-check"></i></div>
+          <h3 data-i18n="feat.6.title">Kostenlose Probestunde</h3>
+          <p data-i18n="feat.6.p">Überzeug dich selbst! Buche deine erste Stunde kostenlos und erlebe, wie effektiv das LinguaFlow-System ist.</p>
         </div>
       </div>
     </div>
@@ -187,27 +174,26 @@
             <i class="fas fa-user-tie"></i>
             <div class="about-photo-name">
               <strong>Ralph Terhardt</strong>
-              <span>Zertifizierter Sprachtrainer</span>
+              <span data-i18n="about.trainer">Zertifizierter Sprachtrainer</span>
             </div>
           </div>
           <div class="about-exp-badge">
             <strong>8+</strong>
-            <span>Jahre Erfahrung</span>
+            <span data-i18n="about.exp">Jahre Erfahrung</span>
           </div>
         </div>
 
         <div class="about-content animate-on-scroll">
-          <span class="tag">Über mich</span>
-          <h2>Dein Trainer für Englisch &amp; Französisch</h2>
-          <p>Hallo! Ich bin Ralph Terhardt – zertifizierter Sprachtrainer mit über 8 Jahren Erfahrung im Online- und Präsenzunterricht. Ich helfe Menschen dabei, Sprachen nicht nur zu lernen, sondern wirklich zu sprechen – mit Selbstsicherheit und Freude.</p>
-          <p>Mein Unterrichtsansatz verbindet klassische Methodik mit modernen Technologien: KI-gestützte Ausspracheanalyse, interaktive Materialien und eine warme, unterstützende Lernumgebung, in der Fehler willkommen sind.</p>
-          <p>Ob du für eine Reise, den Job, ein Examen oder einfach aus Leidenschaft lernst – ich passe den Unterricht an deine Ziele und deinen Alltag an.</p>
-
+          <span class="tag" data-i18n="about.tag">Über mich</span>
+          <h2 data-i18n-html="about.h2">Dein Trainer für Englisch &amp; Französisch</h2>
+          <p data-i18n="about.p1">Hallo! Ich bin Ralph Terhardt – zertifizierter Sprachtrainer mit über 8 Jahren Erfahrung im Online- und Präsenzunterricht.</p>
+          <p data-i18n="about.p2">Mein Unterrichtsansatz verbindet klassische Methodik mit modernen Technologien: KI-gestützte Ausspracheanalyse, interaktive Materialien und eine warme, unterstützende Lernumgebung.</p>
+          <p data-i18n="about.p3">Ob du für eine Reise, den Job, ein Examen oder einfach aus Leidenschaft lernst – ich passe den Unterricht an deine Ziele und deinen Alltag an.</p>
           <div class="about-certs">
             <div class="cert-badge"><i class="fas fa-certificate"></i> CELTA zertifiziert</div>
-            <div class="cert-badge"><i class="fas fa-certificate"></i> DALF C2 Französisch</div>
+            <div class="cert-badge"><i class="fas fa-certificate"></i> DALF C2 Français</div>
             <div class="cert-badge"><i class="fas fa-globe"></i> Native Speaker Level</div>
-            <div class="cert-badge"><i class="fas fa-users"></i> 200+ Schüler weltweit</div>
+            <div class="cert-badge"><i class="fas fa-users"></i> 200+ <span data-i18n="hero.stat.students">Schüler</span></div>
           </div>
         </div>
       </div>
@@ -218,9 +204,9 @@
   <section class="courses section-padding" id="courses">
     <div class="container">
       <div class="section-header animate-on-scroll">
-        <span class="tag">Kursangebot</span>
-        <h2>Welche Sprache möchtest du lernen?</h2>
-        <p>Von Anfänger bis Fortgeschrittene – alle Levels, alle Ziele.</p>
+        <span class="tag" data-i18n="courses.tag">Kursangebot</span>
+        <h2 data-i18n="courses.h2">Welche Sprache möchtest du lernen?</h2>
+        <p data-i18n="courses.p">Von Anfänger bis Fortgeschrittene – alle Levels, alle Ziele.</p>
       </div>
 
       <div class="courses-grid">
@@ -228,27 +214,24 @@
           <div class="course-header english">
             <span class="course-flag">🇬🇧</span>
             <h3>Englisch</h3>
-            <p>Britisches & Amerikanisches Englisch</p>
+            <p data-i18n="courses.en.sub">Britisches & Amerikanisches Englisch</p>
           </div>
           <div class="course-body">
             <div class="course-levels">
-              <span class="level-tag">A1</span>
-              <span class="level-tag">A2</span>
-              <span class="level-tag">B1</span>
-              <span class="level-tag">B2</span>
-              <span class="level-tag">C1</span>
-              <span class="level-tag">C2</span>
+              <span class="level-tag">A1</span><span class="level-tag">A2</span>
+              <span class="level-tag">B1</span><span class="level-tag">B2</span>
+              <span class="level-tag">C1</span><span class="level-tag">C2</span>
             </div>
             <ul class="course-features">
-              <li><i class="fas fa-check"></i> Allgemein-Englisch & Konversation</li>
-              <li><i class="fas fa-check"></i> Business-Englisch & Präsentationen</li>
-              <li><i class="fas fa-check"></i> Prüfungsvorbereitung (IELTS, TOEFL, CAE)</li>
-              <li><i class="fas fa-check"></i> Aussprache & Akzentreduzierung</li>
-              <li><i class="fas fa-check"></i> Schreiben & E-Mail-Korrespondenz</li>
+              <li><i class="fas fa-check"></i> <span data-i18n="courses.en.f1">Allgemein-Englisch & Konversation</span></li>
+              <li><i class="fas fa-check"></i> <span data-i18n="courses.en.f2">Business-Englisch & Präsentationen</span></li>
+              <li><i class="fas fa-check"></i> <span data-i18n="courses.en.f3">Prüfungsvorbereitung (IELTS, TOEFL, CAE)</span></li>
+              <li><i class="fas fa-check"></i> <span data-i18n="courses.en.f4">Aussprache & Akzentreduzierung</span></li>
+              <li><i class="fas fa-check"></i> <span data-i18n="courses.en.f5">Schreiben & E-Mail-Korrespondenz</span></li>
             </ul>
             <div class="course-footer">
-              <div class="course-price">ab €39 <span>/ Stunde</span></div>
-              <a href="booking.html" class="btn btn-primary btn-sm">Buchen</a>
+              <div class="course-price" data-i18n-html="courses.price">ab €39 <span>/ Stunde</span></div>
+              <a href="booking.html" class="btn btn-primary btn-sm" data-i18n="courses.book">Buchen</a>
             </div>
           </div>
         </div>
@@ -256,27 +239,25 @@
         <div class="course-card animate-on-scroll">
           <div class="course-header french">
             <span class="course-flag">🇫🇷</span>
-            <h3>Französisch</h3>
-            <p>Pariser & Allgemeines Français</p>
+            <h3>Français</h3>
+            <p data-i18n="courses.fr.sub">Pariser & Allgemeines Français</p>
           </div>
           <div class="course-body">
             <div class="course-levels">
-              <span class="level-tag">A1</span>
-              <span class="level-tag">A2</span>
-              <span class="level-tag">B1</span>
-              <span class="level-tag">B2</span>
+              <span class="level-tag">A1</span><span class="level-tag">A2</span>
+              <span class="level-tag">B1</span><span class="level-tag">B2</span>
               <span class="level-tag">C1</span>
             </div>
             <ul class="course-features">
-              <li><i class="fas fa-check"></i> Allgemein-Französisch & Konversation</li>
-              <li><i class="fas fa-check"></i> Reise-Französisch & Kultur</li>
-              <li><i class="fas fa-check"></i> DELF/DALF Prüfungsvorbereitung</li>
-              <li><i class="fas fa-check"></i> Französische Phonetik & Nasallaute</li>
-              <li><i class="fas fa-check"></i> Lesen & Hörverständnis</li>
+              <li><i class="fas fa-check"></i> <span data-i18n="courses.fr.f1">Allgemein-Französisch & Konversation</span></li>
+              <li><i class="fas fa-check"></i> <span data-i18n="courses.fr.f2">Reise-Französisch & Kultur</span></li>
+              <li><i class="fas fa-check"></i> <span data-i18n="courses.fr.f3">DELF/DALF Prüfungsvorbereitung</span></li>
+              <li><i class="fas fa-check"></i> <span data-i18n="courses.fr.f4">Französische Phonetik & Nasallaute</span></li>
+              <li><i class="fas fa-check"></i> <span data-i18n="courses.fr.f5">Lesen & Hörverständnis</span></li>
             </ul>
             <div class="course-footer">
-              <div class="course-price">ab €39 <span>/ Stunde</span></div>
-              <a href="booking.html" class="btn btn-primary btn-sm">Buchen</a>
+              <div class="course-price" data-i18n-html="courses.price">ab €39 <span>/ Stunde</span></div>
+              <a href="booking.html" class="btn btn-primary btn-sm" data-i18n="courses.book">Buchen</a>
             </div>
           </div>
         </div>
@@ -288,9 +269,9 @@
   <section class="testimonials section-padding" id="testimonials">
     <div class="container">
       <div class="section-header animate-on-scroll">
-        <span class="tag">Erfahrungen</span>
-        <h2>Was meine Schüler sagen</h2>
-        <p>Echte Meinungen von Menschen, die ich begleiten durfte.</p>
+        <span class="tag" data-i18n="test.tag">Erfahrungen</span>
+        <h2 data-i18n="test.h2">Was meine Schüler sagen</h2>
+        <p data-i18n="test.p">Echte Meinungen von Menschen, die ich begleiten durfte.</p>
       </div>
 
       <div class="testimonials-grid">
@@ -299,12 +280,12 @@
             <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
             <i class="fas fa-star"></i><i class="fas fa-star"></i>
           </div>
-          <p class="testimonial-text">„Ralph hat mir geholfen, meinen IELTS-Test mit Band 8.0 zu bestehen. Seine Methode ist sehr strukturiert, aber gleichzeitig macht es richtig Spaß. Die KI-Ausspracheanalyse ist der absolute Gamechanger!"</p>
+          <p class="testimonial-text" data-i18n="test.1.text">„Ralph hat mir geholfen, meinen IELTS-Test mit Band 8.0 zu bestehen..."</p>
           <div class="testimonial-author">
             <div class="author-avatar">LM</div>
             <div class="author-info">
-              <strong>Lena Müller</strong>
-              <span>Englisch B2 → C1 · München</span>
+              <strong data-i18n="test.1.name">Lena Müller</strong>
+              <span data-i18n="test.1.sub">Englisch B2 → C1 · München</span>
             </div>
           </div>
         </div>
@@ -314,12 +295,12 @@
             <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
             <i class="fas fa-star"></i><i class="fas fa-star"></i>
           </div>
-          <p class="testimonial-text">„Ich lerne seit 6 Monaten Französisch bei Ralph und bin beeindruckt, wie schnell meine Fortschritte sind. Die Stunden sind immer abwechslungsreich und ich freue mich jedes Mal drauf."</p>
+          <p class="testimonial-text" data-i18n="test.2.text">„Ich lerne seit 6 Monaten Französisch bei Ralph..."</p>
           <div class="testimonial-author">
             <div class="author-avatar">FK</div>
             <div class="author-info">
-              <strong>Felix Krause</strong>
-              <span>Französisch A2 → B1 · Hamburg</span>
+              <strong data-i18n="test.2.name">Felix Krause</strong>
+              <span data-i18n="test.2.sub">Französisch A2 → B1 · Hamburg</span>
             </div>
           </div>
         </div>
@@ -329,12 +310,12 @@
             <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
             <i class="fas fa-star"></i><i class="fas fa-star-half-alt"></i>
           </div>
-          <p class="testimonial-text">„Für mein Job-Interview auf Englisch hat mir Ralph in nur 4 Wochen so viel gebracht. Das Buchungssystem ist super einfach, und die Video-Qualität ist immer top. Klare Empfehlung!"</p>
+          <p class="testimonial-text" data-i18n="test.3.text">„Für mein Job-Interview auf Englisch hat mir Ralph in nur 4 Wochen so viel gebracht..."</p>
           <div class="testimonial-author">
             <div class="author-avatar">SB</div>
             <div class="author-info">
-              <strong>Sarah Beck</strong>
-              <span>Business-Englisch · Berlin</span>
+              <strong data-i18n="test.3.name">Sarah Beck</strong>
+              <span data-i18n="test.3.sub">Business-Englisch · Berlin</span>
             </div>
           </div>
         </div>
@@ -346,73 +327,73 @@
   <section class="pricing section-padding" id="pricing">
     <div class="container">
       <div class="section-header animate-on-scroll">
-        <span class="tag">Preise</span>
-        <h2>Transparente Preise, kein Kleingedrucktes</h2>
-        <p>Wähle das Paket, das zu dir passt. Jederzeit kündbar.</p>
+        <span class="tag" data-i18n="price.tag">Preise</span>
+        <h2 data-i18n="price.h2">Transparente Preise, kein Kleingedrucktes</h2>
+        <p data-i18n="price.p">Wähle das Paket, das zu dir passt. Jederzeit kündbar.</p>
       </div>
 
       <div class="pricing-grid">
         <!-- Starter -->
         <div class="pricing-card animate-on-scroll">
           <div class="pricing-header">
-            <div class="pricing-name">Starter</div>
+            <div class="pricing-name" data-i18n="price.starter">Starter</div>
             <div class="pricing-price"><sup>€</sup>29</div>
-            <div class="pricing-period">pro Stunde</div>
+            <div class="pricing-period" data-i18n="price.starter.period">pro Stunde</div>
           </div>
           <div class="pricing-body">
             <ul class="pricing-features">
-              <li><i class="fas fa-check"></i> 1 Sprache (Englisch oder Französisch)</li>
-              <li><i class="fas fa-check"></i> Live Video-Unterricht</li>
-              <li><i class="fas fa-check"></i> Digitale Lernmaterialien</li>
-              <li><i class="fas fa-check"></i> Fortschrittsberichte</li>
-              <li class="disabled"><i class="fas fa-times"></i> KI-Ausspracheanalyse</li>
-              <li class="disabled"><i class="fas fa-times"></i> Hausaufgaben-Feedback</li>
-              <li class="disabled"><i class="fas fa-times"></i> Priority-Buchung</li>
+              <li><i class="fas fa-check"></i> <span data-i18n="price.f.lang1">1 Sprache (Englisch oder Französisch)</span></li>
+              <li><i class="fas fa-check"></i> <span data-i18n="price.f.video">Live Video-Unterricht</span></li>
+              <li><i class="fas fa-check"></i> <span data-i18n="price.f.materials">Digitale Lernmaterialien</span></li>
+              <li><i class="fas fa-check"></i> <span data-i18n="price.f.progress">Fortschrittsberichte</span></li>
+              <li class="disabled"><i class="fas fa-times"></i> <span data-i18n="price.f.ai">KI-Ausspracheanalyse</span></li>
+              <li class="disabled"><i class="fas fa-times"></i> <span data-i18n="price.f.hw">Hausaufgaben-Feedback</span></li>
+              <li class="disabled"><i class="fas fa-times"></i> <span data-i18n="price.f.priority">Priority-Buchung</span></li>
             </ul>
-            <a href="booking.html" class="btn btn-outline btn-full">Starten</a>
+            <a href="booking.html" class="btn btn-outline btn-full" data-i18n="price.cta.starter">Starten</a>
           </div>
         </div>
 
-        <!-- Pro (Popular) -->
+        <!-- Pro -->
         <div class="pricing-card popular animate-on-scroll">
-          <div class="pricing-badge">Beliebteste Wahl</div>
+          <div class="pricing-badge" data-i18n="price.popular">Beliebteste Wahl</div>
           <div class="pricing-header">
-            <div class="pricing-name">Pro</div>
+            <div class="pricing-name" data-i18n="price.pro">Pro</div>
             <div class="pricing-price"><sup>€</sup>79</div>
-            <div class="pricing-period">pro Monat · 4 Stunden</div>
+            <div class="pricing-period" data-i18n="price.pro.period">pro Monat · 4 Stunden</div>
           </div>
           <div class="pricing-body">
             <ul class="pricing-features">
-              <li><i class="fas fa-check"></i> 1 oder 2 Sprachen</li>
-              <li><i class="fas fa-check"></i> Live Video-Unterricht</li>
-              <li><i class="fas fa-check"></i> Digitale Lernmaterialien</li>
-              <li><i class="fas fa-check"></i> Detaillierte Fortschrittsberichte</li>
-              <li><i class="fas fa-check"></i> KI-Ausspracheanalyse</li>
-              <li><i class="fas fa-check"></i> Wöchentliches Hausaufgaben-Feedback</li>
-              <li class="disabled"><i class="fas fa-times"></i> Priority-Buchung</li>
+              <li><i class="fas fa-check"></i> <span data-i18n="price.f.lang2">1 oder 2 Sprachen</span></li>
+              <li><i class="fas fa-check"></i> <span data-i18n="price.f.video">Live Video-Unterricht</span></li>
+              <li><i class="fas fa-check"></i> <span data-i18n="price.f.materials">Digitale Lernmaterialien</span></li>
+              <li><i class="fas fa-check"></i> <span data-i18n="price.f.progress2">Detaillierte Fortschrittsberichte</span></li>
+              <li><i class="fas fa-check"></i> <span data-i18n="price.f.ai">KI-Ausspracheanalyse</span></li>
+              <li><i class="fas fa-check"></i> <span data-i18n="price.f.hw2">Wöchentliches Hausaufgaben-Feedback</span></li>
+              <li class="disabled"><i class="fas fa-times"></i> <span data-i18n="price.f.priority">Priority-Buchung</span></li>
             </ul>
-            <a href="booking.html" class="btn btn-primary btn-full">Jetzt buchen</a>
+            <a href="booking.html" class="btn btn-primary btn-full" data-i18n="price.cta.pro">Jetzt buchen</a>
           </div>
         </div>
 
         <!-- Premium -->
         <div class="pricing-card animate-on-scroll">
           <div class="pricing-header">
-            <div class="pricing-name">Premium</div>
+            <div class="pricing-name" data-i18n="price.premium">Premium</div>
             <div class="pricing-price"><sup>€</sup>149</div>
-            <div class="pricing-period">pro Monat · 8 Stunden</div>
+            <div class="pricing-period" data-i18n="price.premium.period">pro Monat · 8 Stunden</div>
           </div>
           <div class="pricing-body">
             <ul class="pricing-features">
-              <li><i class="fas fa-check"></i> Beide Sprachen inklusive</li>
-              <li><i class="fas fa-check"></i> Live Video-Unterricht</li>
-              <li><i class="fas fa-check"></i> Alle Lernmaterialien</li>
-              <li><i class="fas fa-check"></i> Ausführliche Lernberichte</li>
-              <li><i class="fas fa-check"></i> KI-Ausspracheanalyse</li>
-              <li><i class="fas fa-check"></i> Tägliches Feedback & Support</li>
-              <li><i class="fas fa-check"></i> Priority-Buchung & Flexibilität</li>
+              <li><i class="fas fa-check"></i> <span data-i18n="price.f.lang3">Beide Sprachen inklusive</span></li>
+              <li><i class="fas fa-check"></i> <span data-i18n="price.f.video">Live Video-Unterricht</span></li>
+              <li><i class="fas fa-check"></i> <span data-i18n="price.f.materials2">Alle Lernmaterialien</span></li>
+              <li><i class="fas fa-check"></i> <span data-i18n="price.f.progress3">Ausführliche Lernberichte</span></li>
+              <li><i class="fas fa-check"></i> <span data-i18n="price.f.ai">KI-Ausspracheanalyse</span></li>
+              <li><i class="fas fa-check"></i> <span data-i18n="price.f.hw3">Tägliches Feedback & Support</span></li>
+              <li><i class="fas fa-check"></i> <span data-i18n="price.f.priority2">Priority-Buchung & Flexibilität</span></li>
             </ul>
-            <a href="booking.html" class="btn btn-secondary btn-full">Premium wählen</a>
+            <a href="booking.html" class="btn btn-secondary btn-full" data-i18n="price.cta.premium">Premium wählen</a>
           </div>
         </div>
       </div>
@@ -428,7 +409,7 @@
             <div class="logo-icon"><i class="fas fa-language"></i></div>
             Lingua<span style="color:var(--secondary)">Flow</span>
           </a>
-          <p>Deine Plattform für Online-Sprachunterricht in Englisch und Französisch. Persönlich, modern und effektiv.</p>
+          <p data-i18n="footer.desc">Deine Plattform für Online-Sprachunterricht in Englisch und Französisch. Persönlich, modern und effektiv.</p>
           <div class="footer-social">
             <button class="social-btn" title="Instagram"><i class="fab fa-instagram"></i></button>
             <button class="social-btn" title="LinkedIn"><i class="fab fa-linkedin-in"></i></button>
@@ -438,48 +419,47 @@
         </div>
 
         <div class="footer-col">
-          <h5>Kurse</h5>
+          <h5 data-i18n="footer.courses">Kurse</h5>
           <ul>
-            <li><a href="courses.html">Englisch A1–C2</a></li>
-            <li><a href="courses.html">Französisch A1–C1</a></li>
-            <li><a href="booking.html">Einzelstunden</a></li>
+            <li><a href="booking.html">Englisch A1–C2</a></li>
+            <li><a href="booking.html">Français A1–C1</a></li>
             <li><a href="booking.html">Business-Englisch</a></li>
-            <li><a href="booking.html">Prüfungsvorbereitung</a></li>
+            <li><a href="booking.html">IELTS / DELF</a></li>
           </ul>
         </div>
 
         <div class="footer-col">
-          <h5>Plattform</h5>
+          <h5 data-i18n="footer.platform">Plattform</h5>
           <ul>
             <li><a href="dashboard.html">Dashboard</a></li>
-            <li><a href="booking.html">Stunde buchen</a></li>
+            <li><a href="booking.html" data-i18n="nav.book">Jetzt buchen</a></li>
             <li><a href="analysis.html">Analyse</a></li>
-            <li><a href="login.html">Anmelden</a></li>
-            <li><a href="login.html">Registrieren</a></li>
+            <li><a href="login.html" data-i18n="nav.login">Anmelden</a></li>
           </ul>
         </div>
 
         <div class="footer-col">
-          <h5>Kontakt</h5>
+          <h5 data-i18n="footer.contact">Kontakt</h5>
           <ul>
-            <li><a href="mailto:ralph@linguaflow.de"><i class="fas fa-envelope" style="margin-right:0.4rem;"></i> ralph@linguaflow.de</a></li>
-            <li><a href="#"><i class="fas fa-map-marker-alt" style="margin-right:0.4rem;"></i> Deutschland, Online</a></li>
-            <li><a href="#"><i class="fas fa-clock" style="margin-right:0.4rem;"></i> Mo–Sa 8–21 Uhr</a></li>
+            <li><a href="mailto:ralph@linguaflow.de"><i class="fas fa-envelope" style="margin-right:0.4rem"></i> ralph@linguaflow.de</a></li>
+            <li><span><i class="fas fa-map-marker-alt" style="margin-right:0.4rem"></i> <span data-i18n="footer.location">Deutschland, Online</span></span></li>
+            <li><span><i class="fas fa-clock" style="margin-right:0.4rem"></i> <span data-i18n="footer.hours">Mo–Sa 8–21 Uhr</span></span></li>
           </ul>
         </div>
       </div>
 
       <div class="footer-bottom">
-        <p>© 2025 LinguaFlow – Ralph Terhardt. Alle Rechte vorbehalten.</p>
+        <p data-i18n="footer.copy">© 2025 LinguaFlow – Ralph Terhardt. Alle Rechte vorbehalten.</p>
         <div class="footer-bottom-links">
-          <a href="#">Datenschutz</a>
-          <a href="#">Impressum</a>
-          <a href="#">AGB</a>
+          <a href="#" data-i18n="footer.privacy">Datenschutz</a>
+          <a href="#" data-i18n="footer.imprint">Impressum</a>
+          <a href="#" data-i18n="footer.terms">AGB</a>
         </div>
       </div>
     </div>
   </footer>
 
+  <script src="js/i18n.js"></script>
   <script src="js/app.js"></script>
 </body>
 </html>

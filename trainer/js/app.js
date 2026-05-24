@@ -339,6 +339,7 @@ const Utils = {
 // ============================================================
 
 document.addEventListener('DOMContentLoaded', () => {
+  if (window.LF && window.LF.I18n) window.LF.I18n.init();
   initMobileNav();
   initNavbarScroll();
   initSmoothScroll();
