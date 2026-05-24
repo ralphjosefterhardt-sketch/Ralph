@@ -1,7 +1,7 @@
 // Mock data für ServicePortal
 // Maschinen von Matco und Minipack
 
-const MACHINES = [
+const MACHINES_DEMO = [
   {
     id: 1,
     name: 'Matco Schrumpftunnel ST-600',
@@ -96,38 +96,153 @@ const MACHINES = [
 
 const SERVICE_HISTORY = {
   1: [
-    { id: 101, date: '2025-10-08', technician: 'Max Mustermann', type: 'Wartung', description: 'Jahreswartung Schrumpftunnel: Heizelemente geprüft, Förderband gereinigt und nachgespannt, Temperaturregler kalibriert.' },
-    { id: 102, date: '2025-04-14', technician: 'Klaus Weber', type: 'Inspektion', description: 'Halbjahreskontrolle: Sicherheitsabschaltung getestet, Schrumpffolienlauf kontrolliert, Lager geschmiert.' },
-    { id: 103, date: '2024-10-02', technician: 'Max Mustermann', type: 'Ersatzteilwechsel', description: 'Heizstab Zone 2 defekt – Ersatzteil eingebaut, Einlauftemperatur neu eingestellt.' },
-    { id: 104, date: '2024-04-09', technician: 'Klaus Weber', type: 'Wartung', description: 'Förderkettenspannung geprüft, Gebläsemotor gereinigt, Steuerung auf aktuellem Softwarestand.' },
+    {
+      id: 101,
+      date: '2025-10-08',
+      technician: 'Max Mustermann',
+      type: 'Wartung',
+      description: 'Jahreswartung Schrumpftunnel: Heizelemente geprüft, Förderband gereinigt und nachgespannt, Temperaturregler kalibriert.',
+    },
+    {
+      id: 102,
+      date: '2025-04-14',
+      technician: 'Klaus Weber',
+      type: 'Inspektion',
+      description: 'Halbjahreskontrolle: Sicherheitsabschaltung getestet, Schrumpffolienlauf kontrolliert, Lager geschmiert.',
+    },
+    {
+      id: 103,
+      date: '2024-10-02',
+      technician: 'Max Mustermann',
+      type: 'Ersatzteilwechsel',
+      description: 'Heizstab Zone 2 defekt – Ersatzteil eingebaut, Einlauftemperatur neu eingestellt.',
+    },
+    {
+      id: 104,
+      date: '2024-04-09',
+      technician: 'Klaus Weber',
+      type: 'Wartung',
+      description: 'Förderkettenspannung geprüft, Gebläsemotor gereinigt, Steuerung auf aktuellem Softwarestand.',
+    },
   ],
   2: [
-    { id: 201, date: '2025-05-20', technician: 'Klaus Weber', type: 'Inspektion', description: 'Banderolierkopf auf Verschleiß geprüft, Andruckrollen justiert, Klebesystem gereinigt.' },
-    { id: 202, date: '2024-11-18', technician: 'Max Mustermann', type: 'Wartung', description: 'Jahreswartung: Messer gewechselt, Antriebsriemen kontrolliert, Pneumatikzylinder gefettet.' },
-    { id: 203, date: '2024-05-06', technician: 'Klaus Weber', type: 'Reparatur', description: 'Schneidmesserhalter gebrochen, Ersatzteil eingebaut, Schnittqualität wieder einwandfrei.' },
+    {
+      id: 201,
+      date: '2025-05-20',
+      technician: 'Klaus Weber',
+      type: 'Inspektion',
+      description: 'Banderolierkopf auf Verschleiß geprüft, Andruckrollen justiert, Klebesystem gereinigt.',
+    },
+    {
+      id: 202,
+      date: '2024-11-18',
+      technician: 'Max Mustermann',
+      type: 'Wartung',
+      description: 'Jahreswartung: Messer gewechselt, Antriebsriemen kontrolliert, Pneumatikzylinder gefettet.',
+    },
+    {
+      id: 203,
+      date: '2024-05-06',
+      technician: 'Klaus Weber',
+      type: 'Reparatur',
+      description: 'Schneidmesserhalter gebrochen, Ersatzteil eingebaut, Schnittqualität wieder einwandfrei.',
+    },
   ],
   3: [
-    { id: 301, date: '2026-01-15', technician: 'Max Mustermann', type: 'Wartung', description: 'Siegelwerkzeug gereinigt und auf Beschädigungen geprüft, Folienvorschub justiert, Druckluftfilter gewechselt.' },
-    { id: 302, date: '2025-07-22', technician: 'Klaus Weber', type: 'Inspektion', description: 'Halbjahreskontrolle: Siegeltemperatur geprüft, Hubzylinder kontrolliert, Schutzgitter getestet.' },
-    { id: 303, date: '2025-01-30', technician: 'Max Mustermann', type: 'Softwareupdate', description: 'Steuerung auf Firmware 3.1.4 aktualisiert, neue Rezepturen für Schalenschließung eingespielt.' },
+    {
+      id: 301,
+      date: '2026-01-15',
+      technician: 'Max Mustermann',
+      type: 'Wartung',
+      description: 'Siegelwerkzeug gereinigt und auf Beschädigungen geprüft, Folienvorschub justiert, Druckluftfilter gewechselt.',
+    },
+    {
+      id: 302,
+      date: '2025-07-22',
+      technician: 'Klaus Weber',
+      type: 'Inspektion',
+      description: 'Halbjahreskontrolle: Siegeltemperatur geprüft, Hubzylinder kontrolliert, Schutzgitter getestet.',
+    },
+    {
+      id: 303,
+      date: '2025-01-30',
+      technician: 'Max Mustermann',
+      type: 'Softwareupdate',
+      description: 'Steuerung auf Firmware 3.1.4 aktualisiert, neue Rezepturen für Schalenschließung eingespielt.',
+    },
   ],
   4: [
-    { id: 401, date: '2025-03-30', technician: 'Klaus Weber', type: 'Reparatur', description: 'Schweißbalken defekt – Teflonband und Heizdraht erneuert. Maschine nach Reparatur wieder in Betrieb genommen.' },
-    { id: 402, date: '2024-09-11', technician: 'Max Mustermann', type: 'Wartung', description: 'Jahreswartung FM76: Schweißbalken gereinigt, Folienführung justiert, Sicherheitsschalter geprüft.' },
-    { id: 403, date: '2024-03-05', technician: 'Klaus Weber', type: 'Inspektion', description: 'Folienvorrat und Transportband kontrolliert, Schweißtemperatur gemessen, Protokoll erstellt.' },
-    { id: 404, date: '2023-09-19', technician: 'Max Mustermann', type: 'Ersatzteilwechsel', description: 'Antriebsriemen Folienabwicklung gerissen, Ersatzriemen montiert, Spannung eingestellt.' },
+    {
+      id: 401,
+      date: '2025-03-30',
+      technician: 'Klaus Weber',
+      type: 'Reparatur',
+      description: 'Schweißbalken defekt – Teflonband und Heizdraht erneuert. Maschine nach Reparatur wieder in Betrieb genommen.',
+    },
+    {
+      id: 402,
+      date: '2024-09-11',
+      technician: 'Max Mustermann',
+      type: 'Wartung',
+      description: 'Jahreswartung FM76: Schweißbalken gereinigt, Folienführung justiert, Sicherheitsschalter geprüft.',
+    },
+    {
+      id: 403,
+      date: '2024-03-05',
+      technician: 'Klaus Weber',
+      type: 'Inspektion',
+      description: 'Folienvorrat und Transportband kontrolliert, Schweißtemperatur gemessen, Protokoll erstellt.',
+    },
+    {
+      id: 404,
+      date: '2023-09-19',
+      technician: 'Max Mustermann',
+      type: 'Ersatzteilwechsel',
+      description: 'Antriebsriemen Folienabwicklung gerissen, Ersatzriemen montiert, Spannung eingestellt.',
+    },
   ],
   5: [
-    { id: 501, date: '2025-11-04', technician: 'Max Mustermann', type: 'Wartung', description: 'Jahreswartung MVS 45X: Vakuumpumpenöl gewechselt, Dichtungsrahmen geprüft, Schweißstab kontrolliert.' },
-    { id: 502, date: '2025-05-13', technician: 'Klaus Weber', type: 'Inspektion', description: 'Vakuumdruckmessung, Sichtprüfung Schweißnaht, Deckelfolie und Dichtlippe auf Verschleiß kontrolliert.' },
-    { id: 503, date: '2024-11-20', technician: 'Max Mustermann', type: 'Ersatzteilwechsel', description: 'Dichtungsrahmen (Oberteil) porös, Austausch durchgeführt. Vakuumtest nach Einbau bestanden.' },
+    {
+      id: 501,
+      date: '2025-11-04',
+      technician: 'Max Mustermann',
+      type: 'Wartung',
+      description: 'Jahreswartung MVS 45X: Vakuumpumpenöl gewechselt, Dichtungsrahmen geprüft, Schweißstab kontrolliert.',
+    },
+    {
+      id: 502,
+      date: '2025-05-13',
+      technician: 'Klaus Weber',
+      type: 'Inspektion',
+      description: 'Vakuumdruckmessung, Sichtprüfung Schweißnaht, Deckelfolie und Dichtlippe auf Verschleiß kontrolliert.',
+    },
+    {
+      id: 503,
+      date: '2024-11-20',
+      technician: 'Max Mustermann',
+      type: 'Ersatzteilwechsel',
+      description: 'Dichtungsrahmen (Oberteil) porös, Austausch durchgeführt. Vakuumtest nach Einbau bestanden.',
+    },
   ],
   6: [
-    { id: 601, date: '2025-09-22', technician: 'Klaus Weber', type: 'Inspektion', description: 'Erstinspektion nach Ablauf der Eingewöhnungsphase: Folienführung, Schweißbalken und Temperaturregelung geprüft.' },
-    { id: 602, date: '2025-03-10', technician: 'Max Mustermann', type: 'Einweisung', description: 'Inbetriebnahme und Einweisung der Bedienmannschaft in Betrieb, Folieneinlauf und tägliche Reinigung.' },
+    {
+      id: 601,
+      date: '2025-09-22',
+      technician: 'Klaus Weber',
+      type: 'Inspektion',
+      description: 'Erstinspektion nach Ablauf der Eingewöhnungsphase: Folienführung, Schweißbalken und Temperaturregelung geprüft.',
+    },
+    {
+      id: 602,
+      date: '2025-03-10',
+      technician: 'Max Mustermann',
+      type: 'Einweisung',
+      description: 'Inbetriebnahme und Einweisung der Bedienmannschaft in Betrieb, Folieneinlauf und tägliche Reinigung.',
+    },
   ],
 };
 
+// Maschinentyp-Farben
 const TYPE_COLORS = {
   'Schrumpfanlage':       { bg: '#dbeafe', color: '#1e40af' },
   'Banderoliermaschine':  { bg: '#fce7f3', color: '#9d174d' },
@@ -136,6 +251,7 @@ const TYPE_COLORS = {
   'Vakuumiermaschine':    { bg: '#fef3c7', color: '#92400e' },
 };
 
+// Statusanzeige
 const STATUS_CONFIG = {
   ok:       { color: '#16a34a', label: 'OK' },
   wartung:  { color: '#ca8a04', label: 'Wartung fällig' },
@@ -148,6 +264,40 @@ function getMachineById(id) {
 
 function getServiceHistory(machineId) {
   return SERVICE_HISTORY[parseInt(machineId, 10)] || [];
+}
+
+// Feature 5: Status-Overrides in localStorage
+// Aktive Daten (starten mit Demo, werden ggf. durch externe JSON überschrieben)
+var MACHINES = MACHINES_DEMO;
+var ARTICLES = []; // Ersatzteile/Artikel aus BMD
+
+// Versucht externe JSON-Dateien zu laden; bei Fehler bleiben Demo-Daten aktiv
+function initData() {
+  var machinesPromise = fetch('./data/machines.json')
+    .then(function(res) {
+      if (!res.ok) throw new Error('not found');
+      return res.json();
+    })
+    .then(function(data) {
+      if (Array.isArray(data) && data.length > 0) {
+        MACHINES = data;
+      }
+    })
+    .catch(function() { /* Demo-Daten bleiben */ });
+
+  var articlesPromise = fetch('./data/articles.json')
+    .then(function(res) {
+      if (!res.ok) throw new Error('not found');
+      return res.json();
+    })
+    .then(function(data) {
+      if (Array.isArray(data)) {
+        ARTICLES = data;
+      }
+    })
+    .catch(function() { /* keine Artikel, Freitext bleibt */ });
+
+  return Promise.all([machinesPromise, articlesPromise]);
 }
 
 function getMachineStatus(machineId) {

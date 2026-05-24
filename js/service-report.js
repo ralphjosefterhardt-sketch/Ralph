@@ -173,12 +173,15 @@ var ServiceReport = {
       </form>
     `;
 
+    // Use Machines shell
     Machines._renderShell(contentHtml);
 
+    // Wire up back button
     document.getElementById('backBtn').addEventListener('click', function() {
       Router.navigate('/machines/' + machineId);
     });
 
+    // Sonstiges checkbox toggle
     var cbSonstiges = document.getElementById('cbSonstiges');
     var sonstigesField = document.getElementById('sonstigesField');
     cbSonstiges.addEventListener('change', function() {
@@ -191,6 +194,7 @@ var ServiceReport = {
       }
     });
 
+    // Ersatzteile dynamic rows
     var ersatzteileList = document.getElementById('ersatzteileList');
     var ersatzteilCounter = 0;
 
@@ -199,31 +203,78 @@ var ServiceReport = {
       var row = document.createElement('div');
       row.className = 'ersatzteil-row';
       row.setAttribute('data-row', ersatzteilCounter);
-      row.innerHTML = `
-        <div class="ersatzteil-fields">
-          <div class="form-group">
-            <label>Bezeichnung</label>
-            <input type="text" name="ersatzteil_bezeichnung[]" placeholder="Teilebezeichnung" />
+
+      if (ARTICLES.length > 0) {
+        // Dropdown-Modus: Artikel aus BMD-Stammdaten wählen
+        var optionsHtml = ARTICLES.map(function(a) {
+          return '<option value="' + escapeHtml(a.artikelnummer) + '::' + escapeHtml(a.bezeichnung) + '">' +
+            escapeHtml(a.artikelnummer) + ' – ' + escapeHtml(a.bezeichnung) + '</option>';
+        }).join('');
+        row.innerHTML = `
+          <div class="ersatzteil-fields" style="grid-template-columns:1fr auto auto">
+            <div class="form-group">
+              <label>Artikel</label>
+              <select name="ersatzteil_artikel[]" class="ersatzteil-artikel-select">
+                <option value="">– Artikel wählen –</option>
+                ${optionsHtml}
+                <option value="::sonstiges">Sonstiges (manuell)</option>
+              </select>
+            </div>
+            <div class="form-group form-group-narrow">
+              <label>Menge</label>
+              <input type="number" name="ersatzteil_menge[]" min="1" value="1" />
+            </div>
+            <button type="button" class="btn btn-danger btn-sm remove-ersatzteil-btn" aria-label="Ersatzteil entfernen" style="align-self:flex-end">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+            </button>
           </div>
-          <div class="form-group form-group-narrow">
-            <label>Menge</label>
-            <input type="number" name="ersatzteil_menge[]" min="1" value="1" placeholder="1" />
+          <div class="ersatzteil-manual" style="display:none;margin-top:8px;">
+            <div class="ersatzteil-fields">
+              <div class="form-group">
+                <label>Bezeichnung</label>
+                <input type="text" name="ersatzteil_bezeichnung[]" placeholder="Teilebezeichnung" />
+              </div>
+              <div class="form-group">
+                <label>Artikelnummer</label>
+                <input type="text" name="ersatzteil_artikelnummer[]" placeholder="Art.-Nr." />
+              </div>
+            </div>
           </div>
-          <div class="form-group">
-            <label>Artikelnummer</label>
-            <input type="text" name="ersatzteil_artikelnummer[]" placeholder="Art.-Nr." />
+        `;
+        row.querySelector('.ersatzteil-artikel-select').addEventListener('change', function() {
+          row.querySelector('.ersatzteil-manual').style.display =
+            (this.value === '::sonstiges') ? 'block' : 'none';
+        });
+      } else {
+        // Freitext-Modus: kein BMD-Artikelstamm vorhanden
+        row.innerHTML = `
+          <div class="ersatzteil-fields">
+            <div class="form-group">
+              <label>Bezeichnung</label>
+              <input type="text" name="ersatzteil_bezeichnung[]" placeholder="Teilebezeichnung" />
+            </div>
+            <div class="form-group form-group-narrow">
+              <label>Menge</label>
+              <input type="number" name="ersatzteil_menge[]" min="1" value="1" placeholder="1" />
+            </div>
+            <div class="form-group">
+              <label>Artikelnummer</label>
+              <input type="text" name="ersatzteil_artikelnummer[]" placeholder="Art.-Nr." />
+            </div>
+            <button type="button" class="btn btn-danger btn-sm remove-ersatzteil-btn" aria-label="Ersatzteil entfernen">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+            </button>
           </div>
-          <button type="button" class="btn btn-danger btn-sm remove-ersatzteil-btn" aria-label="Ersatzteil entfernen">
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
-          </button>
-        </div>
-      `;
+        `;
+      }
+
       ersatzteileList.appendChild(row);
       row.querySelector('.remove-ersatzteil-btn').addEventListener('click', function() {
         ersatzteileList.removeChild(row);
       });
     });
 
+    // Signature canvases
     ServiceReport._initCanvas('canvasCustomer', 'customer', 'sigStatusCustomer', 'clearCustomerBtn');
     ServiceReport._initCanvas('canvasTechnician', 'technician', 'sigStatusTechnician', 'clearTechnicianBtn');
 
@@ -240,9 +291,11 @@ var ServiceReport = {
         };
         reader.readAsDataURL(file);
       });
+      // Reset input so same file can be re-added
       photoInput.value = '';
     });
 
+    // Form submit
     document.getElementById('serviceReportForm').addEventListener('submit', function(e) {
       e.preventDefault();
       ServiceReport._handleSubmit(machineId, machine);
@@ -254,6 +307,7 @@ var ServiceReport = {
     var ctx = canvas.getContext('2d');
     var state = ServiceReport._canvasState[stateKey];
 
+    // Set canvas dimensions to match display size
     function resizeCanvas() {
       var rect = canvas.getBoundingClientRect();
       var dpr = window.devicePixelRatio || 1;
@@ -272,7 +326,10 @@ var ServiceReport = {
       var rect = canvas.getBoundingClientRect();
       var clientX = e.clientX !== undefined ? e.clientX : (e.touches ? e.touches[0].clientX : 0);
       var clientY = e.clientY !== undefined ? e.clientY : (e.touches ? e.touches[0].clientY : 0);
-      return { x: clientX - rect.left, y: clientY - rect.top };
+      return {
+        x: clientX - rect.left,
+        y: clientY - rect.top
+      };
     }
 
     function onPointerDown(e) {
@@ -309,6 +366,7 @@ var ServiceReport = {
     canvas.addEventListener('pointerup', onPointerUp);
     canvas.addEventListener('pointercancel', onPointerUp);
 
+    // Clear button
     document.getElementById(clearBtnId).addEventListener('click', function() {
       var rect = canvas.getBoundingClientRect();
       ctx.clearRect(0, 0, rect.width, rect.height);
@@ -355,6 +413,7 @@ var ServiceReport = {
       return;
     }
 
+    // Collect form data
     var form = document.getElementById('serviceReportForm');
     var datum = form.datum.value;
     var techniker = form.techniker.value;
@@ -363,6 +422,7 @@ var ServiceReport = {
     var naechsterService = form.naechsterService.value;
     var naechsterServiceBemerkungen = form.naechsterServiceBemerkungen.value;
 
+    // Checkboxes
     var arbeiten = [];
     form.querySelectorAll('input[name="arbeiten"]:checked').forEach(function(cb) {
       if (cb.value === 'Sonstiges' && form.sonstigesText && form.sonstigesText.value.trim()) {
@@ -372,21 +432,50 @@ var ServiceReport = {
       }
     });
 
+    // Ersatzteile
     var ersatzteile = [];
     var rows = document.querySelectorAll('.ersatzteil-row');
     rows.forEach(function(row) {
-      var bez = row.querySelector('input[name="ersatzteil_bezeichnung[]"]');
       var menge = row.querySelector('input[name="ersatzteil_menge[]"]');
-      var artNr = row.querySelector('input[name="ersatzteil_artikelnummer[]"]');
-      if (bez && bez.value.trim()) {
-        ersatzteile.push({
-          bezeichnung: bez.value.trim(),
-          menge: menge ? parseInt(menge.value, 10) || 1 : 1,
-          artikelnummer: artNr ? artNr.value.trim() : ''
-        });
+      var artikelSelect = row.querySelector('select[name="ersatzteil_artikel[]"]');
+
+      if (artikelSelect) {
+        // Dropdown-Modus (BMD-Artikel)
+        var val = artikelSelect.value;
+        if (!val) return;
+        var bezeichnung, artikelnummer;
+        if (val === '::sonstiges') {
+          var bez = row.querySelector('input[name="ersatzteil_bezeichnung[]"]');
+          var artNr = row.querySelector('input[name="ersatzteil_artikelnummer[]"]');
+          bezeichnung = bez ? bez.value.trim() : '';
+          artikelnummer = artNr ? artNr.value.trim() : '';
+        } else {
+          var parts = val.split('::');
+          artikelnummer = parts[0] || '';
+          bezeichnung = parts[1] || '';
+        }
+        if (bezeichnung || artikelnummer) {
+          ersatzteile.push({
+            bezeichnung: bezeichnung,
+            menge: menge ? parseInt(menge.value, 10) || 1 : 1,
+            artikelnummer: artikelnummer
+          });
+        }
+      } else {
+        // Freitext-Modus
+        var bez = row.querySelector('input[name="ersatzteil_bezeichnung[]"]');
+        var artNr = row.querySelector('input[name="ersatzteil_artikelnummer[]"]');
+        if (bez && bez.value.trim()) {
+          ersatzteile.push({
+            bezeichnung: bez.value.trim(),
+            menge: menge ? parseInt(menge.value, 10) || 1 : 1,
+            artikelnummer: artNr ? artNr.value.trim() : ''
+          });
+        }
       }
     });
 
+    // Capture signatures as data URLs
     var canvasCustomer = document.getElementById('canvasCustomer');
     var canvasTechnician = document.getElementById('canvasTechnician');
 
@@ -410,6 +499,7 @@ var ServiceReport = {
       erstelltAm: new Date().toISOString()
     };
 
+    // Save to localStorage
     try {
       var existing = JSON.parse(localStorage.getItem('serviceportal_reports') || '[]');
       existing.unshift(report);
@@ -418,11 +508,13 @@ var ServiceReport = {
       console.error('Fehler beim Speichern:', e);
     }
 
+    // Reset canvas state
     ServiceReport._canvasState = {
       customer: { drawing: false, hasSignature: false },
       technician: { drawing: false, hasSignature: false }
     };
 
+    // Show save-success dialog (Feature 1)
     ServiceReport._showSaveDialog(report, machineId);
   },
 
@@ -469,9 +561,18 @@ var ServiceReport = {
       : '<span style="color:#9ca3af;font-style:italic;">Keine Arbeiten ausgewählt</span>';
 
     var ersatzteileHtml = (report.ersatzteile && report.ersatzteile.length > 0)
-      ? '<table style="width:100%;border-collapse:collapse;font-size:0.83rem;"><thead><tr style="border-bottom:1px solid #e5e7eb;"><th style="text-align:left;padding:4px 8px;color:#6b7280;font-weight:600;">Bezeichnung</th><th style="text-align:left;padding:4px 8px;color:#6b7280;font-weight:600;">Menge</th><th style="text-align:left;padding:4px 8px;color:#6b7280;font-weight:600;">Art.-Nr.</th></tr></thead><tbody>' +
-        report.ersatzteile.map(function(e) {
-          return '<tr style="border-bottom:1px solid #f3f4f6;"><td style="padding:4px 8px;">' + escapeHtml(e.bezeichnung) + '</td><td style="padding:4px 8px;">' + escapeHtml(String(e.menge)) + '</td><td style="padding:4px 8px;">' + escapeHtml(e.artikelnummer || '–') + '</td></tr>';
+      ? '<table style="width:100%;border-collapse:collapse;font-size:0.83rem;">' +
+        '<thead><tr style="border-bottom:1px solid #e5e7eb;">' +
+          '<th style="text-align:left;padding:4px 8px;color:#6b7280;font-weight:600;">Bezeichnung</th>' +
+          '<th style="text-align:left;padding:4px 8px;color:#6b7280;font-weight:600;">Menge</th>' +
+          '<th style="text-align:left;padding:4px 8px;color:#6b7280;font-weight:600;">Art.-Nr.</th>' +
+        '</tr></thead>' +
+        '<tbody>' + report.ersatzteile.map(function(e) {
+          return '<tr style="border-bottom:1px solid #f3f4f6;">' +
+            '<td style="padding:4px 8px;">' + escapeHtml(e.bezeichnung) + '</td>' +
+            '<td style="padding:4px 8px;">' + escapeHtml(String(e.menge)) + '</td>' +
+            '<td style="padding:4px 8px;">' + escapeHtml(e.artikelnummer || '–') + '</td>' +
+          '</tr>';
         }).join('') + '</tbody></table>'
       : '<span style="color:#9ca3af;font-style:italic;">Keine Ersatzteile</span>';
 
@@ -497,7 +598,9 @@ var ServiceReport = {
         <div class="print-report-header">
           <div>
             <div class="print-report-title">Servicebericht</div>
-            <div class="print-report-meta">${escapeHtml(report.machineName || '')} &bull; ${escapeHtml(report.serialNumber || '')}</div>
+            <div class="print-report-meta">
+              ${escapeHtml(report.machineName || '')} &bull; ${escapeHtml(report.serialNumber || '')}
+            </div>
             <div class="print-report-meta">${escapeHtml(report.customerName || '')}</div>
           </div>
           <div style="text-align:right;">
