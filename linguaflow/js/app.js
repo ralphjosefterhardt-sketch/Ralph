@@ -362,4 +362,5 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 });
 
+// Export for other modules
 window.LF = { Auth, Toast, Router, Utils };
