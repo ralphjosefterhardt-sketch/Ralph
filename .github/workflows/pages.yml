@@ -1,4 +1,4 @@
-name: Deploy LinguaFlow to GitHub Pages
+name: Deploy beide Apps zu GitHub Pages
 
 on:
   push:
@@ -26,13 +26,26 @@ jobs:
         with:
           ref: claude/wonderful-cray-kUoP4
 
+      - name: Build combined deployment
+        run: |
+          mkdir -p dist
+          # LinguaFlow → Root
+          cp -r trainer/. dist/
+          # ServicePortal → /techniker/
+          mkdir -p dist/techniker
+          cp index.html dist/techniker/
+          cp sw.js dist/techniker/
+          cp -r css dist/techniker/
+          cp -r js dist/techniker/
+          cp -r data dist/techniker/
+
       - name: Setup Pages
         uses: actions/configure-pages@v4
 
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
-          path: "trainer/"
+          path: "dist/"
 
       - name: Deploy to GitHub Pages
         id: deployment
