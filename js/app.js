@@ -134,6 +134,10 @@ Router.add(/^\/machines\/(\d+)\/report$/, function(machineId) {
   ServiceReport.render(machineId);
 });
 
+Router.add(/^\/archive$/, function() {
+  Archive.render();
+});
+
 // ─── Bootstrap ───────────────────────────────────────────────────────────────
 
 document.addEventListener('DOMContentLoaded', function() {

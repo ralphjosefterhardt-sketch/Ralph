@@ -1031,3 +1031,534 @@ a {
   outline: 2px solid var(--primary);
   outline-offset: 2px;
 }
+
+/* ─── Feature 2: Navigation Link ─────────────────────────── */
+.nav-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  color: var(--primary);
+  font-size: 0.8rem;
+  font-weight: 500;
+  margin-left: 8px;
+  padding: 2px 6px;
+  border-radius: var(--radius-sm);
+  transition: background var(--transition);
+  white-space: nowrap;
+}
+
+.nav-link:hover {
+  background: var(--primary-light);
+}
+
+/* ─── Feature 3: Search input ─────────────────────────────── */
+.search-wrapper {
+  margin-bottom: 16px;
+  position: relative;
+}
+
+.search-input {
+  width: 100%;
+  padding: 12px 16px 12px 44px;
+  border: 1.5px solid var(--gray-300);
+  border-radius: var(--radius-sm);
+  font-size: 0.95rem;
+  font-family: inherit;
+  color: var(--gray-800);
+  background: #fff url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='18' height='18' viewBox='0 0 24 24' fill='none' stroke='%239ca3af' stroke-width='2'%3E%3Ccircle cx='11' cy='11' r='8'/%3E%3Cline x1='21' y1='21' x2='16.65' y2='16.65'/%3E%3C/svg%3E") no-repeat 14px center;
+  transition: border-color var(--transition), box-shadow var(--transition);
+  appearance: none;
+}
+
+.search-input:focus {
+  outline: none;
+  border-color: var(--primary);
+  box-shadow: 0 0 0 3px rgba(26, 86, 219, 0.12);
+}
+
+.no-results-msg {
+  text-align: center;
+  color: var(--gray-500);
+  font-size: 0.9rem;
+  padding: 32px 0;
+}
+
+/* ─── Feature 4: Photo upload ─────────────────────────────── */
+.photo-upload-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 14px 20px;
+  width: 100%;
+  border: 2px dashed var(--gray-300);
+  border-radius: var(--radius-sm);
+  background: var(--gray-50);
+  color: var(--gray-600);
+  font-size: 0.9rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: border-color var(--transition), background var(--transition), color var(--transition);
+  font-family: inherit;
+}
+
+.photo-upload-btn:hover {
+  border-color: var(--primary);
+  background: var(--primary-light);
+  color: var(--primary);
+}
+
+.photo-preview-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 8px;
+  margin-top: 4px;
+}
+
+@media (min-width: 600px) {
+  .photo-preview-grid {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
+
+.photo-preview-item {
+  position: relative;
+  border-radius: var(--radius-sm);
+  overflow: hidden;
+  aspect-ratio: 1;
+}
+
+.photo-preview-item img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.remove-photo-btn {
+  position: absolute;
+  top: 4px;
+  right: 4px;
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  background: rgba(220, 38, 38, 0.9);
+  color: #fff;
+  border: none;
+  font-size: 1rem;
+  line-height: 1;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: inherit;
+  transition: background var(--transition);
+}
+
+.remove-photo-btn:hover {
+  background: var(--danger-dark);
+}
+
+/* ─── Feature 5: Status change buttons ───────────────────── */
+.status-change-row {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 8px;
+  padding: 12px 0 16px;
+  border-bottom: 1px solid var(--gray-100);
+  margin-bottom: 4px;
+}
+
+.status-change-label {
+  font-size: 0.82rem;
+  color: var(--gray-500);
+  font-weight: 500;
+  flex-shrink: 0;
+}
+
+.status-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 5px 12px;
+  border-radius: 20px;
+  border: 2px solid transparent;
+  font-size: 0.8rem;
+  font-weight: 600;
+  cursor: pointer;
+  font-family: inherit;
+  transition: all var(--transition);
+  background: var(--gray-100);
+  color: var(--gray-600);
+}
+
+.status-btn:hover {
+  border-color: currentColor;
+}
+
+.status-btn-ok { color: #15803d; }
+.status-btn-ok.active {
+  background: #dcfce7;
+  border-color: #16a34a;
+  color: #15803d;
+}
+
+.status-btn-wartung { color: #a16207; }
+.status-btn-wartung.active {
+  background: #fef9c3;
+  border-color: #ca8a04;
+  color: #a16207;
+}
+
+.status-btn-stoerung { color: #b91c1c; }
+.status-btn-stoerung.active {
+  background: #fee2e2;
+  border-color: #dc2626;
+  color: #b91c1c;
+}
+
+/* ─── Feature 1: Print view ───────────────────────────────── */
+.print-report {
+  background: #fff;
+  padding: 32px;
+  max-width: 860px;
+  margin: 0 auto;
+  font-size: 0.9rem;
+  line-height: 1.6;
+}
+
+.print-report-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  border-bottom: 2px solid var(--gray-800);
+  padding-bottom: 16px;
+  margin-bottom: 24px;
+}
+
+.print-report-title {
+  font-size: 1.3rem;
+  font-weight: 700;
+  color: var(--gray-900);
+}
+
+.print-report-meta {
+  font-size: 0.82rem;
+  color: var(--gray-500);
+  margin-top: 4px;
+}
+
+.print-section {
+  margin-bottom: 20px;
+  padding-bottom: 16px;
+  border-bottom: 1px solid var(--gray-200);
+}
+
+.print-section:last-of-type {
+  border-bottom: none;
+}
+
+.print-section-title {
+  font-size: 0.78rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.07em;
+  color: var(--gray-500);
+  margin-bottom: 10px;
+}
+
+.print-grid {
+  display: grid;
+  grid-template-columns: 160px 1fr;
+  gap: 6px 12px;
+}
+
+.print-grid dt {
+  font-size: 0.82rem;
+  color: var(--gray-500);
+  font-weight: 500;
+}
+
+.print-grid dd {
+  font-size: 0.85rem;
+  color: var(--gray-800);
+  font-weight: 500;
+}
+
+.print-arbeiten-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  list-style: none;
+}
+
+.print-arbeiten-tag {
+  background: var(--primary-light);
+  color: var(--primary);
+  padding: 3px 10px;
+  border-radius: 12px;
+  font-size: 0.78rem;
+  font-weight: 600;
+}
+
+.print-sig-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 24px;
+  margin-top: 16px;
+}
+
+.print-sig-box {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.print-sig-label {
+  font-size: 0.78rem;
+  color: var(--gray-500);
+  font-weight: 500;
+}
+
+.print-sig-box img {
+  border: 1px solid var(--gray-300);
+  border-radius: var(--radius-sm);
+  width: 100%;
+  max-height: 120px;
+  object-fit: contain;
+  background: var(--gray-50);
+}
+
+.print-photo-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 8px;
+  margin-top: 8px;
+}
+
+.print-photo-grid img {
+  width: 100%;
+  aspect-ratio: 1;
+  object-fit: cover;
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--gray-200);
+}
+
+.print-actions {
+  display: flex;
+  gap: 12px;
+  margin-bottom: 24px;
+  padding-bottom: 20px;
+  border-bottom: 1px solid var(--gray-200);
+}
+
+/* Save dialog (post-submit modal) */
+.save-dialog-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 9000;
+  padding: 24px;
+}
+
+.save-dialog {
+  background: #fff;
+  border-radius: var(--radius-lg);
+  padding: 32px 28px;
+  max-width: 400px;
+  width: 100%;
+  box-shadow: var(--shadow-lg);
+  text-align: center;
+}
+
+.save-dialog-icon {
+  font-size: 2.5rem;
+  margin-bottom: 12px;
+}
+
+.save-dialog-title {
+  font-size: 1.15rem;
+  font-weight: 700;
+  color: var(--gray-900);
+  margin-bottom: 8px;
+}
+
+.save-dialog-text {
+  font-size: 0.88rem;
+  color: var(--gray-500);
+  margin-bottom: 24px;
+}
+
+.save-dialog-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+/* ─── Feature 6: Archive ──────────────────────────────────── */
+.archive-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  max-width: 900px;
+}
+
+.archive-card {
+  background: #fff;
+  border: 1px solid var(--gray-200);
+  border-radius: var(--radius);
+  padding: 18px 20px;
+  box-shadow: var(--shadow-sm);
+  transition: box-shadow var(--transition);
+}
+
+.archive-card:hover {
+  box-shadow: var(--shadow);
+}
+
+.archive-card-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 12px;
+  cursor: pointer;
+}
+
+.archive-card-left {
+  flex: 1;
+  min-width: 0;
+}
+
+.archive-machine-name {
+  font-size: 0.97rem;
+  font-weight: 700;
+  color: var(--gray-900);
+  margin-bottom: 3px;
+}
+
+.archive-meta {
+  font-size: 0.82rem;
+  color: var(--gray-500);
+  margin-bottom: 6px;
+}
+
+.archive-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 5px;
+}
+
+.archive-tag {
+  background: var(--primary-light);
+  color: var(--primary);
+  padding: 2px 8px;
+  border-radius: 12px;
+  font-size: 0.74rem;
+  font-weight: 600;
+}
+
+.archive-card-actions {
+  display: flex;
+  gap: 8px;
+  flex-shrink: 0;
+}
+
+.archive-card-detail {
+  display: none;
+  margin-top: 14px;
+  padding-top: 14px;
+  border-top: 1px solid var(--gray-100);
+}
+
+.archive-card-detail.open {
+  display: block;
+}
+
+.archive-detail-text {
+  font-size: 0.85rem;
+  color: var(--gray-700);
+  line-height: 1.6;
+  margin-bottom: 10px;
+}
+
+.archive-ersatzteile {
+  font-size: 0.82rem;
+  color: var(--gray-600);
+  margin-bottom: 8px;
+}
+
+.archive-sig-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+  margin-top: 10px;
+}
+
+.archive-sig-box img {
+  max-width: 100%;
+  max-height: 80px;
+  border: 1px solid var(--gray-200);
+  border-radius: var(--radius-sm);
+  background: var(--gray-50);
+}
+
+.archive-sig-label {
+  font-size: 0.75rem;
+  color: var(--gray-400);
+  margin-bottom: 4px;
+}
+
+.archive-empty {
+  text-align: center;
+  color: var(--gray-400);
+  font-size: 0.9rem;
+  padding: 48px 0;
+  font-style: italic;
+}
+
+/* ─── Print media ─────────────────────────────────────────── */
+@media print {
+  @page {
+    margin: 2cm;
+  }
+
+  body {
+    background: #fff;
+    font-size: 12pt;
+  }
+
+  .navbar,
+  .sidebar,
+  .print-actions,
+  .btn,
+  .toast-container,
+  #toastContainer,
+  .save-dialog-overlay {
+    display: none !important;
+  }
+
+  .app-shell,
+  .app-body,
+  .main-content {
+    display: block !important;
+    padding: 0 !important;
+    margin: 0 !important;
+    max-width: 100% !important;
+    width: 100% !important;
+  }
+
+  .print-report {
+    padding: 0;
+    max-width: 100%;
+  }
+
+  .print-sig-box img,
+  .print-photo-grid img {
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+}
